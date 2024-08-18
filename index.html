@@ -3,34 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moving Inventory List</title>
+    <title>Home Inventory List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .section, .inventory-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #007BFF;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
+            text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #007BFF;
+            color: #fff;
         }
-        .section {
-            margin-bottom: 20px;
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
         }
-        label {
-            font-weight: bold;
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Moving Inventory List</h1>
+    <h1>Home Inventory List</h1>
 
     <!-- Client Contact Area -->
     <div class="section">
@@ -55,331 +78,131 @@
     </div>
 
     <!-- Inventory Table -->
-    <button type="button" onclick="addItem()">Add Item</button>
-    <table id="inventoryTable">
-        <thead>
-            <tr>
-                <th>Room</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be added here dynamically -->
-        </tbody>
-    </table>
-    <p id="totalItems">Total Items: 0</p>
-    <button type="submit" onclick="validateForm()">Submit</button>
-    <button type="button" onclick="exportToCSV()">Export to CSV</button>
+    <div class="inventory-section">
+        <h2>Inventory List</h2>
+        <button type="button" onclick="addRow()">Add Inventory Row</button>
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Main Bedroom</th>
+                    <th>Bedroom 2</th>
+                    <th>Bedroom 3</th>
+                    <th>Living Room</th>
+                    <th>Dining Room</th>
+                    <th>Kitchen</th>
+                    <th>Basement</th>
+                    <th>Garage</th>
+                    <th>Backyard</th>
+                    <th>Shed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added dynamically -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
-        // Add an item to the inventory table
-        function addItem() {
+        function addRow() {
             var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
             var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
 
-            cell1.innerHTML = `
-                <select name="room" required>
-                    <option value="">Select Room</option>
-                    <option value="Bdrm 1">Bdrm 1</option>
-                    <option value="Bdrm 2">Bdrm 2</option>
-                    <option value="Bdrm 3">Bdrm 3</option>
-                    <option value="Lvrm">Living Room</option>
-                    <option value="Kitchen">Kitchen</option>
-                    <option value="Dining Room">Dining Room</option>
-                    <option value="Garage">Garage</option>
-                    <option value="Basement">Basement</option>
-                </select>`;
-
-            cell2.innerHTML = `
-                <select name="item" required>
-                    <option value="">Select Item</option>
-                    <option value="Queen Bed">Queen Bed</option>
-                    <option value="King Bed">King Bed</option>
-                    <option value="Twin Bed">Twin Bed</option>
-                    <option value="Full Bed">Full Bed</option>
-                    <option value="Bunk Bed">Bunk Bed</option>
-                    <option value="Dresser">Dresser</option>
-                    <option value="Nightstand">Nightstand</option>
-                    <option value="Wardrobe">Wardrobe</option>
-                    <option value="Bookshelf">Bookshelf</option>
-                    <option value="Sofa">Sofa</option>
-                    <option value="Loveseat">Loveseat</option>
-                    <option value="Recliner">Recliner</option>
-                    <option value="Coffee Table">Coffee Table</option>
-                    <option value="End Table">End Table</option>
-                    <option value="Dining Table">Dining Table</option>
-                    <option value="Dining Chairs">Dining Chairs</option>
-                    <option value="Bar Stools">Bar Stools</option>
-                    <option value="TV">TV</option>
-                    <option value="TV Stand">TV Stand</option>
-                    <option value="Entertainment Center">Entertainment Center</option>
-                    <option value="Desk">Desk</option>
-                    <option value="Office Chair">Office Chair</option>
-                    <option value="Computer">Computer</option>
-                    <option value="Printer">Printer</option>
-                    <option value="Books">Books</option>
-                    <option value="Lamp">Lamp</option>
-                    <option value="Rug">Rug</option>
-                    <option value="Curtains">Curtains</option>
-                    <option value="Mirror">Mirror</option>
-                    <option value="Artwork">Artwork</option>
-                    <option value="Vase">Vase</option>
-                    <option value="Bicycle">Bicycle</option>
-                    <option value="Washer">Washer</option>
-                    <option value="Dryer">Dryer</option>
-                    <option value="Refrigerator">Refrigerator</option>
-                    <option value="Microwave">Microwave</option>
-                    <option value="Oven">Oven</option>
-                    <option value="Toaster">Toaster</option>
-                    <option value="Coffee Maker">Coffee Maker</option>
-                    <option value="Blender">Blender</option>
-                    <option value="Mixer">Mixer</option>
-                    <option value="Pots and Pans">Pots and Pans</option>
-                    <option value="Dishes">Dishes</option>
-                    <option value="Utensils">Utensils</option>
-                    <option value="Glasses">Glasses</option>
-                    <option value="Cutlery Set">Cutlery Set</option>
-                    <option value="Vacuum Cleaner">Vacuum Cleaner</option>
-                    <option value="Ironing Board">Ironing Board</option>
-                    <option value="Iron">Iron</option>
-                    <option value="Laundry Basket">Laundry Basket</option>
-                    <option value="Cleaning Supplies">Cleaning Supplies</option>
-                    <option value="Fan">Fan</option>
-                    <option value="Heater">Heater</option>
-                    <option value="Air Conditioner">Air Conditioner</option>
-                    <option value="BBQ Grill">BBQ Grill</option>
-                    <option value="Patio Furniture">Patio Furniture</option>
-                    <option value="Lawn Mower">Lawn Mower</option>
-                    <option value="Garden Tools">Garden Tools</option>
-                    <option value="Toolbox">Toolbox</option>
-                    <option value="Sports Equipment">Sports Equipment</option>
-                    <option value="Treadmill">Treadmill</option>
-                    <option value="Weights">Weights</option>
-                    <option value="Bedding">Bedding</option>
-                    <option value="Pillows">Pillows</option>
-                    <option value="Towels">Towels</option>
-                    <option value="Closet Organizer">Closet Organizer</option>
-                    <option value="Hangers">Hangers</option>
-                    <option value="Shoes">Shoes</option>
-                    <option value="Clothes">Clothes</option>
-                    <option value="Suitcases">Suitcases</option>
-                    <option value="Toys">Toys</option>
-                    <option value="Board Games">Board Games</option>
-                    <option value="Video Game Console">Video Game Console</option>
-                    <option value="Pet Supplies">Pet Supplies</option>
-                    <option value="Pet Bed">Pet Bed</option>
-                    <option value="Aquarium">Aquarium</option>
-                </select>`;
-
-            cell3.innerHTML = `<input type="number" name="quantity" placeholder="Quantity" required min="1">`;
-            cell4.innerHTML = `<input type="text" name="description" placeholder="Description">`;
-            cell5.innerHTML = `<button type="button" onclick="removeItem(this)">Remove</button>`;
-
-            updateTotalItems();
+            row.innerHTML = `
+                <td>
+                    <select name="mainBedroom" required>
+                        <option value="">Select Item</option>
+                        <option value="King Bed">King Bed</option>
+                        <option value="Queen Bed">Queen Bed</option>
+                        <option value="Dresser">Dresser</option>
+                        <option value="Closet">Closet</option>
+                        <option value="Nightstand">Nightstand</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="bedroom2" required>
+                        <option value="">Select Item</option>
+                        <option value="Twin Bed">Twin Bed</option>
+                        <option value="Dresser">Dresser</option>
+                        <option value="Closet">Closet</option>
+                        <option value="Nightstand">Nightstand</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="bedroom3" required>
+                        <option value="">Select Item</option>
+                        <option value="Twin Bed">Twin Bed</option>
+                        <option value="Dresser">Dresser</option>
+                        <option value="Closet">Closet</option>
+                        <option value="Nightstand">Nightstand</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="livingRoom" required>
+                        <option value="">Select Item</option>
+                        <option value="Sofa">Sofa</option>
+                        <option value="Coffee Table">Coffee Table</option>
+                        <option value="TV Stand">TV Stand</option>
+                        <option value="Bookshelf">Bookshelf</option>
+                        <option value="Lamp">Lamp</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="diningRoom" required>
+                        <option value="">Select Item</option>
+                        <option value="Dining Table">Dining Table</option>
+                        <option value="Dining Chairs">Dining Chairs</option>
+                        <option value="China Cabinet">China Cabinet</option>
+                        <option value="Buffet">Buffet</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="kitchen" required>
+                        <option value="">Select Item</option>
+                        <option value="Microwave">Microwave</option>
+                        <option value="Wine Cooler">Wine Cooler</option>
+                        <option value="Kitchen Island">Kitchen Island</option>
+                        <option value="Dining Table">Dining Table</option>
+                        <option value="Stove">Stove</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="basement" required>
+                        <option value="">Select Item</option>
+                        <option value="Storage Boxes">Storage Boxes</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Exercise Equipment">Exercise Equipment</option>
+                        <option value="Laundry">Laundry</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="garage" required>
+                        <option value="">Select Item</option>
+                        <option value="Car">Car</option>
+                        <option value="Bicycle">Bicycle</option>
+                        <option value="Tools">Tools</option>
+                        <option value="Lawn Mower">Lawn Mower</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="backyard" required>
+                        <option value="">Select Item</option>
+                        <option value="BBQ Grill">BBQ Grill</option>
+                        <option value="Patio Furniture">Patio Furniture</option>
+                        <option value="Garden Tools">Garden Tools</option>
+                        <option value="Playground Set">Playground Set</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="shed" required>
+                        <option value="">Select Item</option>
+                        <option value="Lawn Mower">Lawn Mower</option>
+                        <option value="Garden Tools">Garden Tools</option>
+                        <option value="Storage Boxes">Storage Boxes</option>
+                        <option value="Tools">Tools</option>
+                    </select>
+                </td>
+            `;
         }
-
-        // Remove an item from the inventory table
-        function removeItem(button) {
-            var row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-            updateTotalItems();
-        }
-
-        // Validate the form and save the inventory
-        function validateForm() {
-            var inputs = document.querySelectorAll('input, select');
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value === '') {
-                    alert('Please fill out all fields before submitting.');
-                    return false;
-                }
-            }
-            saveInventory();
-            alert('Inventory saved!');
-            return true;
-        }
-
-        // Update the total number of items
-        function updateTotalItems() {
-            var table = document.getElementById('inventoryTable');
-            var rows = table.getElementsByTagName('tbody')[0].rows;
-            var totalItems = 0;
-
-            for (var i = 0; i < rows.length; i++) {
-                var quantity = rows[i].cells[2].getElementsByTagName('input')[0].value;
-                totalItems += quantity ? parseInt(quantity) : 0;
-            }
-
-            document.getElementById('totalItems').textContent = 'Total Items: ' + totalItems;
-        }
-
-        // Save the inventory to local storage
-        function saveInventory() {
-            var inventory = [];
-            var rows = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0].rows;
-
-            for (var i = 0; i < rows.length; i++) {
-                var room = rows[i].cells[0].getElementsByTagName('select')[0].value;
-                var item = rows[i].cells[1].getElementsByTagName('select')[0].value;
-                var quantity = rows[i].cells[2].getElementsByTagName('input')[0].value;
-                var description = rows[i].cells[3].getElementsByTagName('input')[0].value;
-
-                inventory.push({ room, item, quantity, description });
-            }
-
-            localStorage.setItem('inventory', JSON.stringify(inventory));
-        }
-
-        // Load the inventory from local storage
-        function loadInventory() {
-            var savedInventory = localStorage.getItem('inventory');
-            if (savedInventory) {
-                var inventory = JSON.parse(savedInventory);
-                var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
-
-                for (var i = 0; i < inventory.length; i++) {
-                    var row = table.insertRow(-1);
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    var cell5 = row.insertCell(4);
-
-                    cell1.innerHTML = `
-                        <select name="room" required>
-                            <option value="${inventory[i].room}" selected>${inventory[i].room}</option>
-                            <option value="Bdrm 1">Bdrm 1</option>
-                            <option value="Bdrm 2">Bdrm 2</option>
-                            <option value="Bdrm 3">Bdrm 3</option>
-                            <option value="Lvrm">Living Room</option>
-                            <option value="Kitchen">Kitchen</option>
-                            <option value="Dining Room">Dining Room</option>
-                            <option value="Garage">Garage</option>
-                            <option value="Basement">Basement</option>
-                        </select>`;
-
-                    cell2.innerHTML = `
-                        <select name="item" required>
-                            <option value="${inventory[i].item}" selected>${inventory[i].item}</option>
-                            <option value="Queen Bed">Queen Bed</option>
-                            <option value="King Bed">King Bed</option>
-                            <option value="Twin Bed">Twin Bed</option>
-                            <option value="Full Bed">Full Bed</option>
-                            <option value="Bunk Bed">Bunk Bed</option>
-                            <option value="Dresser">Dresser</option>
-                            <option value="Nightstand">Nightstand</option>
-                            <option value="Wardrobe">Wardrobe</option>
-                            <option value="Bookshelf">Bookshelf</option>
-                            <option value="Sofa">Sofa</option>
-                            <option value="Loveseat">Loveseat</option>
-                            <option value="Recliner">Recliner</option>
-                            <option value="Coffee Table">Coffee Table</option>
-                            <option value="End Table">End Table</option>
-                            <option value="Dining Table">Dining Table</option>
-                            <option value="Dining Chairs">Dining Chairs</option>
-                            <option value="Bar Stools">Bar Stools</option>
-                            <option value="TV">TV</option>
-                            <option value="TV Stand">TV Stand</option>
-                            <option value="Entertainment Center">Entertainment Center</option>
-                            <option value="Desk">Desk</option>
-                            <option value="Office Chair">Office Chair</option>
-                            <option value="Computer">Computer</option>
-                            <option value="Printer">Printer</option>
-                            <option value="Books">Books</option>
-                            <option value="Lamp">Lamp</option>
-                            <option value="Rug">Rug</option>
-                            <option value="Curtains">Curtains</option>
-                            <option value="Mirror">Mirror</option>
-                            <option value="Artwork">Artwork</option>
-                            <option value="Vase">Vase</option>
-                            <option value="Bicycle">Bicycle</option>
-                            <option value="Washer">Washer</option>
-                            <option value="Dryer">Dryer</option>
-                            <option value="Refrigerator">Refrigerator</option>
-                            <option value="Microwave">Microwave</option>
-                            <option value="Oven">Oven</option>
-                            <option value="Toaster">Toaster</option>
-                            <option value="Coffee Maker">Coffee Maker</option>
-                            <option value="Blender">Blender</option>
-                            <option value="Mixer">Mixer</option>
-                            <option value="Pots and Pans">Pots and Pans</option>
-                            <option value="Dishes">Dishes</option>
-                            <option value="Utensils">Utensils</option>
-                            <option value="Glasses">Glasses</option>
-                            <option value="Cutlery Set">Cutlery Set</option>
-                            <option value="Vacuum Cleaner">Vacuum Cleaner</option>
-                            <option value="Ironing Board">Ironing Board</option>
-                            <option value="Iron">Iron</option>
-                            <option value="Laundry Basket">Laundry Basket</option>
-                            <option value="Cleaning Supplies">Cleaning Supplies</option>
-                            <option value="Fan">Fan</option>
-                            <option value="Heater">Heater</option>
-                            <option value="Air Conditioner">Air Conditioner</option>
-                            <option value="BBQ Grill">BBQ Grill</option>
-                            <option value="Patio Furniture">Patio Furniture</option>
-                            <option value="Lawn Mower">Lawn Mower</option>
-                            <option value="Garden Tools">Garden Tools</option>
-                            <option value="Toolbox">Toolbox</option>
-                            <option value="Sports Equipment">Sports Equipment</option>
-                            <option value="Treadmill">Treadmill</option>
-                            <option value="Weights">Weights</option>
-                            <option value="Bedding">Bedding</option>
-                            <option value="Pillows">Pillows</option>
-                            <option value="Towels">Towels</option>
-                            <option value="Closet Organizer">Closet Organizer</option>
-                            <option value="Hangers">Hangers</option>
-                            <option value="Shoes">Shoes</option>
-                            <option value="Clothes">Clothes</option>
-                            <option value="Suitcases">Suitcases</option>
-                            <option value="Toys">Toys</option>
-                            <option value="Board Games">Board Games</option>
-                            <option value="Video Game Console">Video Game Console</option>
-                            <option value="Pet Supplies">Pet Supplies</option>
-                            <option value="Pet Bed">Pet Bed</option>
-                            <option value="Aquarium">Aquarium</option>
-                        </select>`;
-
-                    cell3.innerHTML = `<input type="number" name="quantity" value="${inventory[i].quantity}" required min="1">`;
-                    cell4.innerHTML = `<input type="text" name="description" value="${inventory[i].description}">`;
-                    cell5.innerHTML = '<button type="button" onclick="removeItem(this)">Remove</button>';
-                }
-                updateTotalItems();
-            }
-        }
-
-        // Export the inventory to CSV
-        function exportToCSV() {
-            var rows = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0].rows;
-            var csvContent = "data:text/csv;charset=utf-8,Room,Item,Quantity,Description\n";
-
-            for (var i = 0; i < rows.length; i++) {
-                var room = rows[i].cells[0].getElementsByTagName('select')[0].value;
-                var item = rows[i].cells[1].getElementsByTagName('select')[0].value;
-                var quantity = rows[i].cells[2].getElementsByTagName('input')[0].value;
-                var description = rows[i].cells[3].getElementsByTagName('input')[0].value;
-
-                csvContent += `${room},${item},${quantity},${description}\n`;
-            }
-
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "moving_inventory.csv");
-            document.body.appendChild(link);
-
-            link.click();
-        }
-
-        // Load the inventory from local storage when the page loads
-        window.onload = loadInventory;
     </script>
 </body>
 </html>
