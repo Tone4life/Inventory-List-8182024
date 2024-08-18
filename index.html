@@ -55,7 +55,7 @@
     </div>
 
     <!-- Inventory Table -->
-    <form id="inventoryForm" onsubmit="return validateForm()">
+    <button type="button" onclick="addItem()">Add Item</button>
         <table id="inventoryTable">
             <thead>
                 <tr>
@@ -76,8 +76,9 @@
         <button type="button" onclick="exportToCSV()">Export to CSV</button>
     </form>
 
-    <script>
-       function addItem( ) {<button type="button" onclick="addItem()">Add Item</button>
+    <script src="script.js"></script>
+
+       function addItem( ) {
 
     var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
     var row = table.insertRow(-1);
