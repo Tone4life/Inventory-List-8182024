@@ -77,49 +77,118 @@
     </form>
 
     <script>
-        function addItem() {
-            var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
-            var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
+       function addItem( ) {<button type="button" onclick="addItem()">Add Item</button>
 
-            cell1.innerHTML = `
-                <select name="room" required>
-                    <option value="">Select Room</option>
-                    <option value="Bdrm 1">Bdrm 1</option>
-                    <option value="Bdrm 2">Bdrm 2</option>
-                    <option value="Bdrm 3">Bdrm 3</option>
-                    <option value="Lvrm">Living Room</option>
-                    <option value="Kitchen">Kitchen</option>
-                    <option value="Dining Room">Dining Room</option>
-                    <option value="Garage">Garage</option>
-                    <option value="Basement">Basement</option>
-                </select>`;
-            
-            cell2.innerHTML = `
-                <select name="item" required>
-                    <option value="">Select Item</option>
-                    <option value="Queen Bed">Queen Bed</option>
-                    <option value="King Bed">King Bed</option>
-                    <option value="Twin Bed">Twin Bed</option>
-                    <option value="Dresser">Dresser</option>
-                    <option value="Washer">Washer</option>
-                    <option value="Dryer">Dryer</option>
-                    <option value="Sofa">Sofa</option>
-                    <option value="Dining Table">Dining Table</option>
-                    <option value="Chair">Chair</option>
-                    <option value="TV">TV</option>
-                </select>`;
+    var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
 
-            cell3.innerHTML = '<input type="number" name="quantity" placeholder="Quantity" required min="1">';
-            cell4.innerHTML = '<input type="text" name="description" placeholder="Description">';
-            cell5.innerHTML = '<button type="button" onclick="removeItem(this)">Remove</button>';
+    cell1.innerHTML = `
+        <select name="room" required>
+            <option value="">Select Room</option>
+            <option value="Bdrm 1">Bdrm 1</option>
+            <option value="Bdrm 2">Bdrm 2</option>
+            <option value="Bdrm 3">Bdrm 3</option>
+            <option value="Lvrm">Living Room</option>
+            <option value="Kitchen">Kitchen</option>
+            <option value="Dining Room">Dining Room</option>
+            <option value="Garage">Garage</option>
+            <option value="Basement">Basement</option>
+        </select>`;
+    
+    cell2.innerHTML = `
+        <select name="item" required>
+            <option value="">Select Item</option>
+            <option value="Queen Bed">Queen Bed</option>
+            <option value="King Bed">King Bed</option>
+            <option value="Twin Bed">Twin Bed</option>
+            <option value="Full Bed">Full Bed</option>
+            <option value="Bunk Bed">Bunk Bed</option>
+            <option value="Dresser">Dresser</option>
+            <option value="Nightstand">Nightstand</option>
+            <option value="Wardrobe">Wardrobe</option>
+            <option value="Bookshelf">Bookshelf</option>
+            <option value="Sofa">Sofa</option>
+            <option value="Loveseat">Loveseat</option>
+            <option value="Recliner">Recliner</option>
+            <option value="Coffee Table">Coffee Table</option>
+            <option value="End Table">End Table</option>
+            <option value="Dining Table">Dining Table</option>
+            <option value="Dining Chairs">Dining Chairs</option>
+            <option value="Bar Stools">Bar Stools</option>
+            <option value="TV">TV</option>
+            <option value="TV Stand">TV Stand</option>
+            <option value="Entertainment Center">Entertainment Center</option>
+            <option value="Desk">Desk</option>
+            <option value="Office Chair">Office Chair</option>
+            <option value="Computer">Computer</option>
+            <option value="Printer">Printer</option>
+            <option value="Books">Books</option>
+            <option value="Lamp">Lamp</option>
+            <option value="Rug">Rug</option>
+            <option value="Curtains">Curtains</option>
+            <option value="Mirror">Mirror</option>
+            <option value="Artwork">Artwork</option>
+            <option value="Vase">Vase</option>
+            <option value="Bicycle">Bicycle</option>
+            <option value="Washer">Washer</option>
+            <option value="Dryer">Dryer</option>
+            <option value="Refrigerator">Refrigerator</option>
+            <option value="Microwave">Microwave</option>
+            <option value="Oven">Oven</option>
+            <option value="Toaster">Toaster</option>
+            <option value="Coffee Maker">Coffee Maker</option>
+            <option value="Blender">Blender</option>
+            <option value="Mixer">Mixer</option>
+            <option value="Pots and Pans">Pots and Pans</option>
+            <option value="Dishes">Dishes</option>
+            <option value="Utensils">Utensils</option>
+            <option value="Glasses">Glasses</option>
+            <option value="Cutlery Set">Cutlery Set</option>
+            <option value="Vacuum Cleaner">Vacuum Cleaner</option>
+            <option value="Ironing Board">Ironing Board</option>
+            <option value="Iron">Iron</option>
+            <option value="Laundry Basket">Laundry Basket</option>
+            <option value="Cleaning Supplies">Cleaning Supplies</option>
+            <option value="Fan">Fan</option>
+            <option value="Heater">Heater</option>
+            <option value="Air Conditioner">Air Conditioner</option>
+            <option value="BBQ Grill">BBQ Grill</option>
+            <option value="Patio Furniture">Patio Furniture</option>
+            <option value="Lawn Mower">Lawn Mower</option>
+            <option value="Garden Tools">Garden Tools</option>
+            <option value="Toolbox">Toolbox</option>
+            <option value="Sports Equipment">Sports Equipment</option>
+            <option value="Treadmill">Treadmill</option>
+            <option value="Weights">Weights</option>
+            <option value="Bedding">Bedding</option>
+            <option value="Pillows">Pillows</option>
+            <option value="Towels">Towels</option>
+            <option value="Closet Organizer">Closet Organizer</option>
+            <option value="Hangers">Hangers</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Clothes">Clothes</option>
+            <option value="Suitcases">Suitcases</option>
+            <option value="Toys">Toys</option>
+            <option value="Board Games">Board Games</option>
+            <option value="Video Game Console">Video Game Console</option>
+            <option value="Pet Supplies">Pet Supplies</option>
+            <option value="Pet Bed">Pet Bed</option>
+            <option value="Aquarium">Aquarium</option>
+        </select>`;
 
-            updateTotalItems();
-        }
+    cell3.innerHTML = '<input type="number" name="quantity" placeholder="Quantity" required min="1">';
+    cell4.innerHTML = '<input type="text" name="description" placeholder="Description">';
+    cell5.innerHTML = '<button type="button" onclick="removeItem(this)">Remove</button>';
+
+    updateTotalItems();
+}
+
+        
 
         function removeItem(button) {
             var row = button.parentNode.parentNode;
