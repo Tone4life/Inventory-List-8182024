@@ -440,35 +440,34 @@ cell5.innerHTML = `<button type="button" onclick="removeItem(this)">Remove</butt
         <option value="Heater">Heater</option>
         <option value="Air Conditioner">Air Conditioner</option>
         <option value="BBQ Grill">BBQ Grill</option>
-        <option value="Patio Furniture">Patio Furniture</option>
-        <option value="Lawn Mower">Lawn Mower</option>
-        <option value="Garden Tools">Garden Tools</option>
-        <option value="Toolbox">Toolbox</option>
-        <option value="Sports Equipment">Sports Equipment</option>
-        <option value="Treadmill">Treadmill</option>
-        <option value="Weights">Weights</option>
-        <option value="Bedding">Bedding</option>
-        <option value="Pillows">Pillows</option>
-        <option value="Towels">Towels</option>
-        <option value="Closet Organizer">Closet Organizer</option>
-        <option value="Hangers">Hangers</option>
-        <option value="Shoes">Shoes</option>
-        <option value="Clothes">Clothes</option>
-        <option value="Suitcases">Suitcases</option>
-        <option value="Toys">Toys</option>
-        <option value="Board Games">Board Games</option>
-        <option value="Video Game Console">Video Game Console</option>
-        <option value="Pet Supplies">Pet Supplies</option>
-        <option value="Pet Bed">Pet Bed</option>
-        <option value="Aquarium">Aquarium</option>
-    </select>`;
+<option value="Patio Furniture">Patio Furniture</option>
+<option value="Lawn Mower">Lawn Mower</option>
+<option value="Garden Tools">Garden Tools</option>
+<option value="Toolbox">Toolbox</option>
+<option value="Sports Equipment">Sports Equipment</option>
+<option value="Treadmill">Treadmill</option>
+<option value="Weights">Weights</option>
+<option value="Bedding">Bedding</option>
+<option value="Pillows">Pillows</option>
+<option value="Towels">Towels</option>
+<option value="Closet Organizer">Closet Organizer</option>
+<option value="Hangers">Hangers</option>
+<option value="Shoes">Shoes</option>
+<option value="Clothes">Clothes</option>
+<option value="Suitcases">Suitcases</option>
+<option value="Toys">Toys</option>
+<option value="Board Games">Board Games</option>
+<option value="Video Game Console">Video Game Console</option>
+<option value="Pet Supplies">Pet Supplies</option>
+<option value="Pet Bed">Pet Bed</option>
+<option value="Aquarium">Aquarium</option>
+</select>`;
 
-
-                    cell3.innerText = `<input type="number" name="quantity" value="${inventory[i].quantity}" required>`;
-                    cell4.innerText = `<input type="text" name="description" value="${inventory[i].description}">`;
-                    cell5.innerText = '<button type="button" onclick="removeItem(this)">Remove</button>';
-                }
-                updateTotalItems();
+cell3.innerHTML = `<input type="number" name="quantity" value="${sanitizeInput(inventory[i].quantity)}" required>`;
+cell4.innerHTML = `<input type="text" name="description" value="${sanitizeInput(inventory[i].description)}">`;
+cell5.innerHTML = '<button type="button" onclick="removeItem(this)">Remove</button>';
+}
+updateTotalItems();
             }
         }
 
@@ -497,5 +496,6 @@ cell5.innerHTML = `<button type="button" onclick="removeItem(this)">Remove</butt
         // Load the inventory from local storage when the page loads
         window.onload = loadInventory;
     </script>
-</body>
-</html>
+    </body>
+    </html>       
+        }
