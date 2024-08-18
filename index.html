@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Moving Inventory List</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+		th, td {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		#totalItems {
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<h1>Moving Inventory List</h1>
+	<form id="inventoryForm" onsubmit="return validateForm()">
+		<table id="inventoryTable">
+			<thead>
+				<tr>
+					<th>Item</th>
+					<th>Quantity</th>
+					<th>Description</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Rows will be added here dynamically -->
+			</tbody>
+		</table>
+		<p id="totalItems">Total Items: 0</p>
+		<button type="button" onclick="addItem()">Add Item</button>
+		<button type="submit">Submit</button>
+		<button type="button" onclick="exportToCSV()">Export to CSV</button>
+	</form>
+
+	<script>
+		// Load inventory from localStorage
+		window.onload = function() {
+			loadInventory();
+			addItem(); // Start with one item
+		};
+
+		function addItem() {
+			var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+			var row = table.insertRow(-1);
+			var cell1 = row.insertCell(0);
+			var cell2 = row.insertCell(1);
+			var cell3 = row.insertCell(2);
+			var cell4 = row.insertCell(3);
+
+			cell1.innerHTML = '<input type="text" name="item" placeholder="Item Name" required>';
+			cell2.innerHTML = '<input type="number" name="quantity" placeholder="Quantity" required min="1">';
+			cell3.innerHTML = '<input type="text" name="description" placeholder="Description" required>';
+			cell4.innerHTML = '<button type="button" onclick="removeItem(this)">Remove</button>';
+
+			updateTotalItems();
+		}
+
+		function removeItem(button) {
+			var row = button.parentNode.parentNode;
+			row.parentNode.removeChild(row);
+			updateTotalItems();
+		}
+
+		function validateForm() {
+			var inputs = document.querySelectorAll('input');
+			for (var i = 0; i < inputs.length; i++) {
+				if (inputs[i].value === '') {
+					alert('Please fill out all fields before submitting.');
+					return false;
+				}
+			}
+			saveInventory(); // Save inventory on form submit
+			alert('Inventory saved!');
+			return true;
+		}
+
+		function updateTotalItems() {
+			var table = document.getElementById('inventoryTable');
+			var rows = table.getElementsByTagName('tbody')[0].rows;
+			var totalItems = 0;
+
+			for (var i = 0; i < rows.length; i++) {
+				var quantity = rows[i].cells[1].getElementsByTagName('input')[0].value;
+				totalItems += quantity ? parseInt(quantity) : 0;
+			}
+
+			document.getElementById('totalItems').textContent = 'Total Items: ' + totalItems;
+		}
+
+		function saveInventory() {
+			var inventory = [];
+			var rows = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0].rows;
+
+			for (var i = 0; i < rows.length; i++) {
+				var item = rows[i].cells[0].getElementsByTagName('input')[0].value;
+				var quantity = rows[i].cells[1].getElementsByTagName('input')[0].value;
+				var description = rows[i].cells[2].getElementsByTagName('input')[0].value;
+
+				inventory.push({ item, quantity, description });
+			}
+
+			localStorage.setItem('inventory', JSON.stringify(inventory));
+		}
+
+		function loadInventory() {
+			var savedInventory = localStorage.getItem('inventory');
+			if (savedInventory) {
+				var inventory = JSON.parse(savedInventory);
+				var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+
+				for (var i = 0; i < inventory.length; i++) {
+					var row = table.insertRow(-1);
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					var cell4 = row.insertCell(3);
+
+					cell1.innerHTML = `<input type="text" name="item" value="${inventory[i].item}" required>`;
+					cell2.innerHTML = `<input type="number" name="quantity" value="${inventory[i].quantity}" required>`;
+					cell3.innerHTML = `<input type="text" name="description" value="${inventory[i].description}" required>`;
+					cell4.innerHTML = '<button type="button" onclick="removeItem(this)">Remove</button>';
+				}
+				updateTotalItems();
+			}
+		}
+
+		function exportToCSV() {
+			var rows = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0].rows;
+			var csvContent = "data:text/csv;charset=utf-8,Item,Quantity,Description\n";
+
+			for (var i = 0; i < rows.length; i++) {
+				var item = rows[i].cells[0].getElementsByTagName('input')[0].value;
+				var quantity = rows[i].cells[1].getElementsByTagName('input')[0].value;
+				var description = rows[i].cells[2].getElementsByTagName('input')[0].value;
+
+				csvContent += `${item},${quantity},${description}\n`;
+			}
+
+			var encodedUri = encodeURI(csvContent);
+			var link = document.createElement("a");
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", "moving_inventory.csv");
+			document.body.appendChild(link);
+
+			link.click();
+		}
+	</script>
+</body>
+</html>
