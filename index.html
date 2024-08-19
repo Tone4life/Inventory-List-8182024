@@ -37,16 +37,38 @@
         th {
             background-color: #635056; /* Burgundy red */
             color: #fff;
-            cursor: pointer;
+            cursor: pointer; /* Cursor change to indicate clickability */
         }
         .dropdown {
-            display: none;
+            display: none; /* Dropdowns are hidden by default */
             padding-top: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Home Inventory List</h1>
+
+    <!-- Client Contact Area -->
+    <div class="section">
+        <h2>Client Contact Information</h2>
+        <label for="clientName">Name:</label>
+        <input type="text" id="clientName" placeholder="Client Name" required><br><br>
+        <label for="clientPhone">Phone:</label>
+        <input type="tel" id="clientPhone" placeholder="Phone Number" required><br><br>
+        <label for="clientEmail">Email:</label>
+        <input type="email" id="clientEmail" placeholder="Email Address" required><br><br>
+    </div>
+
+    <!-- Moving Details Area -->
+    <div class="section">
+        <h2>Moving Details</h2>
+        <label for="moveDate">Move Date:</label>
+        <input type="date" id="moveDate" required><br><br>
+        <label for="origin">Origin Address:</label>
+        <input type="text" id="origin" placeholder="Origin Address" required><br><br>
+        <label for="destination">Destination Address:</label>
+        <input type="text" id="destination" placeholder="Destination Address" required><br><br>
+    </div>
 
     <!-- Inventory Table -->
     <div class="inventory-section">
@@ -74,10 +96,28 @@
                                 <option value="">Select Item</option>
                                 <option value="King Bed">King Bed</option>
                                 <option value="Queen Bed">Queen Bed</option>
+                                <option value="Twin Bed">Twin Bed</option>
+                                <option value="Double Bed">Double Bed</option>
+                                <option value="Bunk Bed">Bunk Bed</option>
+                                <option value="Crib">Crib</option>
                                 <option value="Dresser">Dresser</option>
+                                <option value="Chest of Drawers">Chest of Drawers</option>
+                                <option value="Armoire">Armoire</option>
+                                <option value="Vanity">Vanity</option>
                                 <option value="Nightstand">Nightstand</option>
                                 <option value="Wardrobe">Wardrobe</option>
                                 <option value="Mirror">Mirror</option>
+                                <option value="Bookshelf">Bookshelf</option>
+                                <option value="Desk">Desk</option>
+                                <option value="Chair">Chair</option>
+                                <option value="Lamp">Lamp</option>
+                                <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
+                                <option value="TV">TV</option>
+                                <option value="Media Console">Media Console</option>
+                                <option value="Entertainment Center">Entertainment Center</option>
+                                <option value="Study Desk">Study Desk</option>
+                                <option value="Closet">Closet</option>
                             </select>
                         </div>
                     </td>
@@ -85,12 +125,32 @@
                         <div id="bedroom2Dropdown" class="dropdown">
                             <select name="bedroom2" required>
                                 <option value="">Select Item</option>
+                                <option value="King Bed">King Bed</option>
+                                <option value="Queen Bed">Queen Bed</option>
                                 <option value="Twin Bed">Twin Bed</option>
                                 <option value="Double Bed">Double Bed</option>
+                                <option value="Bunk Bed">Bunk Bed</option>
+                                <option value="Crib">Crib</option>
+                                <option value="Dresser">Dresser</option>
+                                <option value="Chest of Drawers">Chest of Drawers</option>
+                                <option value="Armoire">Armoire</option>
+                                <option value="Vanity">Vanity</option>
+                                <option value="Mirror">Mirror</option>
+                                <option value="Nightstand">Nightstand</option>
+                                <option value="Wardrobe">Wardrobe</option>
+                                <option value="Toy Box">Toy Box</option>
+                                <option value="Bookshelf">Bookshelf</option>
+                                <option value="Desk">Desk</option>
+                                <option value="Chair">Chair</option>
+                                <option value="Lamp">Lamp</option>
+                                <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
+                                <option value="TV">TV</option>
+                                <option value="Media Console">Media Console</option>
+                                <option value="Entertainment Center">Entertainment Center</option>
                                 <option value="Study Desk">Study Desk</option>
                                 <option value="Bookshelf">Bookshelf</option>
                                 <option value="Closet">Closet</option>
-                                <option value="Nightstand">Nightstand</option>
                             </select>
                         </div>
                     </td>
@@ -98,11 +158,31 @@
                         <div id="bedroom3Dropdown" class="dropdown">
                             <select name="bedroom3" required>
                                 <option value="">Select Item</option>
+                                <option value="Queen Bed">Queen Bed</option>
                                 <option value="Bunk Bed">Bunk Bed</option>
                                 <option value="Single Bed">Single Bed</option>
+                                <option value="Double Bed">Double Bed</option>
+                                <option value="Crib">Crib</option>
+                                <option value="Dresser">Dresser</option>
+                                <option value="Chest of Drawers">Chest of Drawers</option>
+                                <option value="Armoire">Armoire</option>
+                                <option value="Vanity">Vanity</option>
+                                <option value="Mirror">Mirror</option>
+                                <option value="Nightstand">Nightstand</option>
                                 <option value="Wardrobe">Wardrobe</option>
                                 <option value="Toy Box">Toy Box</option>
                                 <option value="Bookshelf">Bookshelf</option>
+                                <option value="Desk">Desk</option>
+                                <option value="Chair">Chair</option>
+                                <option value="Lamp">Lamp</option>
+                                <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
+                                <option value="TV">TV</option>
+                                <option value="Media Console">Media Console</option>
+                                <option value="Entertainment Center">Entertainment Center</option>
+                                <option value="Study Desk">Study Desk</option>
+                                <option value="Bookshelf">Bookshelf</option>
+                                <option value="Closet">Closet</option>
                             </select>
                         </div>
                     </td>
@@ -110,12 +190,30 @@
                         <div id="livingRoomDropdown" class="dropdown">
                             <select name="livingRoom" required>
                                 <option value="">Select Item</option>
+                                <option value="Sectional Sofa">Sectional Sofa</option>
+                                <option value="Sofa Bed">Sofa Bed</option>
+                                <option value="Loveseat">Loveseat</option>
+                                <option value="Futon">Futon</option>
+                                <option value="Chaise Lounge">Chaise Lounge</option>
+                                <option value="Daybed">Daybed</option>
+                                <option value="Chair">Chair</option>
+                                <option value="Ottoman">Ottoman</option>
+                                <option value="Coffee Table">Coffee Table</option>
+                                <option value="End Table">End Table</option>
+                                <option value="Console Table">Console Table</option>
+                                <option value="Recliner">Recliner</option>
                                 <option value="Sofa">Sofa</option>
                                 <option value="Coffee Table">Coffee Table</option>
+                                <option value="End Table">End Table</option>
+                                <option value="Armchair">Armchair</option>
+                                <option value="TV">TV</option>
+                                <option value="Media Console">Media Console</option>
+                                <option value="Bookshelf">Bookshelf</option>
                                 <option value="TV Stand">TV Stand</option>
                                 <option value="Bookshelf">Bookshelf</option>
                                 <option value="Lamp">Lamp</option>
                                 <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
                                 <option value="Entertainment Center">Entertainment Center</option>
                             </select>
                         </div>
@@ -125,10 +223,30 @@
                             <select name="diningRoom" required>
                                 <option value="">Select Item</option>
                                 <option value="Dining Table">Dining Table</option>
+                                <option value="Dining Bench">Dining Bench</option>
+                                <option value="Bar Stool">Bar Stool</option>
                                 <option value="Dining Chairs">Dining Chairs</option>
+                                <option value="Bar Table">Bar Table</option>
+                                <option value="Bar Cabinet">Bar Cabinet</option>
                                 <option value="China Cabinet">China Cabinet</option>
                                 <option value="Buffet">Buffet</option>
                                 <option value="Sideboard">Sideboard</option>
+                                <option value="Hutch">Hutch</option>
+                                <option value="Credenza">Credenza</option>
+                                <option value="Wine Rack">Wine Rack</option>
+                                <option value="Bar Cart">Bar Cart</option>
+                                <option value="Lamp">Lamp</option>
+                                <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
+                                <option value="Mirror">Mirror</option>
+                                <option value="Curtains">Curtains</option>
+                                <option value="Blinds">Blinds</option>
+                                <option value="Chandelier">Chandelier</option>
+                                <option value="Pendant Light">Pendant Light</option>
+                                <option value="Ceiling Fan">Ceiling Fan</option>
+                                <option value="Wall Sconce">Wall Sconce</option>
+                                <option value="Floor Lamp">Floor Lamp</option>
+                                <option value="Table Lamp">Table Lamp</option>
                             </select>
                         </div>
                     </td>
@@ -137,11 +255,48 @@
                             <select name="kitchen" required>
                                 <option value="">Select Item</option>
                                 <option value="Refrigerator">Refrigerator</option>
-                                <option value="Oven">Oven</option>
                                 <option value="Microwave">Microwave</option>
                                 <option value="Dishwasher">Dishwasher</option>
+                                <option value="Garbage Disposal">Garbage Disposal</option>
+                                <option value="Coffee Maker">Coffee Maker</option>
+                                <option value="Toaster">Toaster</option>
+                                <option value="Blender">Blender</option>
+                                <option value="Mixer">Mixer</option>
+                                <option value="Food Processor">Food Processor</option>
+                                <option value="Cutlery">Cutlery</option>
+                                <option value="Cookware">Cookware</option>
+                                <option value="Bakeware">Bakeware</option>
+                                <option value="Utensils">Utensils</option>
+                                <option value="Dishes">Dishes</option>
+                                <option value="Glassware">Glassware</option>
+                                <option value="Flatware">Flatware</option>
+                                <option value="Linens">Linens</option>
+                                <option value="Small Appliances">Small Appliances</option>
                                 <option value="Kitchen Island">Kitchen Island</option>
                                 <option value="Dining Table">Dining Table</option>
+                                <option value="Dining Chairs">Dining Chairs</option>
+                                <option value="Bar Stools">Bar Stools</option>
+                                <option value="Bar Table">Bar Table</option>
+                                <option value="Bar Cabinet">Bar Cabinet</option>
+                                <option value="China Cabinet">China Cabinet</option>
+                                <option value="Buffet">Buffet</option>
+                                <option value="Sideboard">Sideboard</option>
+                                <option value="Hutch">Hutch</option>
+                                <option value="Credenza">Credenza</option>
+                                <option value="Wine Rack">Wine Rack</option>
+                                <option value="Bar Cart">Bar Cart</option>
+                                <option value="Lamp">Lamp</option>
+                                <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
+                                <option value="Mirror">Mirror</option>
+                                <option value="Curtains">Curtains</option>
+                                <option value="Blinds">Blinds</option>
+                                <option value="Chandelier">Chandelier</option>
+                                <option value="Pendant Light">Pendant Light</option>
+                                <option value="Ceiling Fan">Ceiling Fan</option>
+                                <option value="Wall Sconce">Wall Sconce</option>
+                                <option value="Floor Lamp">Floor Lamp</option>
+                                <option value="Table Lamp">Table Lamp</option>
                             </select>
                         </div>
                     </td>
@@ -151,6 +306,32 @@
                                 <option value="">Select Item</option>
                                 <option value="Washer">Washer</option>
                                 <option value="Dryer">Dryer</option>
+                                <option value="Sofa">Sofa</option>
+                                <option value="Sectional Sofa">Sectional Sofa</option>
+                                <option value="Sofa Bed">Sofa Bed</option>
+                                <option value="Loveseat">Loveseat</option>
+                                <option value="Futon">Futon</option>
+                                <option value="Chaise Lounge">Chaise Lounge</option>
+                                <option value="Daybed">Daybed</option>
+                                <option value="Chair">Chair</option>
+                                <option value="Ottoman">Ottoman</option>    
+                                <option value="Coffee Table">Coffee Table</option>
+                                <option value="End Table">End Table</option>
+                                <option value="Console Table">Console Table</option>
+                                <option value="Recliner">Recliner</option>
+                                <option value="Sofa">Sofa</option>
+                                <option value="Coffee Table">Coffee Table</option>
+                                <option value="End Table">End Table</option>
+                                <option value="Armchair">Armchair</option>
+                                <option value="TV">TV</option>
+                                <option value="Media Console">Media Console</option>
+                                <option value="Bookshelf">Bookshelf</option>
+                                <option value="TV Stand">TV Stand</option>
+                                <option value="Bookshelf">Bookshelf</option>
+                                <option value="Lamp">Lamp</option>
+                                <option value="Rug">Rug</option>
+                                <option value="Artwork">Artwork</option>
+                                <option value="Entertainment Center">Entertainment Center</option>
                                 <option value="Storage Boxes">Storage Boxes</option>
                                 <option value="Tools">Tools</option>
                                 <option value="Exercise Equipment">Exercise Equipment</option>
@@ -164,12 +345,40 @@
                         <div id="garageDropdown" class="dropdown">
                             <select name="garage" required>
                                 <option value="">Select Item</option>
-                                <option value="Car">Car</option>
                                 <option value="Bicycle">Bicycle</option>
                                 <option value="Tools">Tools</option>
+                                <option value="Workbench">Workbench</option>
+                                <option value="Storage Boxes">Storage Boxes</option>
                                 <option value="Lawn Mower">Lawn Mower</option>
+                                <option value="Snow Blower">Snow Blower</option>
+                                <option value="Leaf Blower">Leaf Blower</option>
+                                <option value="Garden Tools">Garden Tools</option>
+                                <option value="Power Tools">Power Tools</option>
+                                <option value="Ladder">Ladder</option>
                                 <option value="Shelving Units">Shelving Units</option>
                                 <option value="Sports Equipment">Sports Equipment</option>
+                                <option value="Storage Boxes">Storage Boxes</option>
+                                <option value="Storage Cabinets">Storage Cabinets</option>
+                                <option value="Storage Racks">Storage Racks</option>
+                                <option value="Storage Bins">Storage Bins</option>
+                                <option value="Storage Shelves">Storage Shelves</option>
+                                <option value="Storage Drawers">Storage Drawers</option>
+                                <option value="Storage Chest">Storage Chest</option>
+                                <option value="Storage Trunk">Storage Trunk</option>
+                                <option value="Storage Bench">Storage Bench</option>
+                                <option value="Storage Ottoman">Storage Ottoman</option>
+                                <option value="Storage Cubes">Storage Cubes</option>
+                                <option value="Storage Bags">Storage Bags</option>
+                                <option value="Storage Baskets">Storage Baskets</option>
+                                <option value="Storage Bins">Storage Bins</option>
+                                <option value="Storage Boxes">Storage Boxes</option>
+                                <option value="Storage Containers">Storage Containers</option>
+                                <option value="Storage Crates">Storage Crates</option>
+                                <option value="Storage Lockers">Storage Lockers</option>
+                                <option value="Storage Shelves">Storage Shelves</option>
+                                <option value="Storage Totes">Storage Totes</option>
+                                <option value="Storage Units">Storage Units</option>
+                                <option value="Storage Wardrobe">Storage Wardrobe</option>
                             </select>
                         </div>
                     </td>
@@ -177,12 +386,25 @@
                         <div id="backyardDropdown" class="dropdown">
                             <select name="backyard" required>
                                 <option value="">Select Item</option>
+                                <option value="Patio Furniture">Patio Furniture</option>
+                                <option value="Garden Tools">Garden Tools</option>
+                                <option value="Swing Set">Swing Set</option>
                                 <option value="BBQ Grill">BBQ Grill</option>
                                 <option value="Patio Furniture">Patio Furniture</option>
                                 <option value="Garden Tools">Garden Tools</option>
                                 <option value="Swing Set">Swing Set</option>
                                 <option value="Trampoline">Trampoline</option>
                                 <option value="Pool">Pool</option>
+                                <option value="Pool Toys">Pool Toys</option>
+                                <option value="Pool Equipment">Pool Equipment</option>
+                                <option value="Pool Supplies">Pool Supplies</option>
+                                <option value="Pool Chemicals">Pool Chemicals</option>
+                                <option value="Pool Floats">Pool Floats</option>
+                                <option value="Pool Loungers">Pool Loungers</option>
+                                <option value="Pool Chairs">Pool Chairs</option>
+                                <option value="Pool Umbrella">Pool Umbrella</option>
+                                <option value="Pool Cover">Pool Cover</option>
+                                <option value="Pool Heater">Pool Heater</option>
                             </select>
                         </div>
                     </td>
@@ -190,9 +412,34 @@
                         <div id="shedDropdown" class="dropdown">
                             <select name="shed" required>
                                 <option value="">Select Item</option>
-                                <option value="Lawn Mower">Lawn Mower</option>
-                                <option value="Garden Tools">Garden Tools</option>
+                                <option value="Bicycle">Bicycle</option>
+                                <option value="Tools">Tools</option>
+                                <option value="Workbench">Workbench</option>
                                 <option value="Storage Boxes">Storage Boxes</option>
+                                <option value="Lawn Mower">Lawn Mower</option>  
+                                <option value="Snow Blower">Snow Blower</option>
+                                <option value="Leaf Blower">Leaf Blower</option>
+                                <option value="Garden Tools">Garden Tools</option>
+                                <option value="Shelving Units">Shelving Units</option>
+                                <option value="Sports Equipment">Sports Equipment</option>
+                                <option value="Storage Boxes">Storage Boxes</option>
+                                <option value="Storage Cabinets">Storage Cabinets</option>
+                                <option value="Storage Racks">Storage Racks</option>
+                                <option value="Storage Bins">Storage Bins</option>
+                                <option value="Storage Shelves">Storage Shelves</option>
+                                <option value="Storage Drawers">Storage Drawers</option>
+                                <option value="Storage Chest">Storage Chest</option>
+                                <option value="Storage Trunk">Storage Trunk</option>
+                                <option value="Storage Bench">Storage Bench</option>
+                                <option value="Storage Ottoman">Storage Ottoman</option>
+                                <option value="Storage Cubes">Storage Cubes</option>
+                                <option value="Storage Bags">Storage Bags</option>
+                                <option value="Storage Baskets">Storage Baskets</option>
+                                <option value="Storage Bins">Storage Bins</option>
+                                <option value="Storage Boxes">Storage Boxes</option>
+                                <option value="Storage Containers">Storage Containers</option>  
+                                <option value="Storage Crates">Storage Crates</option>
+                                <option value="Storage Lockers">Storage Lockers</option>
                                 <option value="Power Tools">Power Tools</option>
                                 <option value="Ladder">Ladder</option>
                             </select>
@@ -216,403 +463,3 @@
 </body>
 </html>
 
-
-    <!-- Client Contact Area -->
-    <div class="section">
-        <h2>Client Contact Information</h2>
-        <label for="clientName">Name:</label>
-        <input type="text" id="clientName" placeholder="Client Name" required><br><br>
-        <label for="clientPhone">Phone:</label>
-        <input type="tel" id="clientPhone" placeholder="Phone Number" required><br><br>
-        <label for="clientEmail">Email:</label>
-        <input type="email" id="clientEmail" placeholder="Email Address" required><br><br>
-    </div>
-
-    <!-- Moving Details Area -->
-    <div class="section">
-        <h2>Moving Details</h2>
-        <label for="moveDate">Move Date:</label>
-        <input type="date" id="moveDate" required><br><br>
-        <label for="origin">Origin Address:</label>
-        <input type="text" id="origin" placeholder="Origin Address" required><br><br>
-        <label for="destination">Destination Address:</label>
-        <input type="text" id="destination" placeholder="Destination Address" required><br><br>
-    </div>
-
-    <!-- Inventory Table -->
-    <div class="inventory-section">
-        <h2>Inventory List</h2>
-        <button type="button" onclick="addRow()">Add Inventory Row</button>
-        <table id="inventoryTable">
-            <thead>
-                <tr>
-                    <th>Main Bedroom</th>
-                    <th>Bedroom 2</th>
-                    <th>Bedroom 3</th>
-                    <th>Living Room</th>
-                    <th>Dining Room</th>
-                    <th>Kitchen</th>
-                    <th>Basement</th>
-                    <th>Garage</th>
-                    <th>Backyard</th>
-                    <th>Shed</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be added dynamically -->
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        function addRow() {
-            var table = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
-            var row = table.insertRow(-1);
-
-            row.innerHTML = `
-               <td>
-    <select name="mainBedroom" required>
-        <option value="">Select Item</option>
-        <option value="King Bed">King Bed</option>
-        <option value="Queen Bed">Queen Bed</option>
-        <option value="Twin Bed">Twin Bed</option>
-        <option value="Double Bed">Double Bed</option>
-        <option value="Bunk Bed">Bunk Bed</option>
-        <option value="Crib">Crib</option>
-        <option value="Dresser">Dresser</option>
-        <option value="Chest of Drawers">Chest of Drawers</option>
-        <option value="Armoire">Armoire</option>
-        <option value="Vanity">Vanity</option>
-        <option value="Nightstand">Nightstand</option>
-        <option value="Wardrobe">Wardrobe</option>
-        <option value="Mirror">Mirror</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Desk">Desk</option>
-        <option value="Chair">Chair</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="TV">TV</option>
-        <option value="Media Console">Media Console</option>
-        <option value="Entertainment Center">Entertainment Center</option>
-        <option value="Study Desk">Study Desk</option>
-        <option value="Closet">Closet</option>
-
-    </select>
-</td>
-<td>
-    <select name="bedroom2" required>
-        <option value="">Select Item</option>
-        <option value="King Bed">King Bed</option>
-        <option value="Queen Bed">Queen Bed</option>
-        <option value="Twin Bed">Twin Bed</option>
-        <option value="Double Bed">Double Bed</option>
-        <option value="Bunk Bed">Bunk Bed</option>
-        <option value="Crib">Crib</option>
-        <option value="Dresser">Dresser</option>
-        <option value="Chest of Drawers">Chest of Drawers</option>
-        <option value="Armoire">Armoire</option>
-        <option value="Vanity">Vanity</option>
-        <option value="Mirror">Mirror</option>
-        <option value="Nightstand">Nightstand</option>
-        <option value="Wardrobe">Wardrobe</option>
-        <option value="Toy Box">Toy Box</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Desk">Desk</option>
-        <option value="Chair">Chair</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="TV">TV</option>
-        <option value="Media Console">Media Console</option>
-        <option value="Entertainment Center">Entertainment Center</option>
-        <option value="Study Desk">Study Desk</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Closet">Closet</option>
-    </select>
-</td>
-<td>
-    <select name="bedroom3" required>
-        <option value="">Select Item</option>
-        <option value="Queen Bed">Queen Bed</option>
-        <option value="Bunk Bed">Bunk Bed</option>
-        <option value="Single Bed">Single Bed</option>
-        <option value="Double Bed">Double Bed</option>
-        <option value="Crib">Crib</option>
-        <option value="Dresser">Dresser</option>
-        <option value="Chest of Drawers">Chest of Drawers</option>
-        <option value="Armoire">Armoire</option>
-        <option value="Vanity">Vanity</option>
-        <option value="Mirror">Mirror</option>
-         <option value="Nightstand">Nightstand</option>
-        <option value="Wardrobe">Wardrobe</option>
-        <option value="Toy Box">Toy Box</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Desk">Desk</option>
-        <option value="Chair">Chair</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="TV">TV</option>
-        <option value="Media Console">Media Console</option>
-        <option value="Entertainment Center">Entertainment Center</option>
-        <option value="Study Desk">Study Desk</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Closet">Closet</option>
-
-    </select>
-</td>
-<td>
-    <select name="livingRoom" required>
-        <option value="">Select Item</option>
-        <option value="Sectional Sofa">Sectional Sofa</option>
-        <option value="Sofa Bed">Sofa Bed</option>
-        <option value="Loveseat">Loveseat</option>
-        <option value="Futon">Futon</option>
-        <option value="Chaise Lounge">Chaise Lounge</option>
-        <option value="Daybed">Daybed</option>
-        <option value="Chair">Chair</option>
-        <option value="Ottoman">Ottoman</option>
-        <option value="Coffee Table">Coffee Table</option>
-        <option value="End Table">End Table</option>
-        <option value="Console Table">Console Table</option>
-        <option value="Recliner">Recliner</option>
-        <option value="Sofa">Sofa</option>
-        <option value="Coffee Table">Coffee Table</option>
-        <option value="End Table">End Table</option>
-        <option value="Armchair">Armchair</option>
-        <option value="TV">TV</option>
-        <option value="Media Console">Media Console</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="TV Stand">TV Stand</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="Entertainment Center">Entertainment Center</option>
-    </select>
-</td>
-<td>
-    <select name="diningRoom" required>
-        <option value="">Select Item</option>
-        <option value="Dining Table">Dining Table</option>
-        <option value="Dining Bench">Dining Bench</option>
-        <option value="Bar Stool">Bar Stool</option>
-        <option value="Dining Chairs">Dining Chairs</option>
-        <option value="Bar Table">Bar Table</option>
-        <option value="Bar Cabinet">Bar Cabinet</option>
-        <option value="China Cabinet">China Cabinet</option>
-        <option value="Buffet">Buffet</option>
-        <option value="Sideboard">Sideboard</option>
-        <option value="Hutch">Hutch</option>
-        <option value="Credenza">Credenza</option>
-        <option value="Wine Rack">Wine Rack</option>
-        <option value="Bar Cart">Bar Cart</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="Mirror">Mirror</option>
-        <option value="Curtains">Curtains</option>
-        <option value="Blinds">Blinds</option>
-        <option value="Chandelier">Chandelier</option>
-        <option value="Pendant Light">Pendant Light</option>
-        <option value="Ceiling Fan">Ceiling Fan</option>
-        <option value="Wall Sconce">Wall Sconce</option>
-        <option value="Floor Lamp">Floor Lamp</option>
-        <option value="Table Lamp">Table Lamp</option>
-
-    </select>
-</td>
-<td>
-    <select name="kitchen" required>
-        <option value="">Select Item</option>
-        <option value="Refrigerator">Refrigerator</option>
-        <option value="Microwave">Microwave</option>
-        <option value="Dishwasher">Dishwasher</option>
-        <option value="Garbage Disposal">Garbage Disposal</option>
-        <option value="Coffee Maker">Coffee Maker</option>
-        <option value="Toaster">Toaster</option>
-        <option value="Blender">Blender</option>
-        <option value="Mixer">Mixer</option>
-        <option value="Food Processor">Food Processor</option>
-        <option value="Cutlery">Cutlery</option>
-        <option value="Cookware">Cookware</option>
-        <option value="Bakeware">Bakeware</option>
-        <option value="Utensils">Utensils</option>
-        <option value="Dishes">Dishes</option>
-        <option value="Glassware">Glassware</option>
-        <option value="Flatware">Flatware</option>
-        <option value="Linens">Linens</option>
-        <option value="Small Appliances">Small Appliances</option>
-        <option value="Kitchen Island">Kitchen Island</option>
-        <option value="Dining Table">Dining Table</option>
-        <option value="Dining Chairs">Dining Chairs</option>
-        <option value="Bar Stools">Bar Stools</option>
-        <option value="Bar Table">Bar Table</option>
-        <option value="Bar Cabinet">Bar Cabinet</option>
-        <option value="China Cabinet">China Cabinet</option>
-        <option value="Buffet">Buffet</option>
-        <option value="Sideboard">Sideboard</option>
-        <option value="Hutch">Hutch</option>
-        <option value="Credenza">Credenza</option>
-        <option value="Wine Rack">Wine Rack</option>
-        <option value="Bar Cart">Bar Cart</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="Mirror">Mirror</option>
-        <option value="Curtains">Curtains</option>
-        <option value="Blinds">Blinds</option>
-        <option value="Chandelier">Chandelier</option>
-        <option value="Pendant Light">Pendant Light</option>
-        <option value="Ceiling Fan">Ceiling Fan</option>
-        <option value="Wall Sconce">Wall Sconce</option>
-        <option value="Floor Lamp">Floor Lamp</option>
-        <option value="Table Lamp">Table Lamp</option>
-
-    </select>
-</td>
-<td>
-    <select name="basement" required>
-        <option value="">Select Item</option>
-        <option value="Washer">Washer</option>
-        <option value="Dryer">Dryer</option>
-        <option value="Sofa">Sofa</option>
-        <option value="Sectional Sofa">Sectional Sofa</option>
-        <option value="Sofa Bed">Sofa Bed</option>
-        <option value="Loveseat">Loveseat</option>
-        <option value="Futon">Futon</option>
-        <option value="Chaise Lounge">Chaise Lounge</option>
-        <option value="Daybed">Daybed</option>
-        <option value="Chair">Chair</option>
-        <option value="Ottoman">Ottoman</option>    
-        <option value="Coffee Table">Coffee Table</option>
-        <option value="End Table">End Table</option>
-        <option value="Console Table">Console Table</option>
-        <option value="Recliner">Recliner</option>
-        <option value="Sofa">Sofa</option>
-        <option value="Coffee Table">Coffee Table</option>
-        <option value="End Table">End Table</option>
-        <option value="Armchair">Armchair</option>
-        <option value="TV">TV</option>
-        <option value="Media Console">Media Console</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="TV Stand">TV Stand</option>
-        <option value="Bookshelf">Bookshelf</option>
-        <option value="Lamp">Lamp</option>
-        <option value="Rug">Rug</option>
-        <option value="Artwork">Artwork</option>
-        <option value="Entertainment Center">Entertainment Center</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Tools">Tools</option>
-        <option value="Exercise Equipment">Exercise Equipment</option>
-        <option value="Laundry">Laundry</option>
-        <option value="Workbench">Workbench</option>
-        <option value="Water Heater">Water Heater</option>
-    </select>
-</td>
-<td>
-    <select name="garage" required>
-        <option value="">Select Item</option>
-        <option value="Bicycle">Bicycle</option>
-        <option value="Tools">Tools</option>
-        <option value="Workbench">Workbench</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Lawn Mower">Lawn Mower</option>
-        <option value="Snow Blower">Snow Blower</option>
-        <option value="Leaf Blower">Leaf Blower</option>
-        <option value="Garden Tools">Garden Tools</option>
-        <option value="Power Tools">Power Tools</option>
-        <option value="Ladder">Ladder</option>
-        <option value="Shelving Units">Shelving Units</option>
-        <option value="Sports Equipment">Sports Equipment</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Storage Cabinets">Storage Cabinets</option>
-        <option value="Storage Racks">Storage Racks</option>
-        <option value="Storage Bins">Storage Bins</option>
-        <option value="Storage Shelves">Storage Shelves</option>
-        <option value="Storage Drawers">Storage Drawers</option>
-        <option value="Storage Chest">Storage Chest</option>
-        <option value="Storage Trunk">Storage Trunk</option>
-        <option value="Storage Bench">Storage Bench</option>
-        <option value="Storage Ottoman">Storage Ottoman</option>
-        <option value="Storage Cubes">Storage Cubes</option>
-        <option value="Storage Bags">Storage Bags</option>
-        <option value="Storage Baskets">Storage Baskets</option>
-        <option value="Storage Bins">Storage Bins</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Storage Containers">Storage Containers</option>
-        <option value="Storage Crates">Storage Crates</option>
-        <option value="Storage Lockers">Storage Lockers</option>
-        <option value="Storage Shelves">Storage Shelves</option>
-        <option value="Storage Totes">Storage Totes</option>
-        <option value="Storage Units">Storage Units</option>
-        <option value="Storage Wardrobe">Storage Wardrobe</option>
-    </select>
-</td>
-<td>
-    <select name="backyard" required>
-        <option value="">Select Item</option>
-        <option value="Patio Furniture">Patio Furniture</option>
-        <option value="Garden Tools">Garden Tools</option>
-        <option value="Swing Set">Swing Set</option>
-        <option value="BBQ Grill">BBQ Grill</option>
-        <option value="Patio Furniture">Patio Furniture</option>
-        <option value="Garden Tools">Garden Tools</option>
-        <option value="Swing Set">Swing Set</option>
-        <option value="Trampoline">Trampoline</option>
-        <option value="Pool">Pool</option>
-        <option value="Pool Toys">Pool Toys</option>
-        <option value="Pool Equipment">Pool Equipment</option>
-        <option value="Pool Supplies">Pool Supplies</option>
-        <option value="Pool Chemicals">Pool Chemicals</option>
-        <option value="Pool Floats">Pool Floats</option>
-        <option value="Pool Loungers">Pool Loungers</option>
-        <option value="Pool Chairs">Pool Chairs</option>
-        <option value="Pool Umbrella">Pool Umbrella</option>
-        <option value="Pool Cover">Pool Cover</option>
-        <option value="Pool Heater">Pool Heater</option>
-
-    </select>
-</td>
-<td>
-    <select name="shed" required>
-        <option value="">Select Item</option>
-        <option value="Bicycle">Bicycle</option>
-        <option value="Tools">Tools</option>
-        <option value="Workbench">Workbench</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Lawn Mower">Lawn Mower</option>  
-        <option value="Snow Blower">Snow Blower</option>
-        <option value="Leaf Blower">Leaf Blower</option>
-        <option value="Garden Tools">Garden Tools</option>
-        <option value="Shelving Units">Shelving Units</option>
-        <option value="Sports Equipment">Sports Equipment</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Storage Cabinets">Storage Cabinets</option>
-        <option value="Storage Racks">Storage Racks</option>
-        <option value="Storage Bins">Storage Bins</option>
-        <option value="Storage Shelves">Storage Shelves</option>
-        <option value="Storage Drawers">Storage Drawers</option>
-        <option value="Storage Chest">Storage Chest</option>
-        <option value="Storage Trunk">Storage Trunk</option>
-        <option value="Storage Bench">Storage Bench</option>
-        <option value="Storage Ottoman">Storage Ottoman</option>
-        <option value="Storage Cubes">Storage Cubes</option>
-        <option value="Storage Bags">Storage Bags</option>
-        <option value="Storage Baskets">Storage Baskets</option>
-        <option value="Storage Bins">Storage Bins</option>
-        <option value="Storage Boxes">Storage Boxes</option>
-        <option value="Storage Containers">Storage Containers</option>  
-        <option value="Storage Crates">Storage Crates</option>
-        <option value="Storage Lockers">Storage Lockers</option>
-        <option value="Power Tools">Power Tools</option>
-        <option value="Ladder">Ladder</option>
-    </select>
-</td>
-
-            `;
-        }
-    </script>
-</body>
-</html>
