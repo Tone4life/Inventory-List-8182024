@@ -8,7 +8,8 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #645a5a;
+            background-color: #f7f7f7;
+            text-align: center;
         }
         .section, .inventory-section {
             background-color: #d63434;
@@ -16,6 +17,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            color: #fff;
         }
         img {
             max-width: 150px; /* Adjust the logo size */
@@ -27,11 +29,9 @@
         }
         table {
             width: 100%;
+            margin-top: 20px;
             border-collapse: collapse;
-            margin-bottom: 20px;
             background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
         }
         th, td {
             border: 1px solid #ddd;
@@ -47,38 +47,63 @@
             display: none; /* Dropdowns are hidden by default */
             padding-top: 10px;
         }
+        select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .instruction {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .cta-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #81011f;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            background-color: #b3002d;
+        }
     </style>
 </head>
 <body>
-    <img src="/mnt/data/em copy.jpg" alt="Exceptional Movers Logo">
+    <img src="logo.png" alt="Exceptional Movers Logo" width="150">
     <h1>Home Inventory List</h1>
 
+    <form id="inventoryForm" action="submit_form.php" method="POST">
     <!-- Client Contact Area -->
     <div class="section">
         <h2>Client Contact Information</h2>
-        <label for="clientName">Name:</label>
-        <input type="text" id="clientName" placeholder="Client Name" required><br><br>
-        <label for="clientPhone">Phone:</label>
-        <input type="tel" id="clientPhone" placeholder="Phone Number" required><br><br>
-        <label for="clientEmail">Email:</label>
-        <input type="email" id="clientEmail" placeholder="Email Address" required><br><br>
+        <label for="clientName">Name:</label><br>
+        <input type="text" id="clientName" name="clientName" required><br><br>
+        <label for="clientPhone">Phone:</label><br>
+        <input type="tel" id="clientPhone" name="clientPhone" required><br><br>
+        <label for="clientEmail">Email:</label><br>
+        <input type="email" id="clientEmail" name="clientEmail" required><br><br>
     </div>
 
     <!-- Moving Details Area -->
     <div class="section">
         <h2>Moving Details</h2>
-        <label for="moveDate">Move Date:</label>
-        <input type="date" id="moveDate" required><br><br>
-        <label for="origin">Origin Address:</label>
-        <input type="text" id="origin" placeholder="Origin Address" required><br><br>
-        <label for="destination">Destination Address:</label>
-        <input type="text" id="destination" placeholder="Destination Address" required><br><br>
+        <label for="moveDate">Move Date:</label><br>
+        <input type="date" id="moveDate" name="moveDate" required><br><br>
+        <label for="origin">Origin Address:</label><br>
+        <input type="text" id="origin" name="origin" required><br><br>
+        <label for="destination">Destination Address:</label><br>
+        <input type="text" id="destination" name="destination" required><br><br>
     </div>
 
     <!-- Inventory Table -->
     <div class="inventory-section">
         <div class="instruction">Click a room to add inventory</div>
         <h2>Inventory List</h2>
+        <p>Select items for each room. <span class="tooltip" title="Click on a room to view and select items.">Need help?</span></p>
         <table id="inventoryTable">
             <thead>
                 <tr>
@@ -464,6 +489,7 @@
                 </tr>
             </tbody>
         </table>
+        <button class="cta-button" onclick="submitInventory()">Save Inventory</button>
     </div>
 
     <script>
