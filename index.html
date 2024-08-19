@@ -5,74 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Inventory List</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f7f7f7;
-            text-align: center;
+       body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
         }
-        .section, .inventory-section {
-            background-color: #d63434;
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            color: #fff;
+            background-color: #fff;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
-        img {
-            max-width: 150px; /* Adjust the logo size */
-            height: auto;
+
+        h1 {
+            text-align: center;
+            color: #d63434;
+            font-size: 24px;
         }
+
         label {
             font-weight: bold;
-            color: #000000; /* Burgundy red */
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background-color: #fff;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #635056; /* Burgundy red */
-            color: #fff;
-            cursor: pointer; /* Cursor change to indicate clickability */
-        }
-        .dropdown {
-            display: none; /* Dropdowns are hidden by default */
-            padding-top: 10px;
-        }
-        select {
-            width: 100%;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .instruction {
-            font-weight: bold;
-            color: #fff;
             margin-bottom: 10px;
+            display: inline-block;
+            color: #555;
         }
-        .cta-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #81011f;
+
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"], .cta-button {
+            background-color: #d63434;
             color: #fff;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
+            font-size: 18px;
             cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
         }
-        .cta-button:hover {
+
+        input[type="submit"]:hover, .cta-button:hover {
             background-color: #b3002d;
+        }
+
+        .inventory-section h2, .section h2 {
+            text-align: left;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .inventory-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .inventory-section th, .inventory-section td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .inventory-section th {
+            background-color: #d63434;
+            color: #fff;
+        }
+
+        .inventory-section td {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+
+        .dropdown {
+            margin-bottom: 10px;
+        }
+
+        .tooltip {
+            border-bottom: 1px dashed #555;
+            cursor: help;
+            color: #555;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                margin: 20px;
+            }
+
+            input[type="submit"], .cta-button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="container">
     <img src="logo.png" alt="Exceptional Movers Logo" width="150">
     <h1>Home Inventory List</h1>
 
@@ -120,6 +161,7 @@
                 </tr>
             </thead>
             <tbody>
+                 <!-- Inventory items will be dynamically added here -->
                 <tr>
                     <td>
                         <div id="mainBedroomDropdown" class="dropdown">
