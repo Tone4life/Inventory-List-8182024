@@ -120,6 +120,7 @@
                                 <option value="Study Desk">Study Desk</option>
                                 <option value="Closet">Closet</option>
                             </select>
+                            <button class="add-more" onclick="addDropdown('mainBedroomDropdown')">Add More</button>
                         </div>
                     </td>
                     <td>
@@ -459,6 +460,12 @@
             } else {
                 dropdown.style.display = "none";
             }
+        }
+
+        function addDropdown(roomId) {
+            var roomDiv = document.getElementById(roomId);
+            var newDropdown = roomDiv.firstElementChild.cloneNode(true);
+            roomDiv.insertBefore(newDropdown, roomDiv.lastElementChild);
         }
     </script>
 </body>
