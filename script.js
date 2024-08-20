@@ -4,12 +4,32 @@ document.addEventListener("DOMContentLoaded", function() {
  $('select').select2({
     placeholder: "Select an item",
     allowClear: true
-});    
+}); 
+// Initialize Google Places Autocomplete for address fields
+const originField = document.getElementById('origin');
+const destinationField = document.getElementById('destination');
+
+const autocompleteOrigin = new google.maps.places.Autocomplete(originField, {
+    types: ['geocode'],
+    componentRestrictions: { country: "us" } // Adjust country code as needed
+});
+const autocompleteDestination = new google.maps.places.Autocomplete(destinationField, {
+    types: ['geocode'],
+    componentRestrictions: { country: "us" } // Adjust country code as needed
+});                         
+
+ // Add validation to ensure only the main bedroom is required
+const mainBedroomField = document.querySelector("select[name='mainBedroom']");
 const form = document.getElementById("inventoryForm");
 const emailField = document.getElementById("clientEmail");
 const nameField = document.getElementById("clientName");
 const phoneField = document.getElementById("clientPhone");
 const progressBar = document.querySelector('.progress');
+
+form.addEventListener("submit", function(event) {
+    if (mainBedroomField.value === "") {
+        alert("Please select an item for the Main Bedroom.");
+        event.preventDefault();
 
 phoneField.addEventListener("input", function() {
     const phoneValue = phoneField.value;

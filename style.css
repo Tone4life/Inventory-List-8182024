@@ -132,3 +132,11 @@ input[type="submit"]:hover, .cta-button:hover {
     width: 0;
     transition: width 0.3s;
 }
+
+.inline-error {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: block;
+}

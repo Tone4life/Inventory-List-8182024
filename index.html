@@ -5,8 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exceptional Movers Inventory List</title>
     <link rel="stylesheet" href="style.css">  
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=!AIzaSyCZ5V_RC2zfRrkP1WzivQT9i2ChdQNf1gA-"></script>
+    <script src="script.js"></script>
+    <script>
+        // Initialize Select2 for all select elements
+        document.addEventListener("DOMContentLoaded", function() {
+            $('select').select2();
+        });
+    </script>
+
 
    
 </head>
@@ -94,7 +107,7 @@
                     </td>
                     <td>
                         <div id="bedroom2Dropdown" class="dropdown">
-                            <select name="bedroom2" required>
+                            <select name="bedroom2">
                                 <option value="">Select Item</option>
                                 <option value="King Bed">King Bed</option>
                                 <option value="Queen Bed">Queen Bed</option>
@@ -128,7 +141,7 @@
                     </td>
                     <td>
                         <div id="bedroom3Dropdown" class="dropdown">
-                            <select name="bedroom3" required>
+                            <select name="bedroom3">
                                 <option value="">Select Item</option>
                                 <option value="Queen Bed">Queen Bed</option>
                                 <option value="Bunk Bed">Bunk Bed</option>
@@ -161,7 +174,7 @@
                     </td>
                     <td>
                         <div id="livingRoomDropdown" class="dropdown">
-                            <select name="livingRoom" required>
+                            <select name="livingRoom">
                                 <option value="">Select Item</option>
                                 <option value="Sectional Sofa">Sectional Sofa</option>
                                 <option value="Sofa Bed">Sofa Bed</option>
@@ -194,7 +207,7 @@
                     </td>
                     <td>
                         <div id="diningRoomDropdown" class="dropdown">
-                            <select name="diningRoom" required>
+                            <select name="diningRoom">
                                 <option value="">Select Item</option>
                                 <option value="Dining Table">Dining Table</option>
                                 <option value="Dining Bench">Dining Bench</option>
@@ -227,7 +240,7 @@
                     </td>
                     <td>
                         <div id="kitchenDropdown" class="dropdown">
-                            <select name="kitchen" required>
+                            <select name="kitchen">
                                 <option value="">Select Item</option>
                                 <option value="Refrigerator">Refrigerator</option>
                                 <option value="Microwave">Microwave</option>
@@ -278,7 +291,7 @@
                     </td>
                     <td>
                         <div id="basementDropdown" class="dropdown">
-                            <select name="basement" required>
+                            <select name="basement">
                                 <option value="">Select Item</option>
                                 <option value="Washer">Washer</option>
                                 <option value="Dryer">Dryer</option>
@@ -320,7 +333,7 @@
                     </td>
                     <td>
                         <div id="garageDropdown" class="dropdown">
-                            <select name="garage" required>
+                            <select name="garage">
                                 <option value="">Select Item</option>
                                 <option value="Bicycle">Bicycle</option>
                                 <option value="Tools">Tools</option>
@@ -362,7 +375,7 @@
                     </td>
                     <td>
                         <div id="backyardDropdown" class="dropdown">
-                            <select name="backyard" required>
+                            <select name="backyard">
                                 <option value="">Select Item</option>
                                 <option value="Patio Furniture">Patio Furniture</option>
                                 <option value="Garden Tools">Garden Tools</option>
@@ -389,7 +402,7 @@
                     </td>
                     <td>
                         <div id="shedDropdown" class="dropdown">
-                            <select name="shed" required>
+                            <select name="shed">
                                 <option value="">Select Item</option>
                                 <option value="Bicycle">Bicycle</option>
                                 <option value="Tools">Tools</option>
