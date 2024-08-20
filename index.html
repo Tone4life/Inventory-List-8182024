@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Inventory List</title>
+    <link rel="stylesheet" href="styles.css">   
     <style>
        body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -534,35 +535,6 @@
         <button class="cta-button" onclick="submitInventory()">Save Inventory</button>
     </div>
 
-    <script>
-         // JavaScript code to handle form submission and validation
-         document.getElementById('inventoryForm').addEventListener('submit', function(event) {
-            // Example validation: Ensure all required fields are filled
-            var clientName = document.getElementById('clientName').value;
-            var clientPhone = document.getElementById('clientPhone').value;
-            var clientEmail = document.getElementById('clientEmail').value;
-            var moveDate = document.getElementById('moveDate').value;
-            var origin = document.getElementById('origin').value;
-            var destination = document.getElementById('destination').value;
-
-            if (!clientName || !clientPhone || !clientEmail || !moveDate || !origin || !destination) {
-                alert('Please fill in all required fields.');
-                event.preventDefault(); // Prevent form submission
-            }
-        function toggleDropdown(id) {
-            var dropdown = document.getElementById(id);
-            if (dropdown.style.display === "none" || dropdown.style.display === "") {
-                dropdown.style.display = "block";
-            } else {
-                dropdown.style.display = "none";
-            }
-        }
-
-        function addDropdown(roomId) {
-            var roomDiv = document.getElementById(roomId);
-            var newDropdown = roomDiv.firstElementChild.cloneNode(true);
-            roomDiv.insertBefore(newDropdown, roomDiv.lastElementChild);
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
