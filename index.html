@@ -535,6 +535,20 @@
     </div>
 
     <script>
+         // JavaScript code to handle form submission and validation
+         document.getElementById('inventoryForm').addEventListener('submit', function(event) {
+            // Example validation: Ensure all required fields are filled
+            var clientName = document.getElementById('clientName').value;
+            var clientPhone = document.getElementById('clientPhone').value;
+            var clientEmail = document.getElementById('clientEmail').value;
+            var moveDate = document.getElementById('moveDate').value;
+            var origin = document.getElementById('origin').value;
+            var destination = document.getElementById('destination').value;
+
+            if (!clientName || !clientPhone || !clientEmail || !moveDate || !origin || !destination) {
+                alert('Please fill in all required fields.');
+                event.preventDefault(); // Prevent form submission
+            }
         function toggleDropdown(id) {
             var dropdown = document.getElementById(id);
             if (dropdown.style.display === "none" || dropdown.style.display === "") {
@@ -552,4 +566,3 @@
     </script>
 </body>
 </html>
-
