@@ -94,7 +94,23 @@ input[type="submit"]:hover, .cta-button:hover {
 }
 
 @media screen and (max-width: 600px) {
-	.container {
+    @media screen and (max-width: 600px) {
+        .container {
+            width: 100%;
+            margin: 20px;
+        }
+    
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    
+        input[type="submit"], .cta-button {
+            width: 100%;
+        }
+    }
+        .container {
 		width: 100%;
 		margin: 20px;
 	}

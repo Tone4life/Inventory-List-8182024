@@ -3,6 +3,18 @@ document.addEventListener("DOMContentLoaded", function() {
 const form = document.getElementById("inventoryForm");
 const emailField = document.getElementById("clientEmail");
 const nameField = document.getElementById("clientName");
+const phoneField = document.getElementById("clientPhone");
+const progressBar = document.querySelector('.progress');
+
+phoneField.addEventListener("input", function() {
+    const phoneValue = phoneField.value;
+    if (!validatePhone(phoneValue)) {
+        phoneField.setCustomValidity("Please enter a valid phone number.");
+    } else {
+        phoneField.setCustomValidity("");
+    }
+    updateProgressBar();
+});
 
 emailField.addEventListener("input", function() {
 const emailValue = emailField.value;
@@ -22,6 +34,11 @@ nameField.addEventListener("blur", function() {
 hideTooltip(nameField);
 updateProgressBar();
 });
+
+ function validatePhone(phone) {
+        const re = /^[0-9]{10}$/;
+        return re.test(String(phone));
+    }
 
 function validateEmail(email) {
 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,16 +61,16 @@ if (tooltip) {
 
 function updateProgressBar() {
     let completedFields = 0;
-    const totalFields = 3; // Adjust this number based on the total number of fields you want to track
+    const totalFields = 4; // Adjusted to account for the phone field
 
     if (nameField.value.trim() !== "") completedFields++;
     if (emailField.value.trim() !== "" && validateEmail(emailField.value)) completedFields++;
+    if (phoneField.value.trim() !== "" && validatePhone(phoneField.value)) completedFields++;
     // Add more fields as needed
 
     const progressPercentage = (completedFields / totalFields) * 100;
     progressBar.style.width = progressPercentage + "%";
 }
-
 });
 
 function toggleDropdown(id) {
