@@ -1,5 +1,10 @@
 
 document.addEventListener("DOMContentLoaded", function() {
+ // Initialize Select2 for all dropdowns
+ $('select').select2({
+    placeholder: "Select an item",
+    allowClear: true
+});    
 const form = document.getElementById("inventoryForm");
 const emailField = document.getElementById("clientEmail");
 const nameField = document.getElementById("clientName");
@@ -10,20 +15,24 @@ phoneField.addEventListener("input", function() {
     const phoneValue = phoneField.value;
     if (!validatePhone(phoneValue)) {
         phoneField.setCustomValidity("Please enter a valid phone number.");
+        showInlineError(phoneField, "Please enter a valid phone number.");
     } else {
         phoneField.setCustomValidity("");
+        removeInlineError(phoneField);
     }
     updateProgressBar();
 });
 
 emailField.addEventListener("input", function() {
-const emailValue = emailField.value;
-if (!validateEmail(emailValue)) {
-    emailField.setCustomValidity("Please enter a valid email address.");
-} else {
-    emailField.setCustomValidity("");
-}
-updateProgressBar();
+    const emailValue = emailField.value;
+    if (!validateEmail(emailValue)) {
+        emailField.setCustomValidity("Please enter a valid email address.");
+        showInlineError(emailField, "Please enter a valid email address.");
+    } else {
+        emailField.setCustomValidity("");
+        removeInlineError(emailField);
+    }
+    updateProgressBar();
 });
 
 nameField.addEventListener("focus", function() {
@@ -59,9 +68,23 @@ if (tooltip) {
 }
 }
 
+function showInlineError(element, message) {
+    let error = document.createElement("span");
+    error.className = "inline-error";
+    error.innerText = message;
+    element.parentNode.appendChild(error);
+}
+
+function removeInlineError(element) {
+    const error = element.parentNode.querySelector(".inline-error");
+    if (error) {
+        error.remove();
+    }
+}
+
 function updateProgressBar() {
     let completedFields = 0;
-    const totalFields = 4; // Adjusted to account for the phone field
+    const totalFields = 3; // Update this count if more fields are added
 
     if (nameField.value.trim() !== "") completedFields++;
     if (emailField.value.trim() !== "" && validateEmail(emailField.value)) completedFields++;
@@ -71,6 +94,12 @@ function updateProgressBar() {
     const progressPercentage = (completedFields / totalFields) * 100;
     progressBar.style.width = progressPercentage + "%";
 }
+
+  // Initialize Select2 for all dropdowns
+  $('select').select2({
+    placeholder: "Select an item",
+    allowClear: true
+});
 });
 
 function toggleDropdown(id) {
