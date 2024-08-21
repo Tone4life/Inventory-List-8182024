@@ -24,32 +24,30 @@ document.addEventListener("DOMContentLoaded", function() {
 const express = require('express'); 
 const helmet = require('helmet');
 
-const app = express();
+// Assuming this is the first declaration of `app`
 
-// Set up Helmet with a custom CSP configuration
-app.use(
-  helmet({
+// Remove any other declarations of `app`
+// Use the existing `app` variable for further configurations
+app.use(helmet({
     contentSecurityPolicy: {
-      useDefaults: true, // Apply default directives
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://apis.google.com"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        // Add more directives as needed
-      },
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "https://maps.googleapis.com"],
+            styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+            imgSrc: ["'self'", "data:"],
+            connectSrc: ["'self'"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+        },
     },
-  })
-);
-
-// Serve your static files and handle routes
-app.use(express.static('public'));
+}));
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: __dirname });
+    res.send('Hello World!');
 });
 
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
