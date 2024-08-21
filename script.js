@@ -15,23 +15,41 @@ document.addEventListener("DOMContentLoaded", function() {
         componentRestrictions: { country: "us" } // Adjust country code as needed
     });
 
-    const autocompleteDestination = new google.maps.places.Autocomplete(destinationField, {
+    const autocompleteDestination = new google.maps.places.Autocomplete(destinationField, { 
         types: ['geocode'],
         componentRestrictions: { country: "us" } // Adjust country code as needed
     });
 });
 
-document.getElementById('inventoryForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+const express = require('express'); 
+const helmet = require('helmet');
 
-    const formData = new FormData(this);
-    axios.post('submit_form.php', formData)
-        .then(response => {
-            // Handle success, show a message, etc.
-            Swal.fire('Success!', 'Your inventory has been saved!', 'success');
-        })
-        .catch(error => {
-            // Handle error
-            Swal.fire('Oops!', 'Something went wrong!', 'error');
-        });
+const app = express();
+
+// Set up Helmet with a custom CSP configuration
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true, // Apply default directives
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://apis.google.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        // Add more directives as needed
+      },
+    },
+  })
+);
+
+// Serve your static files and handle routes
+app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+  res.sendFile('index.html', { root: __dirname });
+});
+
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
