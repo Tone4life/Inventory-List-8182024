@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
 const originField = document.getElementById('origin');
 const destinationField = document.getElementById('destination');
 
-const autocompleteOrigin = new google.maps.places.Autocomplete(originField, {
+const autocompleteOrigin = new google.maps.places.Autocomplete(originField,{
     types: ['geocode'],
     componentRestrictions: { country: "us" } // Adjust country code as needed
 });
@@ -18,7 +18,7 @@ const autocompleteOrigin = new google.maps.places.Autocomplete(originField, {
 const autocompleteDestination = new google.maps.places.Autocomplete(destinationField, {
     types: ['geocode'],
     componentRestrictions: { country: "us" } // Adjust country code as needed
-});                         
+});                     
 
  // Add validation to ensure only the main bedroom is required
 const mainBedroomField = document.querySelector("select[name='mainBedroom']");
@@ -32,6 +32,8 @@ form.addEventListener("submit", function(event) {
     if (mainBedroomField.value === "") {
         alert("Please select an item for the Main Bedroom.");
         event.preventDefault();
+    }
+});
 
 phoneField.addEventListener("input", function() {
     const phoneValue = phoneField.value;
@@ -58,12 +60,12 @@ emailField.addEventListener("input", function() {
 });
 
 nameField.addEventListener("focus", function() {
-showTooltip(nameField, "Please enter your full name.");
+    showTooltip(nameField, "Please enter your full name.");
 });
 
 nameField.addEventListener("blur", function() {
-hideTooltip(nameField);
-updateProgressBar();
+    hideTooltip(nameField);
+    updateProgressBar();
 });
 
  function validatePhone(phone) {
@@ -118,7 +120,6 @@ function updateProgressBar() {
 }
 
   
-});
 });
 
 function toggleDropdown(id) {
