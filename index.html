@@ -12,7 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ5V_RC2zfRrkP1WzivQT9i2ChdQNf1gA" async defer></script>
-
     <script src="script.js"></script>
     <script>
         // Initialize Select2 for all select elements
@@ -63,24 +62,82 @@
                 </div>
             </div>
     
-            <!-- Inventory Table (remains as it is) -->
+            <!-- Two-column layout for Inventory List -->
             <div class="inventory-section">
-                <div class="instruction">Click a room to add inventory</div>
                 <h2>Inventory List</h2>
-                <p>Select items for each room. <span class="tooltip" title="Click on a room to view and select items.">Need help?</span></p>
-                <table id="inventoryTable">
-                    <thead>
-                        <tr>
-                            <th onclick="toggleDropdown('mainBedroomDropdown')">Main Bedroom</th>
-                            <!-- Other columns remain here -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Inventory items will be dynamically added here -->
-                    </tbody>
-                </table>
-                <button class="cta-button" onclick="submitInventory()">Save Inventory</button>
+                <div class="inventory-row">
+                    <div class="inventory-group">
+                        <label>Main Bedroom:</label>
+                        <select name="mainBedroom">
+                            <option value="">Select Item</option>
+                            <option value="King Bed">King Bed</option>
+                            <option value="Queen Bed">Queen Bed</option>
+                            <!-- Add other options -->
+                        </select>
+                    </div>
+                    <div class="inventory-group">
+                        <label>Bedroom 2:</label>
+                        <select name="bedroom2">
+                            <option value="">Select Item</option>
+                            <option value="Queen Bed">Queen Bed</option>
+                            <!-- Add other options -->
+                        </select>
+                    </div>
+                </div>
+                <div class="inventory-row">
+                    <div class="inventory-group">
+                        <label>Living Room:</label>
+                        <select name="livingRoom">
+                            <option value="">Select Item</option>
+                            <option value="Sectional Sofa">Sectional Sofa</option>
+                            <!-- Add other options -->
+                        </select>
+                    </div>
+                    <div class="inventory-group">
+                        <label>Dining Room:</label>
+                        <select name="diningRoom">
+                            <option value="">Select Item</option>
+                            <option value="Dining Table">Dining Table</option>
+                            <!-- Add other options -->
+                        </select>
+                    </div>
+                </div>                                                                                                          
+                <div class="inventory-row">
+                    <div class="inventory-group">
+                        <label>Kitchen:</label>
+                        <select name="kitchen">
+                            <option value="">Select Item</option>
+                            <option value="Refrigerator">Refrigerator</option>
+                            <!-- Add other options -->
+                        </select>
+                    </div>
+                    <div class="inventory-group">
+                        <label>Basement:</label>
+                        <select name="basement">
+                            <option value="">Select Item</option>
+                            <option value="Washer">Washer</option>
+                            <!-- Add other options -->
+                        </select>
             </div>
+            <div class="inventory-row">
+                <div class="inventory-group">
+                    <label>Garage:</label>
+                    <select name="garage">
+                        <option value="">Select Item</option>
+                        <option value="Bicycle">Bicycle</option>
+                        <!-- Add other options -->
+                    </select>
+                </div>
+                <div class="inventory-group">
+                    <label>Backyard:</label>
+                    <select name="backyard">
+                        <option value="">Select Item</option>
+                        <option value="Patio Furniture">Patio Furniture</option>
+                        <!-- Add other options -->
+                    </select>
+                </div>
+
+            <button class="cta-button" type="submit">Save Inventory</button>
         </form>
     </div>
     
