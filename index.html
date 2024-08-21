@@ -30,26 +30,33 @@
 
     <form id="inventoryForm" action="submit_form.php" method="POST">
     <!-- Client Contact Area -->
-    <div class="section">
-        <h2>Client Contact Information</h2>
-        <label for="clientName">Name:</label><br>
-        <input type="text" id="clientName" name="clientName" required><br><br>
-        <label for="clientPhone">Phone:</label><br>
-        <input type="tel" id="clientPhone" name="clientPhone" required><br><br>
-        <label for="clientEmail">Email:</label><br>
-        <input type="email" id="clientEmail" name="clientEmail" required><br><br>
+    <div class="form-group">
+        <label for="clientName">Name:</label>
+        <input type="text" id="clientName" name="clientName" required>
+        
+        <label for="moveDate">Move Date:</label>
+        <input type="date" id="moveDate" name="moveDate" required>
     </div>
-
-    <!-- Moving Details Area -->
-    <div class="section">
-        <h2>Moving Details</h2>
-        <label for="moveDate">Move Date:</label><br>
-        <input type="date" id="moveDate" name="moveDate" required><br><br>
-        <label for="origin">Origin Address:</label><br>
-        <input type="text" id="origin" name="origin" required><br><br>
-        <label for="destination">Destination Address:</label><br>
-        <input type="text" id="destination" name="destination" required><br><br>
+    
+    <div class="form-group">
+        <label for="origin">Origin Address:</label>
+        <input type="text" id="origin" name="origin" required>
+        
+        <label for="destination">Destination Address:</label>
+        <input type="text" id="destination" name="destination" required>
     </div>
+    
+    <div class="form-group">
+        <label for="clientPhone">Phone:</label>
+        <input type="tel" id="clientPhone" name="clientPhone" required>
+        
+        <label for="clientEmail">Email:</label>
+        <input type="email" id="clientEmail" name="clientEmail" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="clientNotes">Notes:</label>
+        <textarea id="clientNotes" name="clientNotes"></textarea>
 
     <!-- Inventory Table -->
     <div class="inventory-section">
