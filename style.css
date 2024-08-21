@@ -2,8 +2,8 @@ body {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	margin: 0;
 	padding: 0;
-	background-color: #918585; /* Light gray background for the page */
-	color: #333; /* Dark gray text color */
+	background-color: #918585; 
+	color: #dbc4c4; 
 }
 
 .container {
@@ -11,14 +11,14 @@ body {
 	max-width: 800px;
 	margin: 50px auto;
 	padding: 20px;
-	background-color: #fff; /* White background for the form container */
-	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+	background-color: #d13d3d; 
+	box-shadow: 0px 0px 15px rgba(41, 38, 38, 0.1);
 	border-radius: 10px;
 }
 
 h1 {
 	text-align: center;
-	color: #d63434; /* Red for the main header */
+	color: #e2cfcf; 
 	font-size: 24px;
 }
 
@@ -26,7 +26,7 @@ label {
 	font-weight: bold;
 	margin-bottom: 10px;
 	display: inline-block;
-	color: #555; /* Medium gray for label text */
+	color: #1b1919; 
 }
 
 input[type="text"], 
@@ -37,17 +37,17 @@ select {
 	width: 100%;
 	padding: 10px;
 	margin-bottom: 20px;
-	border: 1px solid #ddd; /* Light gray border */
+	border: 1px solid #ddd; 
 	border-radius: 5px;
 	font-size: 16px;
-	color: #333; /* Dark gray text */
-	background-color: #f9f9f9; /* Very light gray background for inputs */
+	color: #0c0b0b; 
+	background-color: #f9f9f9; 
 }
 
 input[type="submit"], 
 .cta-button {
-	background-color: #d63434; /* Red for buttons */
-	color: #fff; /* White text on buttons */
+	background-color: #e4d3d3; 
+	color: #141010; 
 	padding: 10px 15px;
 	border: none;
 	border-radius: 5px;
@@ -61,13 +61,13 @@ input[type="submit"],
 
 input[type="submit"]:hover, 
 .cta-button:hover {
-	background-color: #b3002d; /* Darker red for hover state */
+	background-color: #96062a; 
 }
 
 .inventory-section h2, 
 .section h2 {
 	text-align: left;
-	color: #444; /* Dark gray for section headers */
+	color: #000000; 
 	margin-bottom: 20px;
 }
 
@@ -84,13 +84,13 @@ input[type="submit"]:hover,
 }
 
 .inventory-section th {
-	background-color: #d63434; /* Red for table headers */
-	color: #fff; /* White text for table headers */
+	background-color: #aa9b9b; 
+	color: #110f0f; 
 }
 
 .inventory-section td {
-	background-color: #f9f9f9; /* Very light gray for table cells */
-	border: 1px solid #ddd; /* Light gray borders for table cells */
+	background-color: #d63c3c; 
+	border: 1px solid #1b1818; 
 }
 
 .dropdown {
@@ -98,9 +98,9 @@ input[type="submit"]:hover,
 }
 
 .tooltip {
-	border-bottom: 1px dashed #555; /* Gray dashed underline for tooltips */
+	border-bottom: 1px dashed #271919; 
 	cursor: help;
-	color: #555; /* Medium gray for tooltip text */
+	color: #030303; 
 }
 
 @media screen and (max-width: 600px) {
@@ -117,19 +117,19 @@ input[type="submit"]:hover,
 
 .progress-bar {
 	width: 100%;
-	background-color: #ddd; /* Light gray for progress bar background */
+	background-color: #181616; /* Light gray for progress bar background */
 	margin-bottom: 20px;
 }
 
 .progress {
 	height: 20px;
-	background-color: #d63434; /* Red for the progress bar */
+	background-color: #000000; /* Red for the progress bar */
 	width: 0;
 	transition: width 0.3s;
 }
 
 .inline-error {
-	color: red;
+	color: rgb(238, 10, 10);
 	font-size: 12px;
 	margin-top: -10px;
 	margin-bottom: 10px;
