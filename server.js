@@ -19,7 +19,7 @@ app.get('/', csrfProtection, (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.post('/submit_form', csrfProtection, (req, res) => {
+app.post('/submit_form', rateLimiter.prevent, csrfProtection, (req, res) => {
     res.send('Form data received');
 });
 
