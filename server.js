@@ -1,12 +1,16 @@
-require('dotenv').config();
-const express = require('express');
-const path = require('path');
-const helmet = require('helmet');
-const csrf = require('csurf');
-const cookieParser = require('cookie-parser');
-const rateLimit = require('express-rate-limit');
-const compression = require('compression');
-const morgan = require('morgan');
+import https from 'https';
+import fs from 'fs';
+import dotenv from 'dotenv';
+import express from 'express';
+import path from 'path';
+import helmet from 'helmet';
+import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
+import compression from 'compression';
+import morgan from 'morgan';
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,9 +20,9 @@ app.use(cookieParser());
 app.use(compression());
 app.use(morgan('combined'));
 
-const csrfProtection = csrf({ cookie: true });cd 
+const csrfProtection = csrf({ cookie: true });
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(__dirname));
+app.use(express.static(path.resolve()));
 
 const rateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -31,14 +35,14 @@ app.use(rateLimiter);
 
 app.get('/', csrfProtection, (req, res) => {
     res.cookie('XSRF-TOKEN', req.csrfToken());
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(path.resolve(), 'index.html'));
 });
 
 app.post('/submit_form', csrfProtection, (req, res) => {
     res.send('Form data received');
 });
 
-app.use((err, req, res, next) => {
+app.use((err, _req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
         res.status(403);
         res.send('Invalid CSRF token');
@@ -47,7 +51,13 @@ app.use((err, req, res, next) => {
     }
 });
 
-// Start HTTP server
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// HTTPS server options
+const options = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+};
+
+// Start HTTPS server
+https.createServer(options, app).listen(port, () => {
+    console.log(`HTTPS Server is running on port ${port}`);
 });

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A web application for managing moving inventory lists",
   "main": "server.js",
+  "type": "module", 
   "dependencies": {
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
