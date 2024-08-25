@@ -53,8 +53,8 @@ app.use((err, _req, res, next) => {
 
 // HTTPS server options
 const options = {
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
+    key: fs.readFileSync('new_server.key'),
+    cert: fs.readFileSync('new_server.cert')
 };
 
 // Start HTTPS server
