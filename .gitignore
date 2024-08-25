@@ -1,5 +1,5 @@
 node_modules/
 .env
 new_server.cert
-new_server.key
 new_server.csr
+new_server.key
