@@ -51,10 +51,14 @@ app.use((err, _req, res, next) => {
     }
 });
 
+// Load SSL paths from environment variables
+const certPath = process.env.SSL_CERT_PATH;
+const keyPath = process.env.SSL_KEY_PATH;
+
 // HTTPS server options
 const options = {
-    key: fs.readFileSync('new_server.key'),
-    cert: fs.readFileSync('new_server.cert')
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath)
 };
 
 // Start HTTPS server
