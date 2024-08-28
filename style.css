@@ -47,33 +47,37 @@ label {
 input[type="text"], 
 input[type="email"], 
 input[type="tel"], 
-input[type="date"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+input[type="date"] 
+    textarea {
+        width: 100%; /* Adjusts to the container width */
+        max-width: 400px; /* Limits the maximum width */
+        padding: 10px; /* Adds padding inside the input */
+        margin: 10px 0; /* Adds space above and below the input */
+        border: 1px solid #ccc; /* Light gray border */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 16px; /* Adjusts the text size */
+        box-sizing: border-box; /* Ensures padding doesn’t affect width */
+    }
+
+textarea {
+    height: 150px;
+    resize: vertical;
 }
 
-input[type="submit"], 
-.cta-button {
-    background-color: #d63434;
-    color: #fff;
-    padding: 10px 15px;
+input[type="submit"],
+button {
+    padding: 10px 20px;
+    background-color: #e03d28a4;
+    color: white;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    width: 100%;
-    max-width: 200px;
-    margin: 20px auto;
-    display: block;
 }
-
-input[type="submit"]:hover, 
-.cta-button:hover {
-    background-color: #b3002d;
+/* Change background on hover */
+input[type="submit"]:hover,
+button:hover {
+    background-color: #0056b3;
 }
 
 .inventory-section h2 {
