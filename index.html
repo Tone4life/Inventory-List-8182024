@@ -1,200 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exceptional Movers Inventory List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY" async defer></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
-    <style>
-        .short-input {
-            width: 60%;
-        }
-        .short-date-input {
-            width: 40%;
-        }
-    </style>
-    <script>
-        // Initialize Select2 for all select elements
-        document.addEventListener("DOMContentLoaded", function() {
-            $('select').select2();
-        });
-
-        // Form submission with SweetAlert2 feedback
-        document.getElementById('inventoryForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Success!',
-                text: 'Your inventory has been saved.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        });
-
-        // Bootstrap form validation
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
 </head>
+
 <body>
     <div class="container">
         <h1 class="text-center text-danger">Household Goods Moving Inventory List</h1>
-        
-        <form id="inventoryForm" action="submit_form.php" method="POST" class="needs-validation" novalidate>
-            <!-- Form groups for two-column layout -->
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="clientName">Name:</label>
-                    <input type="text" class="form-control short-input" id="clientName" name="clientName" required>
-                    <div class="invalid-feedback">Please enter your name.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="origin">Origin Address:</label>
-                    <input type="text" class="form-control short-input" id="origin" name="origin" required>
-                    <div class="invalid-feedback">Please enter the origin address.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="destination">Destination Address:</label>
-                    <input type="text" class="form-control short-input" id="destination" name="destination" required>
-                    <div class="invalid-feedback">Please enter the destination address.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="clientPhone">Phone:</label>
-                    <input type="tel" class="form-control short-input" id="clientPhone" name="clientPhone" required>
-                    <div class="invalid-feedback">Please enter your phone number.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="clientEmail">Email:</label>
-                    <input type="email" class="form-control short-input" id="clientEmail" name="clientEmail" required>
-                    <div class="invalid-feedback">Please enter your email address.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="moveDate">Move Date:</label>
-                    <input type="date" class="form-control short-date-input" id="moveDate" name="moveDate" required>
-                    <div class="invalid-feedback">Please enter the move date.</div>
+    
+        <div class="main-content">
+            <!-- Left Side: Personal Information -->
+            <div class="left-side">
+                <div class="section personal-info">
+                    <h2>Personal Information</h2>
+                    <div class="form-group">
+                        <label for="clientName">Name:</label>
+                        <input type="text" id="clientName" name="clientName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="origin">Origin Address:</label>
+                        <input type="text" id="origin" name="origin" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination Address:</label>
+                        <input type="text" id="destination" name="destination" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientEmail">Email:</label>
+                        <input type="email" id="clientEmail" name="clientEmail" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="moveDate">Move Date:</label>
+                        <input type="date" id="moveDate" name="moveDate" class="form-control short-date-input">
+                    </div>
                 </div>
             </div>
-
-            <!-- Two-column layout for Inventory List -->
-            <div class="inventory-section">
-                <h2>Inventory List</h2>
-                <div class="row">
+    
+            <!-- Right Side: Inventory List -->
+            <div class="right-side">
+                <div class="section inventory-list">
+                    <h2>Inventory List</h2>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label>Main Bedroom:</label>
+                            <select class="form-control" name="mainBedroom">
+                                <option value="">Select Item</option>
+                                <option value="King Bed">King Bed</option>
+                                <option value="Queen Bed">Queen Bed</option>
+                                <option value="Full Bed">Full Bed</option>
+                                <option value="Twin Bed">Twin Bed</option>
+                                <!-- Add other options -->
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label>Bedroom 2:</label>
+                            <select class="form-control" name="bedroom2">
+                                <option value="">Select Item</option>
+                                <option value="Queen Bed">Queen Bed</option>
+                                <option value="Full Bed">Full Bed</option>
+                                <option value="Twin Bed">Twin Bed</option>
+                                <!-- Add other options -->
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label>Bedroom 3:</label>
+                            <select class="form-control" name="bedroom3">
+                                <option value="">Select Item</option>
+                                <option value="Queen Bed">Queen Bed</option>
+                                <option value="Full Bed">Full Bed</option>
+                                <option value="Twin Bed">Twin Bed</option>
+                                <!-- Add other options -->
+                            </select>   
+                        </div>  
+                    </div>  
                     <div class="col-md-3 mb-3">
-                        <label>Main Bedroom:</label>
-                        <select class="form-control" name="mainBedroom">
-                            <option value="">Select Item</option>
-                            <option value="King Bed">King Bed</option>
-                            <option value="Queen Bed">Queen Bed</option>
-                            <option value="Nightstand">Nightstand</option>
-                            <option value="Dresser">Dresser</option>
-                            <option value="Mirror">Mirror</option>
-                            <option value="TV">TV</option>
-                            <option value="Lamp">Lamp</option>
-                            <option value="Chair">Chair</option>
-                            <option value="Desk">Desk</option>
-                            <option value="Bookshelf">Bookshelf</option>
-                            <option value="Clothing">Clothing</option>
-                            <!-- Add other options -->
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Bedroom 2:</label>
-                        <select class="form-control" name="bedroom2">
-                            <option value="">Select Item</option>
-                            <option value="Queen Bed">Queen Bed</option>
-                            <!-- Add other options -->  
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label>Living Room:</label>
+                        <label>livingRoom</label>
                         <select class="form-control" name="livingRoom">
                             <option value="">Select Item</option>
-                            <option value="Sectional Sofa">Sectional Sofa</option>
+                            <option value="Sofa">Sofa</option>
                             <option value="Love Seat">Love Seat</option>
+                            <option value="Recliner">Recliner</option>
                             <option value="Coffee Table">Coffee Table</option>
-                            <option value="End Table">End Table</option>
-                            <option value="TV">TV</option>
-                            <option value="Lamp">Lamp</option>
-                            <option value="Chair">Chair</option>
-                            <option value="Bookshelf">Bookshelf</option>
-                            <option value="Rug">Rug</option>
-                            <option value="Artwork">Artwork</option>
-                            <option value="Mirror">Mirror</option>
-                            <option value="Clock">Clock</option>
-                            <option value="Decor">Decor</option>
-                            <!-- Add other options -->
-                        </select>
-                    </div>
+
+                        </select> 
+                    </div>  
                     <div class="col-md-3 mb-3">
                         <label>Dining Room:</label>
                         <select class="form-control" name="diningRoom">
                             <option value="">Select Item</option>
                             <option value="Dining Table">Dining Table</option>
-                            <!-- Add other options -->
+                            <option value="Dining Chair">Dining Chair</option>
+                            <option value="China Cabinet">China Cabinet</option>
+                            <option value="Buffet">Buffet</option>
                         </select>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-3 mb-3">
                         <label>Kitchen:</label>
                         <select class="form-control" name="kitchen">
                             <option value="">Select Item</option>
                             <option value="Refrigerator">Refrigerator</option>
-                            <!-- Add other options -->
+                            <option value="Stove">Stove</option>
+                            <option value="Microwave">Microwave</option>
+                            <option value="Dishwasher">Dishwasher</option>
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label>Basement:</label>
-                        <select class="form-control" name="basement">
+                        <label>Office:</label>
+                        <select class="form-control" name="office">
                             <option value="">Select Item</option>
-                            <option value="Washer">Washer</option>
-                            <!-- Add other options -->
+                            <option value="Desk">Desk</option>
+                            <option value="Chair">Chair</option>
+                            <option value="Bookcase">Bookcase</option>
+                            <option value="File Cabinet">File Cabinet</option>
                         </select>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-3 mb-3">
                         <label>Garage:</label>
                         <select class="form-control" name="garage">
                             <option value="">Select Item</option>
-                            <option value="Bicycle">Bicycle</option>
-                            <!-- Add other options -->
+                            <option value="Lawn Mower">Lawn Mower</option>
+                            <option value="Snow Blower">Snow Blower</option>
+                            <option value="Bike">Bike</option>
+                            <option value="Tool Box">Tool Box</option>
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label>Backyard:</label>
-                        <select class="form-control" name="backyard">
+                        <label>Other:</label>
+                        <select class="form-control" name="other">
                             <option value="">Select Item</option>
-                            <option value="Patio Furniture">Patio Furniture</option>
-                            <!-- Add other options -->
+                            <option value="Piano">Piano</option>
+                            <option value="Pool Table">Pool Table</option>
+                            <option value="Safe">Safe</option>
+                            <option value="Fish Tank">Fish Tank</option>
                         </select>
-                    </div>
+                            <!-- Add other options -->
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Save Inventory</button>
-        </form>
-    </div
+        </div>
+    </div>
+            
+
+    <script>
+        function calculateCost() {
+            const cwt = parseFloat(document.getElementById('cwt').value);
+            const ratePerCwt = parseFloat(document.getElementById('ratePerCwt').value);
+            const hours = parseFloat(document.getElementById('hours').value);
+            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
+
+            if (isNaN(cwt) || isNaN(ratePerCwt) || isNaN(hours) || isNaN(hourlyRate)) {
+                document.getElementById('result').textContent = 'Please enter valid numbers';
+                return;
+            }
+
+            const totalCost = (cwt * ratePerCwt) + (hours * hourlyRate);
+            document.getElementById('result').textContent = `Total Cost: $${totalCost.toFixed(2)}`;
+        }
+    </script>
+</body>
+
+</html>
