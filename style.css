@@ -9,22 +9,26 @@
 .left-side,
 .right-side {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Inventory List adjustments */
 .inventory-list {
     border: 2px solid #f9a825;
-    max-height: 600px; /* Set a max height */
-    overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+    max-height: 600px; /* Adjust the max height as needed */
+    overflow-y: auto; /* Scroll if content exceeds max height */
     padding-right: 15px; /* Add padding to avoid scrollbar overlapping content */
 }
 
+/* Section styling */
 .section {
     background-color: #fff;
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    flex-grow: 1; /* Make sure sections grow to fill space */
 }
 
 /* Style for form elements */
@@ -45,15 +49,24 @@
     box-sizing: border-box;
 }
 
+error {
+    border-color: #d63434;
+  }
+  .error-message {
+    color: #d63434;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
     .main-content {
         flex-direction: column;
     }
 
-
     .left-side,
     .right-side {
         margin-bottom: 20px;
     }
 }
+
