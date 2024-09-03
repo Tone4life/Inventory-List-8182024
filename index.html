@@ -7,48 +7,62 @@
     <title>Exceptional Movers Inventory List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+  
+      <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="text-center text-danger">Household Goods Moving Inventory List</h1>
+    <div class="text-center mb-4">
+        <h1 class="text-danger">Moving Inventory List</h1>
+    </div>
+    >
     
-        <div class="main-content">
+        <div class="row">
             <!-- Left Side: Personal Information -->
-            <div class="left-side">
-                <div class="section personal-info">
-                    <h2>Personal Information</h2>
-                    <div class="form-group">
-                        <label for="clientName">Name:</label>
-                        <input type="text" id="clientName" name="clientName" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="origin">Origin Address:</label>
-                        <input type="text" id="origin" name="origin" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="destination">Destination Address:</label>
-                        <input type="text" id="destination" name="destination" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientEmail">Email:</label>
-                        <input type="email" id="clientEmail" name="clientEmail" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="moveDate">Move Date:</label>
-                        <input type="date" id="moveDate" name="moveDate" class="form-control short-date-input">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Step 1: Personal Information</h2>
+                        <div class="mb-3">
+                            <label for="clientName" class="form-label">Name:</label>
+                            <input type="text" id="clientName" name="clientName" class="form-control">
+                            <span id="clientName-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="origin" class="form-label">Origin Address <i class="fas fa-info-circle" title="Enter the address where the move will start."></i></label>
+                            <input type="text" id="origin" name="origin" class="form-control">
+                            <span id="origin-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Destination Address:</label>
+                            <input type="text" id="destination" name="destination" class="form-control">
+                            <span id="destination-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="clientEmail" class="form-label">Email:</label>
+                            <input type="email" id="clientEmail" name="clientEmail" class="form-control">
+                            <span id="email-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="moveDate" class="form-label">Move Date:</label>
+                            <input type="date" id="moveDate" name="moveDate" class="form-control">
+                            <span id="moveDate-error" class="error-message"></span>
+                        </div>
+                        <button class="btn btn-primary">Next</button>
                     </div>
                 </div>
             </div>
-    
+
             <!-- Right Side: Inventory List -->
-            <div class="right-side">
-                <div class="section inventory-list">
-                    <h2>Inventory List</h2>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label>Main Bedroom:</label>
-                            <select class="form-control" name="mainBedroom">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Step 2: Inventory Details</h2>
+                        <div class="mb-3">
+                            <label class="form-label">Main Bedroom:</label>
+                            <select class="form-select" name="mainBedroom">
                                 <option value="">Select Item</option>
                                 <option value="King Bed">King Bed</option>
                                 <option value="Queen Bed">Queen Bed</option>
@@ -56,111 +70,35 @@
                                 <option value="Twin Bed">Twin Bed</option>
                                 <!-- Add other options -->
                             </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label>Bedroom 2:</label>
-                            <select class="form-control" name="bedroom2">
-                                <option value="">Select Item</option>
-                                <option value="Queen Bed">Queen Bed</option>
-                                <option value="Full Bed">Full Bed</option>
-                                <option value="Twin Bed">Twin Bed</option>
-                                <!-- Add other options -->
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label>Bedroom 3:</label>
-                            <select class="form-control" name="bedroom3">
-                                <option value="">Select Item</option>
-                                <option value="Queen Bed">Queen Bed</option>
-                                <option value="Full Bed">Full Bed</option>
-                                <option value="Twin Bed">Twin Bed</option>
-                                <!-- Add other options -->
-                            </select>   
-                        </div>  
-                    </div>  
-                    <div class="col-md-3 mb-3">
-                        <label>livingRoom</label>
-                        <select class="form-control" name="livingRoom">
-                            <option value="">Select Item</option>
-                            <option value="Sofa">Sofa</option>
-                            <option value="Love Seat">Love Seat</option>
-                            <option value="Recliner">Recliner</option>
-                            <option value="Coffee Table">Coffee Table</option>
+                            <span id="mainBedroom-error" class="error-message"></span>
 
-                        </select> 
-                    </div>  
-                    <div class="col-md-3 mb-3">
-                        <label>Dining Room:</label>
-                        <select class="form-control" name="diningRoom">
-                            <option value="">Select Item</option>
-                            <option value="Dining Table">Dining Table</option>
-                            <option value="Dining Chair">Dining Chair</option>
-                            <option value="China Cabinet">China Cabinet</option>
-                            <option value="Buffet">Buffet</option>
-                        </select>
+                           
+                        <!-- Continue adding inventory fields as needed -->
+                        <button class="btn btn-secondary">Previous</button>
+                        <button class="btn btn-primary">Next</button>
+                        
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Kitchen:</label>
-                        <select class="form-control" name="kitchen">
-                            <option value="">Select Item</option>
-                            <option value="Refrigerator">Refrigerator</option>
-                            <option value="Stove">Stove</option>
-                            <option value="Microwave">Microwave</option>
-                            <option value="Dishwasher">Dishwasher</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Office:</label>
-                        <select class="form-control" name="office">
-                            <option value="">Select Item</option>
-                            <option value="Desk">Desk</option>
-                            <option value="Chair">Chair</option>
-                            <option value="Bookcase">Bookcase</option>
-                            <option value="File Cabinet">File Cabinet</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Garage:</label>
-                        <select class="form-control" name="garage">
-                            <option value="">Select Item</option>
-                            <option value="Lawn Mower">Lawn Mower</option>
-                            <option value="Snow Blower">Snow Blower</option>
-                            <option value="Bike">Bike</option>
-                            <option value="Tool Box">Tool Box</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Other:</label>
-                        <select class="form-control" name="other">
-                            <option value="">Select Item</option>
-                            <option value="Piano">Piano</option>
-                            <option value="Pool Table">Pool Table</option>
-                            <option value="Safe">Safe</option>
-                            <option value="Fish Tank">Fish Tank</option>
-                        </select>
-                            <!-- Add other options -->
                 </div>
             </div>
         </div>
+
+        <!-- Step 3: Review & Submit -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Step 3: Review & Submit</h2>
+                <!-- Review details and submit -->
+                <button class="btn btn-secondary">Previous</button>
+                <button id="submit-button" class="btn btn-success">Submit</button>
+            </div>
+        </div>
     </div>
-            
 
-    <script>
-        function calculateCost() {
-            const cwt = parseFloat(document.getElementById('cwt').value);
-            const ratePerCwt = parseFloat(document.getElementById('ratePerCwt').value);
-            const hours = parseFloat(document.getElementById('hours').value);
-            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
+  <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button> 
 
-            if (isNaN(cwt) || isNaN(ratePerCwt) || isNaN(hours) || isNaN(hourlyRate)) {
-                document.getElementById('result').textContent = 'Please enter valid numbers';
-                return;
-            }
 
-            const totalCost = (cwt * ratePerCwt) + (hours * hourlyRate);
-            document.getElementById('result').textContent = `Total Cost: $${totalCost.toFixed(2)}`;
-        }
-    </script>
+    <script src="script.js"></script>
+    <!-- Bootstrap 5 JS and Popper.js CDN (optional, for interactive components like modals or dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
-
 </html>
