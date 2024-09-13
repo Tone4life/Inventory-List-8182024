@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const originField = document.getElementById('origin');
     const destinationField = document.getElementById('destination');
 
-    const autocompleteOrigin = new google.maps.places.Autocomplete(originField, {
+    new google.maps.places.Autocomplete(originField, {
         types: ['geocode'],
         componentRestrictions: { country: "us" } // Adjust country code as needed
     });
 
-    const autocompleteDestination = new google.maps.places.Autocomplete(destinationField, { 
+    new google.maps.places.Autocomplete(destinationField, { 
         types: ['geocode'],
         componentRestrictions: { country: "us" } // Adjust country code as needed
     });

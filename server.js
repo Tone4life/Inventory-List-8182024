@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import morgan from 'morgan';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(compression());
 app.use(morgan('combined'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const csrfProtection = csrf({ cookie: true });
 app.use(express.urlencoded({ extended: false }));
@@ -33,7 +36,18 @@ const rateLimiter = rateLimit({
 // Apply rate limiter to all requests
 app.use(rateLimiter);
 
-app.get('/', csrfProtection, (req, res) => {
+// Custom regular expression for route parameters
+const customParamRegex = /^[a-zA-Z0-9_]+$/;
+
+app.param('customParam', (res, next, value) => {
+    if (customParamRegex.test(value)) {
+        next();
+    } else {
+        res.status(400).send('Invalid parameter');
+    }
+});
+
+app.get('/:customParam', csrfProtection, (req, res) => {
     res.cookie('XSRF-TOKEN', req.csrfToken());
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;
     res.send(`
