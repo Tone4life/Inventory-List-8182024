@@ -39,6 +39,10 @@
     color: #555;
 }
 
+#roomItems {
+    padding-top: 15px;
+}
+
 .form-group input, .form-group select, .form-group textarea {
     width: 100%;
     padding: 12px;

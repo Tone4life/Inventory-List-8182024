@@ -60,24 +60,31 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h2 class="card-title">Step 2: Inventory Details</h2>
+                        
+                        <!-- Room Selector -->
                         <div class="mb-3">
-                            <label class="form-label">Main Bedroom:</label>
-                            <select class="form-select" name="mainBedroom">
-                                <option value="">Select Item</option>
-                                <option value="King Bed">King Bed</option>
-                                <option value="Queen Bed">Queen Bed</option>
-                                <option value="Full Bed">Full Bed</option>
-                                <option value="Twin Bed">Twin Bed</option>
-                                <!-- Add other options -->
+                            <label for="roomSelect" class="form-label">Select Room:</label>
+                            <select id="roomSelect" class="form-select" onchange="showRoomItems()">
+                                <option value="">Choose a Room</option>
+                                <option value="mainBedroom">Main Bedroom</option>
+                                <option value="livingRoom">Living Room</option>
+                                <option value="kitchen">Kitchen</option>
+                                <option value="garage">Garage</option>
                             </select>
-                            <span id="mainBedroom-error" class="error-message"></span>
-
-                           
-                        <!-- Continue adding inventory fields as needed -->
+                        </div>
+            
+                        <!-- Inventory for Selected Room -->
+                        <div id="roomItems" class="mb-3">
+                            <!-- Dynamic content will appear here -->
+                        </div>
+            
+                        <!-- Navigation Buttons -->
                         <button class="btn btn-secondary">Previous</button>
                         <button class="btn btn-primary">Next</button>
-                        
                     </div>
+                </div>
+            </div>
+            
                 </div>
             </div>
         </div>

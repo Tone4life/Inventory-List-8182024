@@ -23,6 +23,56 @@ document.addEventListener("DOMContentLoaded", function() {
         componentRestrictions: { country: "us" } // Adjust country code as needed
     });
 
+    function showRoomItems() {
+        const roomSelect = document.getElementById('roomSelect');
+        const roomItems = document.getElementById('roomItems');
+        
+        const selectedRoom = roomSelect.value;
+        roomItems.innerHTML = ''; // Clear previous items
+    
+        // Define items per room
+        const roomInventory = {
+            mainBedroom: [
+                { name: 'King Bed' },
+                { name: 'Queen Bed' },
+                { name: 'Wardrobe' }
+            ],
+            livingRoom: [
+                { name: 'Sofa' },
+                { name: 'Coffee Table' },
+                { name: 'TV Stand' }
+            ],
+            kitchen: [
+                { name: 'Refrigerator' },
+                { name: 'Stove' },
+                { name: 'Microwave' }
+            ],
+            garage: [
+                { name: 'Lawn Mower' },
+                { name: 'Tool Box' },
+                { name: 'Bike' }
+            ]
+        };
+    
+        // Generate the item list for the selected room
+        if (roomInventory[selectedRoom]) {
+            roomInventory[selectedRoom].forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'row mb-3';
+                row.innerHTML = `
+                    <div class="col-md-8">
+                        <label class="form-label">${item.name}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" placeholder="Quantity">
+                    </div>
+                `;
+                roomItems.appendChild(row);
+            });
+        }
+    }
+    
+
     document.getElementById('email').addEventListener('input', function () {
         const emailField = this;
         const emailValue = emailField.value;
