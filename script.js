@@ -41,7 +41,75 @@ console.log(`Saved ${quantity} for ${room}, item ${index}`);  // You can use thi
 }
 
 // Trigger the function when a room is selected
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("JavaScript is loaded!"); // This should appear in the console
 document.getElementById('roomSelect').addEventListener('change', showRoomItems);
+    
+    function showRoomItems() {
+        console.log("Room selected!"); // This should appear in the console when a room is selected
+
+        const roomSelect = document.getElementById('roomSelect');
+        const roomItems = document.getElementById('roomItems');
+        const selectedRoom = roomSelect.value;
+
+        roomItems.innerHTML = ''; // Clear previous items
+
+        // Define items per room
+        const roomInventory = {
+            mainBedroom: [
+                { name: 'King Bed' },
+                { name: 'Queen Bed' },
+                { name: 'Armoire' },
+                { name: 'Dresser' }
+            ],
+            secondBedroom: [
+                { name: 'Twin Bed' },
+                { name: 'Bunk Bed' },
+                { name: 'Nightstand' }
+            ],
+            kitchen: [
+                { name: 'Refrigerator' },
+                { name: 'Microwave' },
+                { name: 'Dishwasher' },
+                { name: 'Coffee Maker' }
+            ],
+            livingRoom: [
+                { name: 'Sofa' },
+                { name: 'Coffee Table' },
+                { name: 'TV Stand' }
+            ],
+            // Add other rooms as necessary
+        };
+
+        if (roomInventory[selectedRoom]) {
+            roomInventory[selectedRoom].forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'row mb-3';
+                row.innerHTML = `
+                    <div class="col-md-8">
+                        <label class="form-label">${item.name}</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" placeholder="Quantity" id="item-${selectedRoom}-${index}">
+                    </div>
+                `;
+                roomItems.appendChild(row);
+
+                // Dynamically attach the event listener
+                const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
+                inputElement.addEventListener('input', function () {
+                    saveItem(selectedRoom, index, inputElement.value);
+                });
+            });
+        } else {
+            roomItems.innerHTML = '<p>No items available for this room.</p>';
+        }
+    }
+
+    function saveItem(room, index, quantity) {
+        console.log(`Saved ${quantity} for ${room}, item ${index}`);  // Log to check if data is saved
+    }
+});
     
     document.getElementById('clientEmail').addEventListener('input', function () {
         const emailField = this;
