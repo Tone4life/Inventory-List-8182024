@@ -23,70 +23,75 @@ document.addEventListener("DOMContentLoaded", function() {
         componentRestrictions: { country: "us" } // Adjust country code as needed
     });
 
+
     let inventoryData = {}; // Store selected items for each room
 
-    function showRoomItems() {
-        const roomSelect = document.getElementById('roomSelect');
-        const roomItems = document.getElementById('roomItems');
-        const selectedRoom = roomSelect.value;
-    
-        roomItems.innerHTML = ''; // Clear previous items
-    
-        // Define items per room
-        const roomInventory = {
-            mainBedroom: [
-                { name: 'King Bed' },
-                { name: 'Queen Bed' },
-                { name: 'Wardrobe' }
-            ],
-            livingRoom: [
-                { name: 'Sofa' },
-                { name: 'Coffee Table' },
-                { name: 'TV Stand' }
-            ],
-            kitchen: [
-                { name: 'Refrigerator' },
-                { name: 'Stove' },
-                { name: 'Microwave' }
-            ],
-            garage: [
-                { name: 'Lawn Mower' },
-                { name: 'Tool Box' },
-                { name: 'Bike' }
-            ]
-        };
-    
-        // Create a form for items in the selected room
-        if (roomInventory[selectedRoom]) {
-            roomInventory[selectedRoom].forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = 'row mb-3';
-                const itemQuantity = inventoryData[selectedRoom] && inventoryData[selectedRoom][index] ? inventoryData[selectedRoom][index].quantity : '';
-    
-                row.innerHTML = `
-                    <div class="col-md-8">
-                        <label class="form-label">${item.name}</label>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="number" class="form-control" placeholder="Quantity" value="${itemQuantity}" onchange="saveItem('${selectedRoom}', ${index}, this.value)">
-                    </div>
-                `;
-                roomItems.appendChild(row);
-            });
-        }
-    }
-    
-    function saveItem(room, index, quantity) {
-        if (!inventoryData[room]) {
-            inventoryData[room] = [];
-        }
-        inventoryData[room][index] = { quantity };
-    }
-    
-    // You can log the inventoryData to verify that the input is being stored properly
-    
-    
+function showRoomItems() {
+    const roomSelect = document.getElementById('roomSelect');
+    const roomItems = document.getElementById('roomItems');
+    const selectedRoom = roomSelect.value;
 
+    roomItems.innerHTML = ''; // Clear previous items
+
+    // Define items per room
+    const roomInventory = {
+        mainBedroom: [
+            { name: 'King Bed' },
+            { name: 'Queen Bed' },
+            { name: 'Wardrobe' }
+        ],
+        livingRoom: [
+            { name: 'Sofa' },
+            { name: 'Coffee Table' },
+            { name: 'TV Stand' }
+        ],
+        kitchen: [
+            { name: 'Refrigerator' },
+            { name: 'Stove' },
+            { name: 'Microwave' }
+        ],
+        garage: [
+            { name: 'Lawn Mower' },
+            { name: 'Tool Box' },
+            { name: 'Bike' }
+        ]
+    };
+
+    // Create a form for items in the selected room
+    if (roomInventory[selectedRoom]) {
+        roomInventory[selectedRoom].forEach((item, index) => {
+            const row = document.createElement('div');
+            row.className = 'row mb-3';
+            const itemQuantity = inventoryData[selectedRoom] && inventoryData[selectedRoom][index] ? inventoryData[selectedRoom][index].quantity : '';
+
+            row.innerHTML = `
+                <div class="col-md-8">
+                    <label class="form-label">${item.name}</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" placeholder="Quantity" value="${itemQuantity}" onchange="saveItem('${selectedRoom}', ${index}, this.value)">
+                </div>
+            `;
+            roomItems.appendChild(row);
+        });
+    }
+}
+
+function saveItem(room, index, quantity) {
+    if (!inventoryData[room]) {
+        inventoryData[room] = [];
+    }
+    inventoryData[room][index] = { quantity };
+}
+
+// You can log the inventoryData to verify that the input is being stored properly
+     console.log(inventoryData);
+
+    // Show items when a room is selected
+// Add event listener for room selection change
+    document.getElementById('roomSelect').addEventListener('change', showRoomItems);
+    
+    // Show items for the default room
     document.getElementById('email').addEventListener('input', function () {
         const emailField = this;
         const emailValue = emailField.value;
