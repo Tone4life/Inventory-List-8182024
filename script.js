@@ -24,75 +24,26 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    let inventoryData = {}; // Store selected items for each room
-
-function showRoomItems() {
-    const roomSelect = document.getElementById('roomSelect');
-    const roomItems = document.getElementById('roomItems');
-    const selectedRoom = roomSelect.value;
-
-    roomItems.innerHTML = ''; // Clear previous items
-
-    // Define items per room
-    const roomInventory = {
-        mainBedroom: [
-            { name: 'King Bed' },
-            { name: 'Queen Bed' },
-            { name: 'Wardrobe' }
-        ],
-        livingRoom: [
-            { name: 'Sofa' },
-            { name: 'Coffee Table' },
-            { name: 'TV Stand' }
-        ],
-        kitchen: [
-            { name: 'Refrigerator' },
-            { name: 'Stove' },
-            { name: 'Microwave' }
-        ],
-        garage: [
-            { name: 'Lawn Mower' },
-            { name: 'Tool Box' },
-            { name: 'Bike' }
-        ]
-    };
-
-    // Create a form for items in the selected room
-    if (roomInventory[selectedRoom]) {
-        roomInventory[selectedRoom].forEach((item, index) => {
-            const row = document.createElement('div');
-            row.className = 'row mb-3';
-            const itemQuantity = inventoryData[selectedRoom] && inventoryData[selectedRoom][index] ? inventoryData[selectedRoom][index].quantity : '';
-
-            row.innerHTML = `
-                <div class="col-md-8">
-                    <label class="form-label">${item.name}</label>
-                </div>
-                <div class="col-md-4">
-                    <input type="number" class="form-control" placeholder="Quantity" value="${itemQuantity}" onchange="saveItem('${selectedRoom}', ${index}, this.value)">
-                </div>
-            `;
-            roomItems.appendChild(row);
-        });
-    }
-}
+    // Dynamically attach the event listener for quantity change
+    const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
+    inputElement.addEventListener('input', function () {
+        saveItem(selectedRoom, index, inputElement.value);
+    });
+});
 
 function saveItem(room, index, quantity) {
-    if (!inventoryData[room]) {
-        inventoryData[room] = [];
-    }
-    inventoryData[room][index] = { quantity };
+if (!inventoryData[room]) {
+inventoryData[room] = [];
+}
+inventoryData[room][index] = { quantity };
+
+console.log(`Saved ${quantity} for ${room}, item ${index}`);  // You can use this to verify that data is being saved
 }
 
-// You can log the inventoryData to verify that the input is being stored properly
-     console.log(inventoryData);
-
-    // Show items when a room is selected
-// Add event listener for room selection change
-    document.getElementById('roomSelect').addEventListener('change', showRoomItems);
+// Trigger the function when a room is selected
+document.getElementById('roomSelect').addEventListener('change', showRoomItems);
     
-    // Show items for the default room
-    document.getElementById('email').addEventListener('input', function () {
+    document.getElementById('clientEmail').addEventListener('input', function () {
         const emailField = this;
         const emailValue = emailField.value;
         const emailError = document.getElementById('email-error');
@@ -104,8 +55,7 @@ function saveItem(room, index, quantity) {
           emailError.textContent = '';
           emailField.classList.remove('error');
         }
-      });
-});
+    });
 
   // Name validation
   document.getElementById('clientName').addEventListener('input', function () {
@@ -303,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-const express = require('express'); 
 const helmet = require('helmet');
 
 // Assuming this is the first declaration of `app`
@@ -325,7 +274,7 @@ app.use(helmet({
     },
 }));
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.send('Hello World!');
 });
 
