@@ -65,6 +65,7 @@
                             <select id="roomSelect" class="form-select">
                                 <option value="">Choose a Room</option>
                                 <option value="mainBedroom">Main Bedroom</option>
+                                <option value="firstBedroom">First Bedroom</option>
                                 <option value="secondBedroom">Second Bedroom</option>
                                 <option value="diningRoom">Dining Room</option>
                                 <option value="livingRoom">Living Room</option>
@@ -118,6 +119,148 @@
         });
     </script>
     <script src="script.js"></script>
+    <script>
+        // Define furniture items for each room
+        const roomInventory = {
+            mainBedroom: [],
+            secondBedroom: [],
+            kitchen: [],
+            livingRoom: [],
+            // Add other rooms as necessary
+        };
+
+        // Function to add a furniture item to a room
+        function addItem(room, item) {
+            roomInventory[room].push(item);
+        }   
+    // Add furniture items to the inventory for each room   
+    addItem('mainBedroom', { name: 'Queen Bed', quantity: 1 }); 
+    addItem('mainBedroom', { name: 'King Size Bed', quantity: 1 });
+    addItem('mainBedroom', { name: 'Single Queen Size Bed', quantity: 1 });
+    addItem('mainBedroom', { name: 'Single King Size Bed', quantity: 1 });
+    // Add other items as necessary
+
+        // Function to remove a furniture item from a room
+        function removeItem(room, index) {
+            roomInventory[room].splice(index, 1);
+        }
+
+        // Function to edit a furniture item in a room
+        function editItem(room, index, updatedItem) {
+            roomInventory[room][index] = updatedItem;
+        }
+        // Function to view all items in a room
+        function viewItems(room) {
+            return roomInventory[room];
+        }
+        // Function to add a new furniture item to a room
+        function addNewItem(room, newItem) {
+            roomInventory[room].push(newItem);
+        }
+        // Function to remove all items from a room
+        function removeAllItems(room) {
+            roomInventory[room] = [];
+        }
+
+        // Function to update a furniture item in a room
+        function updateItem(room, index, updatedItem) {
+            roomInventory[room][index] = updatedItem;
+        }
+
+        // Function to search for a furniture item in the inventory
+        function searchItem(query) {
+            const results = [];
+            for (const room in roomInventory) {
+                roomInventory[room].forEach((item) => {
+                    if (item.name.toLowerCase().includes(query.toLowerCase())) {
+                        results.push({ room, item });
+                    }
+                });
+            }
+            return results;
+        }
+
+        // Function to sort the inventory based on various criteria
+        function sortInventory(sortBy) {    
+            // Sort the inventory based on the sortBy parameter
+            // Implement sorting logic based on the sortBy parameter
+            // For example, you can sort by item name, quantity, or date added
+            // For example, sortInventory('name') will sort the inventory alphabetically by item name
+            // sortInventory('quantity') will sort the inventory by item quantity in descending order
+            // sortInventory('dateAdded') will sort the inventory by item date added in descending order
+        }   
+
+        // Function to export the inventory data to a file or database
+        // This function should be called when the user clicks the "Export" button or when the inventory changes
+        // You can choose to implement the export logic using a file or database API, or use a library like FileSaver.js or JSZip to save the inventory data as a JSON file or ZIP archive
+        // This function should also be called when the user clicks the "Import" button or when the inventory data is loaded from a file or database
+        // You can choose to implement the import logic using a file or database API, or use a library like jQuery File Upload to handle file uploads and load the inventory data from a JSON file or ZIP archive
+        // This function should also be called when the user clicks the "Save" button or when the inventory data is saved to a file or database
+        // You can choose to implement the save logic using a file or database API, or use a library like jQuery File Upload to handle file uploads and save the inventory data to a JSON file or ZIP
+        function exportInventory() {
+            // Implement export logic using a file or database API
+            // Save the inventory data to a file or database
+        }
+
+        // Function to import inventory data from a file or database
+        // This function should be called when the user clicks the "Import" button or when the inventory data is loaded from a file or database
+        // You can choose to implement the import logic using a file or database API, or use a library like jQuery File Upload to handle file uploads and load the inventory data from a JSON file or ZIP archive
+        // This function should also be called when the user clicks the "Save" button or when the inventory data is saved to a file or database
+        // You can choose to implement the save logic using a file or database API, or use a library like jQuery File Upload to handle file uploads and save the inventory data to a JSON file or ZIP archive
+        // This function should also be called when the user clicks the "Export" button or when the inventory data is loaded from a file or database
+        // You can choose to implement the export logic using a file or database API, or use a library like jQuery File Upload to handle file uploads and load the i
+        function importInventory() {
+            // Implement import logic using a file or database API
+            // Load the inventory data from a file or database
+            // Update the inventory with the loaded data
+            // Update the UI with the new inventory data
+            // Update the navigation buttons and any other relevant UI elements
+            // Update the export and import buttons and any other relevant UI elements
+            // Update the save and export buttons and any other relevant UI elements
+            // Update the inventory count and any other relevant UI elements
+        }
+
+        // Example usage
+        addItem('mainBedroom', { name: 'Queen Bed', quantity: 1 });
+        addItem('mainBedroom', { name: 'Single Queen Size Bed', quantity: 1 });
+        addItem('secondBedroom', { name: 'Single King Size Bed', quantity: 1 });
+        addItem('kitchen', { name: 'Dining Table', quantity: 2 });
+        addItem('livingRoom', { name: 'Sofa', quantity: 1 });
+        removeItem('mainBedroom', 1);
+        updateItem('kitchen', 0, { name: 'Refrigerator', quantity: 2 });
+        const searchResults = searchItem('bed');
+        console.log(searchResults);
+        sortInventory('name');
+        exportInventory();
+        importInventory();
+        // Add more example usage as needed
+        // Update the inventory count and any other relevant UI elements
+        
+        // Update the navigation buttons and any other relevant UI elements
+        // Update the export and import buttons and any other relevant UI elements
+        // Update the save and export buttons and any other relevant UI elements
+    </script>
+    <!-- Modal Structure -->
+<div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="roomModalLabel">Select Room Items</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modalRoomItems">
+            <!-- Room-specific inventory items will be loaded here dynamically -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveRoomSelection">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </body>
 
 </html>

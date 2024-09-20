@@ -1,352 +1,344 @@
-Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+// Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
 
+// document.addEventListener("DOMContentLoaded", function() {
+//     // Initialize Select2 for all dropdowns
+//     // $('select').select2({
+//     //     placeholder: "Select an item",
+//     //     allowClear: true
+//     // });
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialize Select2 for all dropdowns
-    $('select').select2({
-        placeholder: "Select an item",
-        allowClear: true
-    });
+//     // Initialize Google Places Autocomplete for address fields
+//     // const originField = document.getElementById('origin');
+//     // const destinationField = document.getElementById('destination');
 
-    // Initialize Google Places Autocomplete for address fields
-    const originField = document.getElementById('origin');
-    const destinationField = document.getElementById('destination');
+//     // new google.maps.places.Autocomplete(originField, {
+//     //     types: ['geocode'],
+//     //     componentRestrictions: { country: "us" } // Adjust country code as needed
+//     // });
 
-    new google.maps.places.Autocomplete(originField, {
-        types: ['geocode'],
-        componentRestrictions: { country: "us" } // Adjust country code as needed
-    });
+//     // new google.maps.places.Autocomplete(destinationField, {
+//     //     types: ['geocode'],
+//     //     componentRestrictions: { country: "us" } // Adjust country code as needed
+//     // });
 
-    new google.maps.places.Autocomplete(destinationField, { 
-        types: ['geocode'],
-        componentRestrictions: { country: "us" } // Adjust country code as needed
-    });
+//     // Global inventory object to hold saved items
+//     // const inventoryData = {};
 
+//     // Function to save item to inventory
+//     // function saveItem(room, index, quantity) {
+//     //     if (!inventoryData[room]) {
+//     //         inventoryData[room] = [];
+//     //     }
+//     //     inventoryData[room][index] = { quantity };
+//     //     console.log(`Saved ${quantity} for ${room}, item ${index}`); // You can use this to verify that data is being saved
+//     // }
 
-    // Dynamically attach the event listener for quantity change
-    const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
-    inputElement.addEventListener('input', function () {
-        saveItem(selectedRoom, index, inputElement.value);
-    });
-});
+//     // Show room items when a room is selected
+//     // document.getElementById('roomSelect').addEventListener('change', showRoomItems);
 
-function saveItem(room, index, quantity) {
-if (!inventoryData[room]) {
-inventoryData[room] = [];
-}
-inventoryData[room][index] = { quantity };
+//     // function showRoomItems() {
+//     //     const roomSelect = document.getElementById('roomSelect');
+//     //     const roomItems = document.getElementById('roomItems');
+//     //     const selectedRoom = roomSelect.value;
+//     //     roomItems.innerHTML = ''; // Clear previous items
 
-console.log(`Saved ${quantity} for ${room}, item ${index}`);  // You can use this to verify that data is being saved
-}
+//     //     const roomInventory = {
+//     //         mainBedroom: [
+//     //             { name: 'King Bed' },
+//     //             { name: 'Queen Bed' },
+//     //             { name: 'Armoire' },
+//     //             { name: 'Dresser' }
+//     //         ],
+//     //         secondBedroom: [
+//     //             { name: 'Twin Bed' },
+//     //             { name: 'Bunk Bed' },
+//     //             { name: 'Nightstand' }
+//     //         ],
+//     //         kitchen: [
+//     //             { name: 'Refrigerator' },
+//     //             { name: 'Microwave' },
+//     //             { name: 'Dishwasher' },
+//     //             { name: 'Coffee Maker' }
+//     //         ],
+//     //         livingRoom: [
+//     //             { name: 'Sofa' },
+//     //             { name: 'Coffee Table' },
+//     //             { name: 'TV Stand' }
+//     //         ]
+//     //     };
 
-// Trigger the function when a room is selected
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("JavaScript is loaded!"); // This should appear in the console
-document.getElementById('roomSelect').addEventListener('change', showRoomItems);
-    
-    function showRoomItems() {
-        console.log("Room selected!"); // This should appear in the console when a room is selected
+//     //     if (roomInventory[selectedRoom]) {
+//     //         roomInventory[selectedRoom].forEach((item, index) => {
+//     //             const row = document.createElement('div');
+//     //             row.className = 'row mb-3';
+//     //             row.innerHTML = `
+//     //                 <div class="col-md-8">
+//     //                     <label class="form-label">${item.name}</label>
+//     //                 </div>
+//     //                 <div class="col-md-4">
+//     //                     <input type="number" class="form-control" placeholder="Quantity" id="item-${selectedRoom}-${index}">
+//     //                 </div>
+//     //             `;
+//     //             roomItems.appendChild(row);
 
-        const roomSelect = document.getElementById('roomSelect');
-        const roomItems = document.getElementById('roomItems');
-        const selectedRoom = roomSelect.value;
+//     //             // Dynamically attach the event listener
+//     //             const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
+//     //             inputElement.addEventListener('input', function () {
+//     //                 saveItem(selectedRoom, index, inputElement.value);
+//     //             });
+//     //         });
+//     //     } else {
+//     //         roomItems.innerHTML = '<p>No items available for this room.</p>';
+//     //     }
+//     // }
 
-        roomItems.innerHTML = ''; // Clear previous items
+//     // Client Email Validation
+//     // document.getElementById('clientEmail').addEventListener('input', function () {
+//     //     const emailField = this;
+//     //     const emailValue = emailField.value;
+//     //     const emailError = document.getElementById('email-error');
 
-        // Define items per room
-        const roomInventory = {
-            mainBedroom: [
-                { name: 'King Bed' },
-                { name: 'Queen Bed' },
-                { name: 'Armoire' },
-                { name: 'Dresser' }
-            ],
-            secondBedroom: [
-                { name: 'Twin Bed' },
-                { name: 'Bunk Bed' },
-                { name: 'Nightstand' }
-            ],
-            kitchen: [
-                { name: 'Refrigerator' },
-                { name: 'Microwave' },
-                { name: 'Dishwasher' },
-                { name: 'Coffee Maker' }
-            ],
-            livingRoom: [
-                { name: 'Sofa' },
-                { name: 'Coffee Table' },
-                { name: 'TV Stand' }
-            ],
-            // Add other rooms as necessary
-        };
+//     //     if (!emailValue.includes('@')) {
+//     //         emailError.textContent = 'Please enter a valid email address.';
+//     //         emailField.classList.add('error');
+//     //     } else {
+//     //         emailError.textContent = '';
+//     //         emailField.classList.remove('error');
+//     //     }
+//     // });
 
-        if (roomInventory[selectedRoom]) {
-            roomInventory[selectedRoom].forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = 'row mb-3';
-                row.innerHTML = `
-                    <div class="col-md-8">
-                        <label class="form-label">${item.name}</label>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="number" class="form-control" placeholder="Quantity" id="item-${selectedRoom}-${index}">
-                    </div>
-                `;
-                roomItems.appendChild(row);
+//     // Client Name Validation
+//     // document.getElementById('clientName').addEventListener('input', function () {
+//     //     const nameField = this;
+//     //     const nameValue = nameField.value;
+//     //     const nameError = document.getElementById('clientName-error');
 
-                // Dynamically attach the event listener
-                const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
-                inputElement.addEventListener('input', function () {
-                    saveItem(selectedRoom, index, inputElement.value);
-                });
-            });
-        } else {
-            roomItems.innerHTML = '<p>No items available for this room.</p>';
-        }
-    }
+//     //     if (nameValue.trim() === '') {
+//     //         nameError.textContent = 'Please enter your name.';
+//     //         nameField.classList.add('error');
+//     //     } else {
+//     //         nameError.textContent = '';
+//     //         nameField.classList.remove('error');
+//     //     }
+//     // });
 
-    function saveItem(room, index, quantity) {
-        console.log(`Saved ${quantity} for ${room}, item ${index}`);  // Log to check if data is saved
-    }
-});
-    
-    document.getElementById('clientEmail').addEventListener('input', function () {
-        const emailField = this;
-        const emailValue = emailField.value;
-        const emailError = document.getElementById('email-error');
-      
-        if (!emailValue.includes('@')) {
-          emailError.textContent = 'Please enter a valid email address.';
-          emailField.classList.add('error');
-        } else {
-          emailError.textContent = '';
-          emailField.classList.remove('error');
-        }
-    });
+//     // Other fields validation
+//     // function handleValidation(fieldId, errorId, message) {
+//     //     const field = document.getElementById(fieldId);
+//     //     const error = document.getElementById(errorId);
 
-  // Name validation
-  document.getElementById('clientName').addEventListener('input', function () {
-    const nameField = this;
-    const nameValue = nameField.value;
-    const nameError = document.getElementById('clientName-error');
+//     //     field.addEventListener('input', function () {
+//     //         if (field.value.trim() === '') {
+//     //             error.textContent = message;
+//     //             field.classList.add('error');
+//     //         } else {
+//     //             error.textContent = '';
+//     //             field.classList.remove('error');
+//     //         }
+//     //     });
+//     // }
 
-    if (nameValue.trim() === '') {
-        nameError.textContent = 'Please enter your name.';
-        nameField.classList.add('error');
-    } else {
-        nameError.textContent = '';
-        nameField.classList.remove('error');
-    }
-});
+//     // handleValidation('origin', 'origin-error', 'Please enter the origin address.');
+//     // handleValidation('destination', 'destination-error', 'Please enter the destination address.');
+//     // handleValidation('moveDate', 'moveDate-error', 'Please enter the move date.');
 
-// Origin address validation
-document.getElementById('origin').addEventListener('input', function () {
-    const originField = this;
-    const originValue = originField.value;
-    const originError = document.getElementById('origin-error');
+//     // Save progress
+//     // document.getElementById('save-progress').addEventListener('click', function () {
+//     //     const formData = {
+//     //         clientName: document.getElementById('clientName').value,
+//     //         origin: document.getElementById('origin').value,
+//     //         destination: document.getElementById('destination').value,
+//     //         clientEmail: document.getElementById('clientEmail').value,
+//     //         moveDate: document.getElementById('moveDate').value,
+//     //     };
 
-    if (originValue.trim() === '') {
-        originError.textContent = 'Please enter the origin address.';
-        originField.classList.add('error');
-    } else {
-        originError.textContent = '';
-        originField.classList.remove('error');
-    }
-});
+//     //     localStorage.setItem('formData', JSON.stringify(formData));
+//     //     alert('Progress saved!');
+//     // });
 
-// Destination address validation
-document.getElementById('destination').addEventListener('input', function () {
-    const destinationField = this;
-    const destinationValue = destinationField.value;
-    const destinationError = document.getElementById('destination-error');
+//     // Load saved progress on page load
+//     // window.addEventListener('load', function () {
+//     //     const savedData = JSON.parse(localStorage.getItem('formData'));
 
-    if (destinationValue.trim() === '') {
-        destinationError.textContent = 'Please enter the destination address.';
-        destinationField.classList.add('error');
-    } else {
-        destinationError.textContent = '';
-        destinationField.classList.remove('error');
-    }
-});
+//     //     if (savedData) {
+//     //         document.getElementById('clientName').value = savedData.clientName;
+//     //         document.getElementById('origin').value = savedData.origin;
+//     //         document.getElementById('destination').value = savedData.destination;
+//     //         document.getElementById('clientEmail').value = savedData.clientEmail;
+//     //         document.getElementById('moveDate').value = savedData.moveDate;
+//     //     }
+//     // });
 
-// Move date validation
-document.getElementById('moveDate').addEventListener('input', function () {
-    const moveDateField = this;
-    const moveDateValue = moveDateField.value;
-    const moveDateError = document.getElementById('moveDate-error');
+//     // Autosave functionality
+//     // setInterval(function () {
+//     //     const formData = {
+//     //         clientName: document.getElementById('clientName').value,
+//     //         origin: document.getElementById('origin').value,
+//     //         destination: document.getElementById('destination').value,
+//     //         clientEmail: document.getElementById('clientEmail').value,
+//     //         moveDate: document.getElementById('moveDate').value,
+//     //     };
 
-    if (moveDateValue.trim() === '') {
-        moveDateError.textContent = 'Please enter the move date.';
-        moveDateField.classList.add('error');
-    } else {
-        moveDateError.textContent = '';
-        moveDateField.classList.remove('error');
-    }
-});
+//     //     localStorage.setItem('formData', JSON.stringify(formData));
+//     //     console.log('Autosave: Progress saved!');
+//     // }, 30000); // Save every 30 seconds
 
-document.getElementById('save-progress').addEventListener('click', function () {
-    const formData = {
-        clientName: document.getElementById('clientName').value,
-        origin: document.getElementById('origin').value,
-        destination: document.getElementById('destination').value,
-        clientEmail: document.getElementById('clientEmail').value,
-        moveDate: document.getElementById('moveDate').value,
-        // Add other fields as needed
-    };
-    localStorage.setItem('formData', JSON.stringify(formData));
-    alert('Progress saved!');
-});
+//     // Track form submission
+//     // document.getElementById('submit-button').addEventListener('click', function () {
+//     //     gtag('event', 'submit', {
+//     //         event_category: 'Form',
+//     //         event_label: 'Inventory Form',
+//     //     });
+//     // });
 
-// Load saved progress
-window.addEventListener('load', function () {
-    const savedData = JSON.parse(localStorage.getItem('formData'));
-    if (savedData) {
-        document.getElementById('clientName').value = savedData.clientName;
-        document.getElementById('origin').value = savedData.origin;
-        document.getElementById('destination').value = savedData.destination;
-        document.getElementById('clientEmail').value = savedData.clientEmail;
-        document.getElementById('moveDate').value = savedData.moveDate;
-        // Load other fields as needed
-    }
-});
+//     // Theme toggle functionality
+//     // const themeToggleButton = document.getElementById('theme-toggle');
+//     // themeToggleButton.addEventListener('click', function () {
+//     //     document.body.classList.toggle('dark-mode');
 
-// Autosave functionality
-setInterval(function () {
-    const formData = {
-        clientName: document.getElementById('clientName').value,
-        origin: document.getElementById('origin').value,
-        destination: document.getElementById('destination').value,
-        clientEmail: document.getElementById('clientEmail').value,
-        moveDate: document.getElementById('moveDate').value,
-        // Add other fields as needed
-    };
-    localStorage.setItem('formData', JSON.stringify(formData));
-    console.log('Autosave: Progress saved!');
-}, 30000); // Save every 30 seconds
+//     //     if (document.body.classList.contains('dark-mode')) {
+//     //         themeToggleButton.textContent = 'Switch to Light Mode';
+//     //     } else {
+//     //         themeToggleButton.textContent = 'Switch to Dark Mode';
+//     //     }
+//     // });
 
-// Track form submissions
-document.getElementById('submit-button').addEventListener('click', function () {
-    gtag('event', 'submit', {
-      'event_category': 'Form',
-      'event_label': 'Inventory Form',
-    });
-  });
+//     // Save user preference
+//     // document.getElementById('save-preferences').addEventListener('click', function () {
+//     //     const preferences = {
+//     //         preferredLayout: 'compact',
+//     //         defaultAddress: document.getElementById('origin').value,
+//     //     };
 
-   // Theme toggle functionality
-   const themeToggleButton = document.getElementById('theme-toggle');
-   themeToggleButton.addEventListener('click', function () {
-       document.body.classList.toggle('dark-mode');
-       if (document.body.classList.contains('dark-mode')) {
-           themeToggleButton.textContent = 'Switch to Light Mode';
-       } else {
-           themeToggleButton.textContent = 'Switch to Dark Mode';
-       }
-   });
-  
-   // Save user preference
-document.getElementById('save-preferences').addEventListener('click', function () {
-    const preferences = {
-        preferredLayout: 'compact',
-        defaultAddress: document.getElementById('origin').value,
-    };
-    localStorage.setItem('userPreferences', JSON.stringify(preferences));
-    alert('Preferences saved!');
-});
+//     //     localStorage.setItem('userPreferences', JSON.stringify(preferences));
+//     //     alert('Preferences saved!');
+//     // });
 
-// Load user preference
-window.addEventListener('load', function () {
-    const savedPreferences = JSON.parse(localStorage.getItem('userPreferences'));
-    if (savedPreferences) {
-        if (savedPreferences.preferredLayout === 'compact') {
-            document.body.classList.add('compact-layout');
-        }
-        document.getElementById('origin').value = savedPreferences.defaultAddress;
-    }
-});
+//     // Load user preference on page load
+//     // window.addEventListener('load', function () {
+//     //     const savedPreferences = JSON.parse(localStorage.getItem('userPreferences'));
 
-// Handle multi-step form functionality
-document.addEventListener("DOMContentLoaded", function () {
-    let currentStep = 0;
-    const steps = document.querySelectorAll(".step");
-    const nextButtons = document.querySelectorAll(".next-button");
-    const prevButtons = document.querySelectorAll(".previous-button");
+//     //     if (savedPreferences) {
+//     //         if (savedPreferences.preferredLayout === 'compact') {
+//     //             document.body.classList.add('compact-layout');
+//     //         }
 
-    // Show the current step
-    function showStep(stepIndex) {
-        steps.forEach((step, index) => {
-            step.style.display = index === stepIndex ? "block" : "none";
-        });
-    }
+//     //         document.getElementById('origin').value = savedPreferences.defaultAddress;
+//     //     }
+//     // });
 
-    // Move to the next step
-    nextButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-            if (validateStep(currentStep)) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        });
-    });
+//     // Handle multi-step form functionality
+//     // let currentStep = 0;
+//     // const steps = document.querySelectorAll(".step");
+//     // const nextButtons = document.querySelectorAll(".next-button");
+//     // const prevButtons = document.querySelectorAll(".previous-button");
 
-    // Move to the previous step
-    prevButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-            currentStep--;
-            showStep(currentStep);
-        });
-    });
+//     // // Show the current step
+//     // function showStep(stepIndex) {
+//     //     steps.forEach((step, index) => {
+//     //         step.style.display = index === stepIndex ? "block" : "none";
+//     //     });
+//     // }
 
-    // Validate each step before proceeding
-    function validateStep(stepIndex) {
-        const currentInputs = steps[stepIndex].querySelectorAll("input");
-        let isValid = true;
+//     // // Move to the next step
+//     // nextButtons.forEach((button) => {
+//     //     button.addEventListener("click", function () {
+//     //         if (validateStep(currentStep)) {
+//     //             currentStep++;
+//     //             showStep(currentStep);
+//     //         }
+//     //     });
+//     // });
 
-        currentInputs.forEach((input) => {
-            if (!input.value) {
-                input.classList.add("error");
-                input.nextElementSibling.textContent = "This field is required.";
-                isValid = false;
-            } else {
-                input.classList.remove("error");
-                input.nextElementSibling.textContent = "";
-            }
-        });
+//     // // Move to the previous step
+//     // prevButtons.forEach((button) => {
+//     //     button.addEventListener("click", function () {
+//     //         currentStep--;
+//     //         showStep(currentStep);
+//     //     });
+//     // });
 
-        return isValid;
-    }
+//     // // Validate each step before proceeding
+//     // // This function checks if all input fields in the current step are filled out
+//     // // and displays an error message if any field is empty.
+//     // function validateStep(stepIndex) {
+//     //     const currentInputs = steps[stepIndex].querySelectorAll("input");
+//     //     let isValid = true;
 
-    // Initialize the first step
-    showStep(currentStep);
-});
-
-
-const helmet = require('helmet');
-
+//     //     currentInputs.forEach(function(input) {
+//     //         if (!input.value) {
+//     //             input.classList.add("error");
+//     //             input.
 // Assuming this is the first declaration of `app`
+// Import necessary modules
+import express from 'express';
+import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
-// Remove any other declarations of `app`
-// Use the existing `app` variable for further configurations
+const app = express(); // Create an Express app
+
+// CSRF protection middleware
+const csrfProtection = csrf({ cookie: true });
+app.use(csrfProtection);
+
+// Middleware for parsing cookies
+app.use(cookieParser());
+
+// Middleware for handling JSON data
+app.use(express.json());
+
+// Middleware for handling form data
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware for serving static files
+app.use(express.static('public'));
+
+// Middleware for handling CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+// Middleware for handling Google Analytics tracking
+app.use((req, res, next) => {
+  res.locals.gaTrackingId = 'YOUR_GA_TRACKING_ID';
+  next();
+});
+
+// Middleware for handling Google Tag Manager tracking
+app.use((req, res, next) => {
+  res.locals.gtmId = 'YOUR_GTM_CONTAINER_ID';
+  next();
+});
+
+// Middleware for handling Helmet security
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "https://maps.googleapis.com"],
-            styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-            imgSrc: ["'self'", "data:"],
-            connectSrc: ["'self'"],
-            fontSrc: ["'self'", "https://fonts.gstatic.com"],
-            objectSrc: ["'none'"],
-            upgradeInsecureRequests: [],
-        },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://maps.googleapis.com"],
+      styleSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
     },
+  },
 }));
 
+// Route for serving the inventory form
 app.get('/', (_req, res) => {
-    res.send('Hello World!');
+  res.send('Hello World!');
 });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;

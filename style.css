@@ -1,76 +1,136 @@
-/* Main content container with Flexbox layout */
-.main-content {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-/* Left and Right sections */
-.left-side,
-.right-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Inventory List adjustments */
-.inventory-list {
-    border: 2px solid #f9a825;
-    max-height: 600px; /* Adjust the max height as needed */
-    overflow-y: auto; /* Scroll if content exceeds max height */
-    padding-right: 15px; /* Add padding to avoid scrollbar overlapping content */
-}
-
-/* Section styling */
-.section {
-    background-color: #fff;
+/* General settings */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     padding: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    flex-grow: 1; /* Make sure sections grow to fill space */
+    margin: 0;
 }
 
-/* Style for form elements */
-.form-group label {
+h1, h2 {
+    color: #222;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Neumorphic card design */
+.card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 9px 9px 16px rgba(0, 0, 0, 0.1),
+                -9px -9px 16px rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Buttons with neumorphism and flat design */
+.btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: #ff5722;
+    color: white;
     font-weight: bold;
-    margin-bottom: 5px;
-    display: inline-block;
-    color: #555;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15),
+                -3px -3px 8px rgba(255, 255, 255, 0.6);
+    transition: background-color 0.3s ease;
 }
 
-#roomItems {
-    padding-top: 15px;
+.btn:hover {
+    background-color: #e64a19;
 }
 
-.form-group input, .form-group select, .form-group textarea {
+/* Flat design form elements */
+input[type="text"], input[type="email"], select, textarea {
     width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
+    margin: 10px 0;
+    border: none;
     border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
+    background-color: #f4f4f9;
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.7);
 }
 
-error {
-    border-color: #d63434;
-  }
-  .error-message {
-    color: #d63434;
-    font-size: 12px;
-    margin-top: 5px;
-  }
+input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(255, 87, 34, 0.5);
+}
 
-/* Media query for smaller screens */
+/* Responsive layout using Bootstrap grid */
 @media screen and (max-width: 768px) {
     .main-content {
         flex-direction: column;
     }
-
-    .left-side,
-    .right-side {
+    
+    .left-side, .right-side {
+        width: 100%;
         margin-bottom: 20px;
     }
+}
+
+/* Card-Based layout with a flexible grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card-grid .card {
+    transition: box-shadow 0.3s ease;
+}
+
+.card-grid .card:hover {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Neumorphism effect on form error messages */
+.error-message {
+    color: #d63434;
+    font-size: 12px;
+    margin-top: 5px;
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Footer with neumorphism */
+.footer {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.05),
+                -6px -6px 12px rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+.footer a {
+    color: #ff5722;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }
 
