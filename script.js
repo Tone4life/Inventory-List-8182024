@@ -2,12 +2,86 @@
  import 'bootstrap/dist/js/bootstrap.bundle.min';
 
  document.addEventListener("DOMContentLoaded", function() {
+     // Initialize tooltips for all elements with the 'tooltip' class
+     $('[data-toggle="tooltip"]').tooltip();
+     
+     // Initialize popovers for all elements with the 'popover' class
+     $('[data-toggle="popover"]').popover();
+     
+     // Initialize datepickers for all date fields
+     $('input[type="date"]').datepicker();
+     
+     // Initialize Timepickers for all time fields
+     $('input[type="time"]').timepicker();
+     
+     // Initialize Autocomplete for product search
+     const searchInput = document.getElementById('productSearch');
+     const searchSuggestions = document.getElementById('searchSuggestions');
+     const searchResults = document.getElementById('searchResults');
+     const searchError = document.getElementById('search-error');
+     const searchIcon = document.getElementById('search-icon');
+     const searchInputValue = searchInput.value;
+     const searchSuggestionsArray = [];
+     const searchTimeout = null;
+
+    
+     const searchResultsArray = [];
+     const searchErrorArray = [];
+     const searchResultsArrayLength = 5; // Adjust the number as needed
+     
+     // Fetch product suggestions from API  
+     fetch('https://api.example.com/products')
+        .then(response => response.json())
+        .then(data => {
+             data.forEach(product => {
+                 searchSuggestionsArray.push(product.name);
+             });
+         })
+        .catch(error => {
+             console.error('Error fetching product suggestions:', error);
+             searchErrorArray.push('Error fetching product suggestions.');
+         });
+     
+     // Fetch product details from API
+     
+     // Update search suggestions based on input
+     searchInput.addEventListener('input', function () {
+         const searchInputValue = this.value;
+         const searchSuggestionsArrayFiltered = searchSuggestionsArray.filter(suggestion => suggestion.toLowerCase().includes(searchInputValue.toLowerCase()));
+         searchSuggestions.innerHTML = '';
+         searchSuggestionsArrayFiltered.forEach(suggestion => {
+             const suggestionElement = document.createElement('li');
+             suggestionElement.textContent = suggestion;
+             searchSuggestions.appendChild(suggestionElement);
+         });
+         searchSuggestionsArray = searchSuggestionsArrayFiltered;
+         searchInputValue = searchInputValue;
+         searchTimeout = null;
+         searchTimeout = setTimeout(function () {
+             searchSuggestions.innerHTML = '';
+             searchSuggestionsArray = [];
+             searchInputValue = '';
+         }, 500);
+         searchIcon.classList.remove('fa-spinner');
+         searchIcon.classList.add('fa-spinner');
+         searchIcon.classList.remove('fa-times');
+         }, 2000);
+         searchIcon.classList.remove('fa-spinner');
+         searchIcon.classList.add('fa-spinner');
+         searchIcon.classList.remove('fa-times');
+         searchIcon.classList.remove('fa-search');
+         searchIcon.classList.add('fa-search');
+         searchError.innerHTML = '';
+         searchResults.innerHTML = '';
+         searchResultsArray = [];
+         searchErrorArray = [];
+         searchResultsArrayLength = 5; // Adjust the number as needed
+         searchInput.value = searchInputValue;
      // Initialize Select2 for all dropdowns
       $('select').select2({
           placeholder: "Select an item",
           allowClear: true
  });
-
 //     // Initialize Google Places Autocomplete for address fields
  const originField = document.getElementById('origin');
  const destinationField = document.getElementById('destination');
@@ -150,7 +224,7 @@ function addItem(room, itemName, quantity) {
     inputElement.addEventListener('input', function () {
         saveItem(room, index, inputElement.value);
     });
-}{
+} {
     const roomItems = document.getElementById('roomItems');
     const itemRow = document.createElement('div');
     itemRow.classList.add('row', 'mb-3');
@@ -300,17 +374,20 @@ function saveItem(room, index, quantity) {
 }
 
      // Client Name Validation
-     document.getElementById('clientName').addEventListener('input', function () {   
-     const nameField = this;
-     const nameValue = nameField.value;
-     const nameError = document.getElementById('clientName-error');
-     if (nameValue.trim() === '') {
-         nameError.textContent = 'Please enter your name.';
-         nameField.classList.add('error');
-     } else {
-         nameError.textContent = '';
-         nameField.classList.remove('error');
-     }
+     document.getElementById('clientName').addEventListener('input', function () {
+         const nameField = this;
+         const nameValue = nameField.value;
+         const nameError = document.getElementById('clientName-error');
+         if (nameValue.trim() === '') {
+             nameError.textContent = 'Please enter your name.';
+             nameField.classList.add('error');
+         } else {
+             nameError.textContent = '';
+             nameField.classList.remove('error');
+         }
+         // Add more validation for name field here if needed
+     }); 
+ 
      // Add more validation for name field here if needed}
   // Client Origin Validation
      document.getElementById('origin').addEventListener('input', function () {
@@ -753,7 +830,6 @@ export default app; // Export the Express app for testing purposes
     import { authenticateUser } from './utils/authenticateUser';
     import { validateInventoryItem } from './utils/validateInventoryItem';
     import { validateUser } from './utils/validateUser';
-    import { validateMoveDate } from './utils/validateMoveDate';
     import { validateOrigin } from './utils/validateOrigin';
     import { validateDestination } from './utils/validateDestination';
     import { validateClientEmail } from './utils/validateClientEmail';
@@ -767,14 +843,62 @@ export default app; // Export the Express app for testing purposes
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
+    
     app.use(csrfProtection);
     app.use((req, res, next) => {
+        res.locals.csrfToken = req.csrfToken();
+        next();
       res.locals.gaTrackingId = process.env.GA_TRACKING_ID;
       res.locals.gtmId = process.env.GTM_CONTAINER_ID;
       next();
     });
     app.use(express.static('public'));
+    app.set('view engine', 'ejs');
+    app.get('/', async (_req, res) => {
+      const inventoryItems = await InventoryItem.find().populate('owner');
+      res.render('index', { inventoryItems });
+    });
+    app.get('/inventory/:id', async (req, res) => {
+      const inventoryItem = await InventoryItem.findById(req.params.id).populate('owner');
+      if (!inventoryItem) return res.status(404).json({ message: 'Inventory item not found' });
+      res.render('inventory-item', { inventoryItem });
+    });
     // Define API routes
+    // Create a new inventory item
+    app.post('/api/inventory', authenticateUser, validateInventoryItem, async (req, res) => {
+      try {
+        const newInventoryItem = await createInventoryItem(req.body, req.user);
+        res.status(201).json(newInventoryItem);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    });
+    // Update an existing inventory item
+    app.put('/api/inventory/:id', authenticateUser, validateInventoryItem, async (req, res) => {
+      try {
+        const inventoryItem = await InventoryItem.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('owner');
+        if (!inventoryItem) return res.status(404).json({ message: 'Inventory item not found'   });
+        if (inventoryItem.owner._id.toString()!== req.user._id.toString ()) return res.status(403).json({ message: 'Unauthorized' });
+        res.json(inventoryItem);
+        } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    });
+    // Register a new user
+    app.post('/api/users', validateUser, async (req, res) => {
+      try {
+        const existingUser = await User.findOne({ email: req.body.email });
+        if (existingUser) return res.status(400).json({ message: 'Email already in use' });
+        const newUser = new User(req.body);
+        await newUser.save();
+        res.status(201).json(newUser);
+        } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    });
     // Get all inventory items
     app.get('/api/inventory', authenticateUser, async (req, res) => {
       try {
@@ -922,4 +1046,3 @@ export default app; // Export the Express app for testing purposes
       res.json(inventory);
     });
     
-

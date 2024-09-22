@@ -11,11 +11,18 @@ import compression from 'compression';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import { User } from './models/User';
+import { Inventory } from './models/Inventory';
+import { InventoryItem } from './models/InventoryItem';
+
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Define routes
+
 
 app.use(helmet());
 app.use(cookieParser());
@@ -141,3 +148,18 @@ const options = {
 https.createServer(options, app).listen(port, () => {
     console.log(`HTTPS Server is running on port ${port}`);
 });
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+// Start server
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+
+export default app;
