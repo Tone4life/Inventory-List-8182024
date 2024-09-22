@@ -1,26 +1,26 @@
-// Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
+ Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
+ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Initialize Select2 for all dropdowns
-//     // $('select').select2({
-//     //     placeholder: "Select an item",
-//     //     allowClear: true
-//     // });
+ document.addEventListener("DOMContentLoaded", function() {
+     // Initialize Select2 for all dropdowns
+      $('select').select2({
+          placeholder: "Select an item",
+          allowClear: true
+ });
 
 //     // Initialize Google Places Autocomplete for address fields
-//     // const originField = document.getElementById('origin');
-//     // const destinationField = document.getElementById('destination');
+ const originField = document.getElementById('origin');
+ const destinationField = document.getElementById('destination');
 
-//     // new google.maps.places.Autocomplete(originField, {
-//     //     types: ['geocode'],
-//     //     componentRestrictions: { country: "us" } // Adjust country code as needed
-//     // });
+ new google.maps.places.Autocomplete(originField, {
+     types: ['geocode'],
+     componentRestrictions: { country: "us" } // Adjust country code as needed
+ });
 
-//     // new google.maps.places.Autocomplete(destinationField, {
-//     //     types: ['geocode'],
-//     //     componentRestrictions: { country: "us" } // Adjust country code as needed
-//     // });
+      new google.maps.places.Autocomplete(destinationField, {
+     types: ['geocode'],
+     componentRestrictions: { country: "us" } // Adjust country code as needed
+ });
 
 // Real-Time Email Validation
 document.getElementById('clientEmail').addEventListener('input', function () {
@@ -187,7 +187,7 @@ function sortInventory(sortBy) {
     items.forEach(item => roomItems.appendChild(item));
 }
 
-document.getElementById('roomSelect').addEventListener('change', function () {
+document.getElementById('roomSelect').addEventListener('change', function () {  
     const selectedRoom = this.value;
     const roomItems = document.getElementById('roomItems');
     roomItems.innerHTML = ''; // Clear existing items when a new room is selected
@@ -234,7 +234,7 @@ function saveItem(room, index, quantity) {
 }
 
 // Show room items when a room is selected
-document.getElementById('roomSelect').addEventListener('change', function () {
+document.getElementById('roomSelect').addEventListener('change', function () {  
     const roomSelect = document.getElementById('roomSelect');
     const roomItems = document.getElementById('roomItems');
     const selectedRoom = roomSelect.value;
@@ -300,7 +300,7 @@ function saveItem(room, index, quantity) {
 }
 
      // Client Name Validation
-     document.getElementById('clientName').addEventListener('input', function () {
+     document.getElementById('clientName').addEventListener('input', function () {   
      const nameField = this;
      const nameValue = nameField.value;
      const nameError = document.getElementById('clientName-error');
@@ -435,7 +435,7 @@ function saveItem(room, index, quantity) {
     }
 
 // Dynamically handle room selection and item input fields
- document.getElementById('roomSelection').addEventListener('change', function () {
+ document.getElementById('roomSelection').addEventListener('change', function () {roomItems.innerHTML = ''; });
      const selectedRoom = this.value;
      const roomItems = document.getElementById('roomItems');
      roomItems.innerHTML = '';
@@ -585,7 +585,7 @@ window.addEventListener('load', function () {
  const prevButtons = document.querySelectorAll(".previous-button");
 
 //     // // Show the current step
- function showStep(stepIndex) {
+ function showStep(stepIndex) {}
      steps.forEach((step, index) => {
          step.style.display = index === stepIndex ? "block" : "none";
      });
@@ -647,7 +647,6 @@ function validateStep(stepIndex) {
      themeToggleButton.addEventListener("click", function () {
          document.body.classList.toggle("dark-mode");
      });
-});
 
 //     // // Load user's theme preference on page load
      window.addEventListener("load", function () {
@@ -658,14 +657,18 @@ function validateStep(stepIndex) {
          }
      });
 
-// Assuming this is the first declaration of `app`
 // Import necessary modules
 import express from 'express';
 import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 
-const app = express(); // Create an Express app
+// Set up Google Analytics and Google Tag Manager tracking IDs
+ app.locals.gaTrackingId = 'YOUR_GA_TRACKING_ID';
+ app.locals.gtmId = 'YOUR_GTM_CONTAINER_ID';
+ app.locals.googleAnalyticsUrl = `https://www.google-analytics.com/analytics/web/js/ga.js`;
+ app.locals.googleTagManagerUrl = `https://www.googletagmanager.com/gtm.js?id=${app.locals.gtmId}`;
+ 
 
 // CSRF protection middleware
 const csrfProtection = csrf({ cookie: true });
@@ -770,6 +773,31 @@ export default app; // Export the Express app for testing purposes
       res.locals.gtmId = process.env.GTM_CONTAINER_ID;
       next();
     });
+    app.use(express.static('public'));
+    // Define API routes
+    // Get all inventory items
+    app.get('/api/inventory', authenticateUser, async (req, res) => {
+      try {
+        const inventoryItems = await InventoryItem.find({ owner: req.user._id }).sort({ moveDate: -1 });
+        res.json(inventoryItems);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    });
+    // Get a specific inventory item by ID
+    app.get('/api/inventory/:id', authenticateUser, async (req, res) => {
+      try {
+        const inventoryItem = await InventoryItem.findById(req.params.id).populate('owner');
+        if (!inventoryItem) return res.status(404).json({ message: 'Inventory item not found' });
+        if (inventoryItem.owner._id.toString()!== req.user._id.toString ()) return res.status(403).json({ message: 'Unauthorized' });
+        res.json(inventoryItem);
+        } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    });
+
     // Connect to MongoDB database
     mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
@@ -893,3 +921,5 @@ export default app; // Export the Express app for testing purposes
         ).json({ message: 'Inventory not found' });
       res.json(inventory);
     });
+    
+

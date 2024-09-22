@@ -10,6 +10,7 @@ import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -46,6 +47,15 @@ app.param('customParam', (res, next, value) => {
         res.status(400).send('Invalid parameter');
     }
 });
+
+// Connect to MongoDB Atlas
+const dbURI = process.env.MONGO_URI;
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB Atlas!'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Rest of your server setup (routes, middlewares, etc.)
+
 
 app.get('/:customParam', csrfProtection, (req, res) => {
     res.cookie('XSRF-TOKEN', req.csrfToken());
@@ -108,7 +118,6 @@ app.get('/:customParam', csrfProtection, (req, res) => {
 app.post('/submit_form', csrfProtection, (req, res) => {
     res.send('Form data received');
 });
-
 app.use((err, _req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
         res.status(403);
