@@ -1,394 +1,260 @@
  Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
  import 'bootstrap/dist/js/bootstrap.bundle.min';
 
- document.addEventListener("DOMContentLoaded", function() {
-     // Initialize tooltips for all elements with the 'tooltip' class
-     $('[data-toggle="tooltip"]').tooltip();
-     
-     // Initialize popovers for all elements with the 'popover' class
-     $('[data-toggle="popover"]').popover();
-     
-     // Initialize datepickers for all date fields
-     $('input[type="date"]').datepicker();
-     
-     // Initialize Timepickers for all time fields
-     $('input[type="time"]').timepicker();
-     
-     // Initialize Autocomplete for product search
-     const searchInput = document.getElementById('productSearch');
-     const searchSuggestions = document.getElementById('searchSuggestions');
-     const searchResults = document.getElementById('searchResults');
-     const searchError = document.getElementById('search-error');
-     const searchIcon = document.getElementById('search-icon');
-     const searchInputValue = searchInput.value;
-     const searchSuggestionsArray = [];
-     const searchTimeout = null;
+ 
+    // Initialize tooltips and popovers
+document.addEventListener("DOMContentLoaded", function() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
+});
 
-    
-     const searchResultsArray = [];
-     const searchErrorArray = [];
-     const searchResultsArrayLength = 5; // Adjust the number as needed
-     
-     // Fetch product suggestions from API  
-     fetch('https://api.example.com/products')
+// Initialize datepickers and Timepickers
+$(document).ready(function() {
+    $('input[type="date"]').datepicker();
+    $('input[type="time"]').timepicker();
+});
+
+// Initialize Autocomplete for product search
+$(document).ready(function() {
+    const searchInput = $('#productSearch');
+    const searchSuggestions = $('#searchSuggestions');
+    const searchResults = $('#searchResults');
+    const searchError = $('#search-error');
+    const searchIcon = $('#search-icon');
+    const searchSuggestionsArray = [];
+
+    // Fetch product suggestions from API
+    fetch('https://api.example.com/products')
         .then(response => response.json())
         .then(data => {
-             data.forEach(product => {
-                 searchSuggestionsArray.push(product.name);
-             });
-         })
+            data.forEach(product => {
+                searchSuggestionsArray.push(product.name);
+            });
+        })
         .catch(error => {
-             console.error('Error fetching product suggestions:', error);
-             searchErrorArray.push('Error fetching product suggestions.');
-         });
-     
-     // Fetch product details from API
-     
-     // Update search suggestions based on input
-     searchInput.addEventListener('input', function () {
-         const searchInputValue = this.value;
-         const searchSuggestionsArrayFiltered = searchSuggestionsArray.filter(suggestion => suggestion.toLowerCase().includes(searchInputValue.toLowerCase()));
-         searchSuggestions.innerHTML = '';
-         searchSuggestionsArrayFiltered.forEach(suggestion => {
-             const suggestionElement = document.createElement('li');
-             suggestionElement.textContent = suggestion;
-             searchSuggestions.appendChild(suggestionElement);
-         });
-         searchSuggestionsArray = searchSuggestionsArrayFiltered;
-         searchInputValue = searchInputValue;
-         searchTimeout = null;
-         searchTimeout = setTimeout(function () {
-             searchSuggestions.innerHTML = '';
-             searchSuggestionsArray = [];
-             searchInputValue = '';
-         }, 500);
-         searchIcon.classList.remove('fa-spinner');
-         searchIcon.classList.add('fa-spinner');
-         searchIcon.classList.remove('fa-times');
-         }, 2000);
-         searchIcon.classList.remove('fa-spinner');
-         searchIcon.classList.add('fa-spinner');
-         searchIcon.classList.remove('fa-times');
-         searchIcon.classList.remove('fa-search');
-         searchIcon.classList.add('fa-search');
-         searchError.innerHTML = '';
-         searchResults.innerHTML = '';
-         searchResultsArray = [];
-         searchErrorArray = [];
-         searchResultsArrayLength = 5; // Adjust the number as needed
-         searchInput.value = searchInputValue;
-     // Initialize Select2 for all dropdowns
-      $('select').select2({
-          placeholder: "Select an item",
-          allowClear: true
- });
-//     // Initialize Google Places Autocomplete for address fields
- const originField = document.getElementById('origin');
- const destinationField = document.getElementById('destination');
+            console.error('Error fetching product suggestions:', error);
+            searchErrorArray.push('Error fetching product suggestions.');
+        });
 
- new google.maps.places.Autocomplete(originField, {
-     types: ['geocode'],
-     componentRestrictions: { country: "us" } // Adjust country code as needed
- });
+    // Fetch product details from API
 
-      new google.maps.places.Autocomplete(destinationField, {
-     types: ['geocode'],
-     componentRestrictions: { country: "us" } // Adjust country code as needed
- });
-
-// Real-Time Email Validation
-document.getElementById('clientEmail').addEventListener('input', function () {
-    const emailField = this;
-    const emailValue = emailField.value;
-    const emailError = document.getElementById('email-error');
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(emailValue)) {
-        emailError.textContent = 'Please enter a valid email address.';
-        emailField.classList.add('error');
-    } else {
-        emailError.textContent = '';
-        emailField.classList.remove('error');
-    }
-});
-
-document.getElementById('clientName').addEventListener('input', function () {
-    const nameField = this;
-    const nameError = document.getElementById('clientName-error');
-    if (nameField.value.trim() === '') {
-        nameError.textContent = 'Please enter your name.';
-        nameField.classList.add('error');
-    } else {
-        nameError.textContent = '';
-        nameField.classList.remove('error');
-    }
-});
-
-// Real-Time Phone Number Validation
-
-document.getElementById('clientPhone').addEventListener('input', function () {
-    const phoneField = this;
-    const phoneError = document.getElementById('phone-error');
-    const phoneValue = phoneField.value;
-
-    const phoneRegex = /^\+1\s\(\d{3}\)\s\d{3}-\d{4}$/;
-
-    if (!phoneRegex.test(phoneValue)) {
-        phoneError.textContent = 'Please enter a valid phone number in the format +1 (XXX) XXX-XXXX.';
-        phoneField.classList.add('error');
-    } else {
-        phoneError.textContent = '';
-        phoneField.classList.remove('error');
-    }
-});
-
-// Origin Field Validation
-document.getElementById('origin').addEventListener('input', function () {
-    const originField = this;
-    const originError = document.getElementById('origin-error');
-    if (originField.value.trim() === '') {
-        originError.textContent = 'Please enter an origin address.';
-        originField.classList.add('error');
-    } else {
-        originError.textContent = '';
-        originField.classList.remove('error');
-    }
-});
-
-// Destination Field Validation
-document.getElementById('destination').addEventListener('input', function () {
-    const destinationField = this;
-    const destinationError = document.getElementById('destination-error');
-    if (destinationField.value.trim() === '') {
-        destinationError.textContent = 'Please enter a destination address.';
-        destinationField.classList.add('error');
-    } else {
-        destinationError.textContent = '';
-        destinationField.classList.remove('error');
-    }
-});
-
-// Function to add items dynamically
-function addItem(room, itemName, quantity) {
-    const roomItems = document.getElementById('roomItems');
-    const newItem = document.createElement('div');
-    newItem.className = 'row mb-3';
-    newItem.innerHTML = `
-        <div class="col-md-8">${itemName}</div>
-        <div class="col-md-4"><input type="number" class="form-control" value="${quantity}"></div>
-    `;
-    roomItems.appendChild(newItem);
-}
-// Function to add items dynamically
-function addItem(room, itemName, quantity) {
-  const roomItems = document.getElementById('roomItems');
-  const row = document.createElement('div');
-  row.className = 'row mb-3';
-  row.innerHTML = `
-    <div class="col-md-8">${itemName}</div>
-    <div class="col-md-4"><input type="number" class="form-control" value="${quantity}"></div>
-  `;
-  roomItems.appendChild(row);
-
-  // Dynamically attach the event listener
-  const inputElement = row.querySelector('input');
-  inputElement.addEventListener('input', function () {
-    saveItem(room, itemName, inputElement.value);
-  });
-}
-addItem('mainBedroom', 'Queen Bed', 1);
-addItem('mainBedroom', 'King Bed', 1);
-addItem('kitchen', 'Refrigerator', 1);
-addItem('livingRoom', 'Sofa', 1);
-addItem('livingRoom', 'Coffee Table', 1);
-
-
-// Function to add an inventory item dynamically
-function addItem(room, itemName, quantity) {
-    const roomItems = document.getElementById('roomItems');
-    const itemRow = document.createElement('div');
-    itemRow.classList.add('row', 'mb-3');
-    itemRow.innerHTML = `
-        <div class="col-md-8">
-            <label class="form-label">${itemName}</label>
-        </div>
-        <div class="col-md-4">
-            <input type="number" class="form-control" value="${quantity}" />
-        </div>
-    `;
-    roomItems.appendChild(itemRow);
-
-    // Dynamically attach the event listener
-    const inputElement = document.getElementById(`item-${room}-${index}`);
-    inputElement.addEventListener('input', function () {
-        saveItem(room, index, inputElement.value);
+    // Update search suggestions based on input
+    searchInput.on('input', function() {
+        const searchInputValue = this.value;
+        const searchSuggestionsArrayFiltered = searchSuggestionsArray.filter(suggestion => suggestion.toLowerCase().includes(searchInputValue.toLowerCase()));
+        searchSuggestions.html('');
+        searchSuggestionsArrayFiltered.forEach(suggestion => {
+            const suggestionElement = $('<li>').text(suggestion);
+            searchSuggestions.append(suggestionElement);
+        });
+        searchSuggestionsArray = searchSuggestionsArrayFiltered;
+        searchInputValue = searchInputValue;
+        searchTimeout = null;
+        searchTimeout = setTimeout(function() {
+            searchSuggestions.html('');
+            searchSuggestionsArray = [];
+            searchInputValue = '';
+        }, 500);
+        searchIcon.removeClass('fa-spinner');
+        searchIcon.addClass('fa-spinner');
+        searchIcon.removeClass('fa-times');
     });
-} {
-    const roomItems = document.getElementById('roomItems');
-    const itemRow = document.createElement('div');
-    itemRow.classList.add('row', 'mb-3');
-    itemRow.innerHTML = `
-        <div class="col-md-8">
-            <label class="form-label">${itemName}</label>
-        </div>
-        <div class="col-md-4">
-            <input type="number" class="form-control" value="${quantity}" />
-        </div>
-    `;
-    roomItems.appendChild(itemRow);
-}
-document.getElementById('sort-dropdown').addEventListener('change', function () {
-    const selectedSortBy = this.value;
-    sortInventory(selectedSortBy);
-});// Function to sort inventory items
-function sortInventory(sortBy) {
-    const roomItems = document.getElementById('roomItems');
-    let items = Array.from(roomItems.children);
-    items.sort((a, b) => {
-        let valA = a.querySelector('.form-label').innerText;
-        let valB = b.querySelector('.form-label').innerText;
-        if (sortBy === 'name') {
-            return valA.localeCompare(valB);
-        } else if (sortBy === 'quantity') {
-            let quantityA = parseInt(a.querySelector('input').value);
-            let quantityB = parseInt(b.querySelector('input').value);
-            return quantityA - quantityB;
+
+    // Initialize Select2 for dropdowns
+    $('select').select2({
+        placeholder: "Select an item",
+        allowClear: true
+    });
+
+    // Initialize Google Places Autocomplete for address fields
+    $(document).ready(function() {
+        const originField = $('#origin');
+        const destinationField = $('#destination');
+
+        new google.maps.places.Autocomplete(originField[0], { types: ['geocode'], componentRestrictions: { country: 'us' } });
+        new google.maps.places.Autocomplete(destinationField[0], { types: ['geocode'], componentRestrictions: { country: 'us' } });
+    });
+
+    // Real-Time Email Validation
+    $('#clientEmail').on('input', function() {
+        const emailField = $(this);
+        const emailValue = emailField.val();
+        const emailError = $('#email-error');
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(emailValue)) {
+            emailError.text('Please enter a valid email address.');
+            emailField.addClass('error');
+        } else {
+            emailError.text('');
+            emailField.removeClass('error');
         }
     });
-    // Clear and re-add sorted items
-    roomItems.innerHTML = '';
-    items.forEach(item => roomItems.appendChild(item));
-}
 
-document.getElementById('roomSelect').addEventListener('change', function () {  
-    const selectedRoom = this.value;
-    const roomItems = document.getElementById('roomItems');
-    roomItems.innerHTML = ''; // Clear existing items when a new room is selected
+    // Real-Time Phone Number Validation
+    $('#clientPhone').on('input', function() {
+        const phoneField = $(this);
+        const phoneValue = phoneField.val();
+        const phoneError = $('#phone-error');
 
+        const phoneRegex = /^\+1\s\(\d{3}\)\s\d{3}-\d{4}$/;
 
-    // Fetch room-specific items (this can be from an API or local storage)
-    const items = roomInventory[selectedRoom] || [];
-    
-    items.forEach(item => {
-        const itemRow = document.createElement('div');
-        itemRow.classList.add('row', 'mb-3');
-        itemRow.innerHTML = `
-            <div class="col-md-8">${item.name}</div>
-            <div class="col-md-4"><input type="number" class="form-control" value="${item.quantity}"></div>
-        `;
-        modalRoomItems.appendChild(itemRow);
-
-
-      // Dynamically attach the event listener
-        const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
-        inputElement.addEventListener('input', function () {
-            saveItem(selectedRoom, index, inputElement.value);
-        });
+        if (!phoneRegex.test(phoneValue)) {
+            phoneError.text('Please enter a valid phone number in the format +1 (XXX) XXX-XXXX.');
+            phoneField.addClass('error');
+        } else {
+            phoneError.text('');
+            phoneField.removeClass('error');
+        }
     });
 
-    // Show the modal with the room items
-    const modal = new bootstrap.Modal(document.getElementById('roomModal'));
-    modal.show();
-});
+    // Origin Field Validation
+    $('#origin').on('input', function() {
+        const originField = $(this);
+        const originError = $('#origin-error');
 
+        if (originField.val().trim() === '') {
+            originError.text('Please enter an origin address.');
+            originField.addClass('error');
+        } else {
+            originError.text('');
+            originField.removeClass('error');
+        }
+    });
 
+    // Destination Field Validation
+    $('#destination').on('input', function() {
+        const destinationField = $(this);
+        const destinationError = $('#destination-error');
 
+        if (destinationField.val().trim() === '') {
+            destinationError.text('Please enter a destination address.');
+            destinationField.addClass('error');
+        } else {
+            destinationError.text('');
+            destinationField.removeClass('error');
+        }
+    });
 
-// Global inventory object to hold saved items
-const inventoryData = {};
+    // Function to add items dynamically
+    function addItem(room, itemName, quantity) {
+        const roomItems = $('#roomItems');
+        const itemRow = $('<div>').addClass('row mb-3');
+        itemRow.html(`
+            <div class="col-md-8">${itemName}</div>
+            <div class="col-md-4"><input type="number" class="form-control" value="${quantity}"></div>
+        `);
+        roomItems.append(itemRow);
 
-// Function to save item to inventory
-function saveItem(room, index, quantity) {
-    if (!inventoryData[room]) {
-        inventoryData[room] = [];
-    }
-    inventoryData[room][index] = { quantity };
-    console.log(`Saved ${quantity} for ${room}, item ${index}`); // You can use this to verify that data is being saved
-}
-
-// Show room items when a room is selected
-document.getElementById('roomSelect').addEventListener('change', function () {  
-    const roomSelect = document.getElementById('roomSelect');
-    const roomItems = document.getElementById('roomItems');
-    const selectedRoom = roomSelect.value;
-    roomItems.innerHTML = ''; // Clear previous items
-
-    const roomInventory = {
-        mainBedroom: [
-            { name: 'King Bed', quantity: 1 },
-            { name: 'Queen Bed', quantity: 1 },
-            { name: 'Nightstand', quantity: 2 },
-        ],
-        secondBedroom: [
-            { name: 'Twin Bed', quantity: 2 },
-            { name: 'Bunk Bed', quantity: 1 },
-            { name: 'Nightstand', quantity: 1 },
-        ],
-        kitchen: [
-            { name: 'Refrigerator', quantity: 1 },
-            { name: 'Microwave', quantity: 1 },
-            { name: 'Dishwasher', quantity: 1 },
-            { name: 'Coffee Maker', quantity: 1 },
-        ],
-        livingRoom: [
-            { name: 'Sofa', quantity: 1 },
-            { name: 'Coffee Table', quantity: 1 },
-            { name: 'TV Stand', quantity: 1 },
-        ]
-    };
-
-    if (roomInventory[selectedRoom]) {
-        roomInventory[selectedRoom].forEach((item, index) => {
-            const row = document.createElement('div');
-            row.className = 'row mb-3';
-            row.innerHTML = `
-                <div class="col-md-8">
-                    <label class="form-label">${item.name}</label>
-                </div>
-                <div class="col-md-4">
-                    <input type="number" class="form-control" placeholder="Quantity" id="item-${selectedRoom}-${index}">
-                </div>
-            `;
-            roomItems.appendChild(row);
-
-            // Dynamically attach the event listener
-            const inputElement = document.getElementById(`item-${selectedRoom}-${index}`);
-            inputElement.addEventListener('input', function () {
-                saveItem(selectedRoom, index, inputElement.value);
-            });
+        // Dynamically attach the event listener
+        const inputElement = itemRow.find('input');
+        inputElement.on('input', function() {
+            saveItem(room, itemName, inputElement.val());
         });
-    } else {
-        roomItems.innerHTML = '<p>No items available for this room.</p>';
     }
+
+    // Add items dynamically
+    addItem('mainBedroom', 'Queen Bed', 1);
+    addItem('mainBedroom', 'King Bed', 1);
+    addItem('kitchen', 'Refrigerator', 1);
+    addItem('livingRoom', 'Sofa', 1);
+    addItem('livingRoom', 'Coffee Table', 1);
+
+    // Function to sort inventory items
+    function sortInventory(sortBy) {
+        const roomItems = $('#roomItems');
+        let items = roomItems.children();
+        items.sort((a, b) => {
+            const valA = $(a).find('.form-label').text();
+            const valB = $(b).find('.form-label').text();
+            if (sortBy === 'name') {
+                return valA.localeCompare(valB);
+            } else if (sortBy === 'quantity') {
+                const quantityA = parseInt($(a).find('input').val());
+                const quantityB = parseInt($(b).find('input').val());
+                return quantityA - quantityB;
+            }
+        });
+        // Clear and re-add sorted items
+        roomItems.html('');
+        items.each((index, item) => roomItems.append(item));
+    }
+
+    // Sort inventory items when a sort option is selected
+    $('#sort-dropdown').on('change', function() {
+        const selectedSortBy = $(this).val();
+        sortInventory(selectedSortBy);
+    });
+
+    // Global inventory object to hold saved items
+    const inventoryData = {};
+
+    // Function to save item to inventory
+    function saveItem(room, itemName, quantity) {
+        if (!inventoryData[room]) {
+            inventoryData[room] = [];
+        }
+        inventoryData[room][itemName] = { quantity };
+        console.log(`Saved ${quantity} for ${room}, item ${itemName}`); // You can use this to verify that data is being saved
+    }
+
+    // Show room items when a room is selected
+    $('#roomSelect').on('change', function() {
+        const roomSelect = $(this);
+        const roomItems = $('#roomItems');
+        const selectedRoom = roomSelect.val();
+        roomItems.html(''); // Clear previous items
+
+        const roomInventory = {
+            mainBedroom: [
+                { name: 'King Bed', quantity: 1 },
+                { name: 'Queen Bed', quantity: 1 },
+                { name: 'Nightstand', quantity: 2 },
+            ],
+            secondBedroom: [
+                { name: 'Twin Bed', quantity: 2 },
+                { name: 'Bunk Bed', quantity: 1 },
+                { name: 'Nightstand', quantity: 1 },
+            ],
+            kitchen: [
+                { name: 'Refrigerator', quantity: 1 },
+                { name: 'Microwave', quantity: 1 },
+                { name: 'Dishwasher', quantity: 1 },
+                { name: 'Coffee Maker', quantity: 1 },
+            ],
+            livingRoom: [
+                { name: 'Sofa', quantity: 1 },
+                { name: 'Coffee Table', quantity: 1 },
+                { name: 'TV Stand', quantity: 1 },
+            ]
+        };
+
+        if (roomInventory[selectedRoom]) {
+            roomInventory[selectedRoom].forEach((item, index) => {
+                addItem(selectedRoom, item.name, item.quantity);
+            });
+        } else {
+            roomItems.html('<p>No items available for this room.</p>');
+        }
+    });
+
+    // Client Name Validation
+    $('#clientName').on('input', function() {
+        const nameField = $(this);
+        const nameValue = nameField.val();
+        const nameError = $('#clientName-error');
+
+        if (nameValue.trim() === '') {
+            nameError.text('Please enter your name.');
+            nameField.addClass('error');
+        } else {
+            nameError.text('');
+            nameField.removeClass('error');
+        }
+        // Add more validation for name field here if needed
+    });
 });
-
-// Function to save item to inventory
-
-function saveItem(room, index, quantity) {
-    if (!inventoryData[room]) {
-        inventoryData[room] = [];
-    }
-    inventoryData[room][index] = { quantity };
-    console.log(`Saved ${quantity} for ${room}, item ${index}`); // You can use this to verify that data is being saved
-}
-
-     // Client Name Validation
-     document.getElementById('clientName').addEventListener('input', function () {
-         const nameField = this;
-         const nameValue = nameField.value;
-         const nameError = document.getElementById('clientName-error');
-         if (nameValue.trim() === '') {
-             nameError.textContent = 'Please enter your name.';
-             nameField.classList.add('error');
-         } else {
-             nameError.textContent = '';
-             nameField.classList.remove('error');
-         }
-         // Add more validation for name field here if needed
-     }); 
- 
-     // Add more validation for name field here if needed}
   // Client Origin Validation
      document.getElementById('origin').addEventListener('input', function () {
      const originField = this;
