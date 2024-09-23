@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exceptional Movers Inventory List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap 5 CSS CDN -->        
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="text-center mb-4">
+        <h1 class="text-danger">Moving Inventory List</h1>
+    
+        <div class="row">
+            <!-- Left Side: Personal Information -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Step 1: Personal Information</h2>
+                        <div class="mb-3">
+                            <label for="clientName" class="form-label">Name:</label>
+                            <input type="text" id="clientName" name="clientName" class="form-control">
+                            <span id="clientName-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="origin" class="form-label">Origin Address <i class="fas fa-info-circle" title="Enter the address where the move will start."></i></label>
+                            <input type="text" id="origin" name="origin" class="form-control">
+                            <span id="origin-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Destination Address:</label>
+                            <input type="text" id="destination" name="destination" class="form-control">
+                            <span id="destination-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="clientEmail" class="form-label">Email:</label>
+                            <input type="email" id="clientEmail" name="clientEmail" class="form-control">
+                            <span id="email-error" class="error-message"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="moveDate" class="form-label">Move Date:</label>
+                            <input type="date" id="moveDate" name="moveDate" class="form-control">
+                            <span id="moveDate-error" class="error-message"></span>
+                        </div>
+                        <button class="btn btn-primary">Next</button>
+                    </div>
+                </div>
+            </div>
+            </div> <!-- Closing div for the main container -->
+
+            <!-- Right Side: Inventory List -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Step 2: Inventory Details</h2>
+                        
+                        <!-- Room Selector -->
+                        <div class="mb-3">
+                            <label for="roomSelect" class="form-label">Select Room:</label>
+                            <select id="roomSelect" class="form-select">
+                                <option value="">Choose a Room</option>
+                                <option value="mainBedroom">Main Bedroom</option>
+                                <option value="firstBedroom">First Bedroom</option>
+                                <option value="secondBedroom">Second Bedroom</option>
+                                <option value="diningRoom">Dining Room</option>
+                                <option value="livingRoom">Living Room</option>
+                                <option value="kitchen">Kitchen</option>
+                                <option value="garage">Garage</option>
+                            </select>
+                        </div>
+            
+                        <!-- Inventory for Selected Room -->
+                        <div id="roomItems" class="mb-3">
+                            <!-- Dynamic content will appear here -->
+                         </div>
+            
+                        <!-- Navigation Buttons -->
+                        <button class="btn btn-secondary">Previous</button>
+                        <button class="btn btn-primary">Next</button>
+                    </div>
+                </div>
+            </div>
+            
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Review & Submit -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Step 3: Review & Submit</h2>
+                <!-- Review details and submit -->
+                <button class="btn btn-secondary">Previous</button>
+                <button id="submit-button" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+
+  <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button> 
+
+    <!-- Bootstrap 5 JS and Popper.js CDN (optional, for interactive components like modals or dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Include the new JS files -->
+    <script src="validation.js"></script>
+    <script src="inventory.js"></script>
+    <script src="theme.js"></script>
+    <script src="script.js"></script>
+    <!-- Modal Structure -->
+    <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomModalLabel">Select Room Items</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalRoomItems">
+                        <!-- Room-specific inventory items will be loaded here dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveRoomSelection">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
