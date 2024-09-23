@@ -14,16 +14,16 @@ import mongoose from 'mongoose';
 import { User } from './models/User';
 import { Inventory } from './models/Inventory';
 import { InventoryItem } from './models/InventoryItem';
-
+import { sendEmail } from './utils/email';
+import { validateInventoryItem } from './utils/validateInventoryItem.js';
+import connectDB from './utils/dbConfig.js';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Define routes
-
-
+// Middleware setup
 app.use(helmet());
 app.use(cookieParser());
 app.use(compression());
@@ -32,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const csrfProtection = csrf({ cookie: true });
+app.use(csrfProtection);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve()));
 
@@ -40,14 +41,31 @@ const rateLimiter = rateLimit({
     max: 100, // Limit each IP to 100 requests per windowMs
     message: 'Too many requests, please try again later.'
 });
-
-// Apply rate limiter to all requests
 app.use(rateLimiter);
+
+// Custom middleware for authentication
+app.use((req, res, next) => {
+    const token = req.headers['authorization'];
+    if (token) {
+        User.findOne({ token }, (err, user) => {
+            if (err) {
+                return res.status(500).send('Server error');
+            }
+            if (!user) {
+                return res.status(401).send('Unauthorized');
+            }
+            req.user = user;
+            next();
+        });
+    } else {
+        res.status(401).send('Unauthorized');
+    }
+});
 
 // Custom regular expression for route parameters
 const customParamRegex = /^[a-zA-Z0-9_]+$/;
 
-app.param('customParam', (res, next, value) => {
+app.param('customParam', (req, res, next, value) => {
     if (customParamRegex.test(value)) {
         next();
     } else {
@@ -55,14 +73,93 @@ app.param('customParam', (res, next, value) => {
     }
 });
 
-// Connect to MongoDB Atlas
-const dbURI = process.env.MONGO_URI;
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB Atlas!'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Connect to MongoDB
+connectDB();
 
-// Rest of your server setup (routes, middlewares, etc.)
+// Routes
+app.post('/submit_form', csrfProtection, async (req, res) => {
+    try {
+        const { clientEmail, clientName } = req.body;
 
+        // Process form and save to the database...
+
+        // Send confirmation email
+        await sendEmail({
+            to: clientEmail,
+            subject: 'Inventory Form Submitted',
+            html: `<p>Hi ${clientName}, your inventory form has been submitted successfully!</p>`
+        });
+
+        res.status(200).send('Form submitted and email sent!');
+    } catch (error) {
+        res.status(500).send('Error processing form or sending email.');
+    }
+});
+
+app.get('/inventory', async (req, res) => {
+    try {
+        const inventoryItems = await InventoryItem.find({});
+        res.json(inventoryItems);
+    } catch (error) {
+        res.status(500).send('Error retrieving inventory items.');
+    }
+});
+
+app.post('/inventory', csrfProtection, async (req, res) => {
+    const itemData = req.body;
+
+    // Validate inventory item
+    const validation = validateInventoryItem(itemData);
+    if (!validation.isValid) {
+        return res.status(400).json({ errors: validation.errors });
+    }
+
+    // Add item to inventory
+    try {
+        const newItem = new InventoryItem(itemData);
+        await newItem.save();
+        res.status(200).send('Item added successfully');
+    } catch (error) {
+        res.status(500).send('Failed to add inventory item');
+    }
+});
+
+app.put('/inventory/:id', csrfProtection, async (req, res) => {
+    const { id } = req.params;
+    const itemData = req.body;
+
+    // Validate inventory item
+    const validation = validateInventoryItem(itemData);
+    if (!validation.isValid) {
+        return res.status(400).json({ errors: validation.errors });
+    }
+
+    // Update item in inventory
+    try {
+        const updatedItem = await InventoryItem.findByIdAndUpdate(id, itemData, { new: true });
+        if (!updatedItem) {
+            return res.status(404).send('Item not found.');
+        }
+        res.json(updatedItem);
+    } catch (error) {
+        res.status(500).send('Failed to update inventory item');
+    }
+});
+
+app.delete('/inventory/:id', csrfProtection, async (req, res) => {
+    const { id } = req.params;
+
+    // Remove item from inventory
+    try {
+        const deletedItem = await InventoryItem.findByIdAndDelete(id);
+        if (!deletedItem) {
+            return res.status(404).send('Item not found.');
+        }
+        res.json(deletedItem);
+    } catch (error) {
+        res.status(500).send('Failed to delete inventory item');
+    }
+});
 
 app.get('/:customParam', csrfProtection, (req, res) => {
     res.cookie('XSRF-TOKEN', req.csrfToken());
@@ -125,6 +222,7 @@ app.get('/:customParam', csrfProtection, (req, res) => {
 app.post('/submit_form', csrfProtection, (req, res) => {
     res.send('Form data received');
 });
+
 app.use((err, _req, res, next) => {
     if (err.code === 'EBADCSRFTOKEN') {
         res.status(403);
@@ -156,10 +254,8 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
 
 export default app;

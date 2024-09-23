@@ -17,10 +17,10 @@ h1, h2 {
     margin: 0 auto;
 }
 
-/* Neumorphic card design */
+/* Neumorphic Card Design */
 .card {
-    background: #fff;
-    border-radius: 15px;
+    background-color: #f0f0f3;
+    border-radius: 20px;
     box-shadow: 9px 9px 16px rgba(0, 0, 0, 0.1),
                 -9px -9px 16px rgba(255, 255, 255, 0.7);
     padding: 20px;
@@ -29,7 +29,7 @@ h1, h2 {
 }
 
 .card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
 }
 
 .card h2 {
@@ -42,21 +42,21 @@ h1, h2 {
     color: #666;
 }
 
-/* Buttons with neumorphism and flat design */
+/* Neumorphic Buttons */
 .btn {
+    background-color: #f0f0f3;
+    border-radius: 50px;
+    box-shadow: 9px 9px 16px rgba(0, 0, 0, 0.1),
+                -9px -9px 16px rgba(255, 255, 255, 0.7);
     padding: 10px 20px;
-    border-radius: 25px;
     border: none;
-    background-color: #ff5722;
-    color: white;
     font-weight: bold;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15),
-                -3px -3px 8px rgba(255, 255, 255, 0.6);
-    transition: background-color 0.3s ease;
+    color: #333;
+    transition: all 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #e64a19;
+    background-color: #d6d6d6;
 }
 
 /* Flat design form elements */
