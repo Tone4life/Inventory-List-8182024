@@ -1,7 +1,8 @@
 import { validateField, validateForm, validateStep } from './validation.js';
-import { addItem, sortInventory, saveItem } from './inventory.js';
+import { addItem, sortInventory } from './inventory.js';
 import { toggleTheme, loadUserThemePreference } from './theme.js';
 
+// Initialize Sentry for error tracking
 Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
 
 // Initialize tooltips and popovers
@@ -10,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $('[data-toggle="popover"]').popover();
 });
 
-// Initialize datepickers and Timepickers
+// Initialize datepickers and timepickers
 $(document).ready(function() {
     $('input[type="date"]').datepicker();
     $('input[type="time"]').timepicker();
@@ -20,12 +21,10 @@ $(document).ready(function() {
 $(document).ready(function() {
     const searchInput = $('#productSearch');
     const searchSuggestions = $('#searchSuggestions');
-    const searchResults = $('#searchResults');
     const searchError = $('#search-error');
     const searchIcon = $('#search-icon');
     let searchSuggestionsArray = [];
 
-    // Fetch product suggestions from API
     fetch('https://api.example.com/products')
         .then(response => response.json())
         .then(data => {
@@ -38,10 +37,11 @@ $(document).ready(function() {
             searchError.text('Error fetching product suggestions.');
         });
 
-    // Update search suggestions based on input
     searchInput.on('input', function() {
         const searchInputValue = this.value;
-        const searchSuggestionsArrayFiltered = searchSuggestionsArray.filter(suggestion => suggestion.toLowerCase().includes(searchInputValue.toLowerCase()));
+        const searchSuggestionsArrayFiltered = searchSuggestionsArray.filter(suggestion =>
+            suggestion.toLowerCase().includes(searchInputValue.toLowerCase())
+        );
         searchSuggestions.html('');
         searchIcon.removeClass('fa-spinner').addClass('fa-times');
     });
@@ -57,7 +57,7 @@ $(document).ready(function() {
     const destinationField = $('#destination');
     new google.maps.places.Autocomplete(originField[0], { types: ['geocode'], componentRestrictions: { country: 'us' } });
     new google.maps.places.Autocomplete(destinationField[0], { types: ['geocode'], componentRestrictions: { country: 'us' } });
-
+    
     // Real-Time Validation
     $('#clientEmail').on('input', function() {
         validateField($(this), /^[^\s@]+@[^\s@]+\.[^\s@]+$/, $('#email-error'), 'Please enter a valid email address.');
@@ -86,14 +86,9 @@ $(document).ready(function() {
     addItem('livingRoom', 'Sofa', 1);
     addItem('livingRoom', 'Coffee Table', 1);
 
-    // Sort inventory items when a sort option is selected
+    // Sort inventory items when the sort option is selected
     $('#sort-dropdown').on('change', function() {
         sortInventory(this.value);
-    });
-
-    // Show room items when a room is selected
-    $('#roomSelect').on('change', function() {
-        // Implementation here
     });
 
     // Handle form submission
@@ -108,13 +103,12 @@ $(document).ready(function() {
         };
 
         if (validateForm(formData)) {
-            // Submit form
+            // Submit form logic goes here
         }
     });
 
     // Theme toggle functionality
-    const themeToggleButton = $('#theme-toggle');
-    themeToggleButton.on('click', function() {
+    $('#theme-toggle').on('click', function() {
         toggleTheme();
     });
 
@@ -123,26 +117,7 @@ $(document).ready(function() {
         loadUserThemePreference();
     });
 
-    // Save progress
-    $('#save-progress').on('click', function() {
-        // Implementation here
-    });
-
-    // Load saved data on page load
-    $(window).on('load', function() {
-        // Implementation here
-    });
-
-    setInterval(function() {
-        // Save every 30 seconds
-    }, 30000);
-
-    // Track form submission
-    $('#submit-button').on('click', function() {
-        // Implementation here
-    });
-
-    // Handle multi-step form functionality
+    // Multi-step form functionality
     let currentStep = 0;
     const steps = $(".step");
     const nextButtons = $(".next-button");
@@ -175,5 +150,3 @@ $(document).ready(function() {
         });
     });
 });
-
-// Server-side code remains unchanged
