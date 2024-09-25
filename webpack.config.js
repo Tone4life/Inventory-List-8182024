@@ -1,7 +1,7 @@
 import path from 'path';
 
 export default {
-  entry: './src/js/index.js', // Your entry JavaScript file
+  entry: './client/src/index.js', // Correct path to your entry JavaScript file
   output: {
     filename: 'bundle.js', // Name of the output bundled file
     path: path.resolve('dist'), // Output directory for the bundled files
@@ -15,7 +15,7 @@ export default {
       {
         test: /\.(js)$/, // Regex for JavaScript files
         exclude: /node_modules/,
-        use: 'babel-loader', // If you end up using Babel
+        use: 'babel-loader', // Use Babel loader for JS files
       },
     ],
   },

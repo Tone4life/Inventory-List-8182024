@@ -67,6 +67,14 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
+// Serve static assets from 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Wildcard route - must be placed after all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
 // Start the server with HTTPS
 const certPath = process.env.SSL_CERT_PATH;
 const keyPath = process.env.SSL_KEY_PATH;
