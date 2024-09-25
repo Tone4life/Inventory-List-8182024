@@ -183,3 +183,18 @@ test('handles very large quantities without causing performance issues', () => {
   // Restore the original console.log function
   mockConsoleLog.mockRestore();
 });
+
+// New test cases
+
+// Unit test for rejecting invalid emails
+it('should reject invalid emails', () => {
+  const invalidEmail = 'user@invalid';
+  expect(validateEmail(invalidEmail)).toBe(false);
+});
+
+// Unit test for handling large datasets efficiently
+it('should handle large datasets efficiently', () => {
+  const largeData = Array(1000000).fill({ name: 'Item', quantity: 1 });
+  const result = sortInventory(largeData);
+  expect(result.length).toBe(1000000);
+});

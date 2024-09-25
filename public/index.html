@@ -14,6 +14,10 @@
 <body>
     <div class="text-center mb-4">
         <h1 class="text-danger">Moving Inventory List</h1>
+
+         <!-- Lazy-loading image -->
+         <img src="logo.png" alt="Logo" loading="lazy">  <!-- Lazy-loading images -->
+
     
         <div class="row">
             <!-- Left Side: Personal Information -->
@@ -61,7 +65,7 @@
                         <!-- Room Selector -->
                         <div class="mb-3">
                             <label for="roomSelect" class="form-label">Select Room:</label>
-                            <select id="roomSelect" class="form-select">
+                            <select id="roomSelect" class="form-select" multiple>
                                 <option value="">Choose a Room</option>
                                 <option value="mainBedroom">Main Bedroom</option>
                                 <option value="firstBedroom">First Bedroom</option>
@@ -108,7 +112,9 @@
     <script type="module" src="/public/validation.js"></script>
     <script type="module" src="/public/inventory.js"></script>
     <script type="module" src="/public/theme.js"></script>
-    <script type="module" src="/public/script.js"></script> 
+    <script type="module" src="/public/script.js"></script>
+      <!-- Async loading JavaScript -->
+      <script async src="script.js"></script>  <!-- Async loading JavaScript --> 
     <!-- Modal Structure -->
     <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

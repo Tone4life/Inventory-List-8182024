@@ -20,7 +20,20 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware setup
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "https://apis.google.com"],
+        "style-src": ["'self'", "https://stackpath.bootstrapcdn.com"],
+        "img-src": ["'self'", "data:"],
+      },
+    },
+    xssFilter: true,  // XSS protection
+    noSniff: true,    // Prevent MIME-type sniffing
+    referrerPolicy: { policy: 'same-origin' }  // Same-origin referrer policy
+  }));
 app.use(cookieParser());
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +61,14 @@ const formRateLimiter = rateLimit({
 
 // Apply rate limiter only to sensitive routes
 app.use('/submit_form', formRateLimiter);
+
+// Global rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: 'Too many requests from this IP, please try again after 15 minutes.'
+});
+app.use(limiter);  // Apply rate limiting globally
 
 // Routes
 app.use('/inventory', inventoryRoutes);
