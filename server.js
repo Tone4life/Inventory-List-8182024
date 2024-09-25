@@ -13,6 +13,7 @@ import inventoryRoutes from './routes/inventory.js';
 import userRoutes from './routes/user.js';
 import submitFormRoutes from './routes/submit_form.js';
 import customParamRoutes from './routes/customParam.js';
+import csrf from 'csurf';
 
 dotenv.config();
 const app = express();
@@ -22,7 +23,6 @@ const port = process.env.PORT || 3000;
 app.use(helmet());
 app.use(cookieParser());
 app.use(compression());
-app.use(morgan('combined'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -33,11 +33,9 @@ if (process.env.NODE_ENV === 'production') {
     app.use(morgan('combined'));  // Detailed logging in development
 }
 
-
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 // CSRF protection middleware
-import csrf from 'csurf';
 const csrfProtection = csrf({ cookie: true });
 app.use(csrfProtection);
 
@@ -50,7 +48,6 @@ const formRateLimiter = rateLimit({
 
 // Apply rate limiter only to sensitive routes
 app.use('/submit_form', formRateLimiter);
-
 
 // Routes
 app.use('/inventory', inventoryRoutes);
@@ -87,9 +84,4 @@ https.createServer(options, app).listen(port, () => {
     console.log(`HTTPS Server is running on port ${port}`);
 });
 
-const http = require('http');
-
-// HTTP fallback server
-https.createServer(app).listen(80, () => {
-    console.log('HTTP Server is running on port 80');
-});
+// Removed HTTP fallback server to enforce HTTPS only
