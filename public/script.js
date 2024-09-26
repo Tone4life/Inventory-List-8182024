@@ -19,6 +19,7 @@ document.getElementById('roomSelect').addEventListener('change', function() {
     displayFurnitureForRooms(selectedRooms);  // Show furniture based on selected rooms
 });
 
+
 // Function to display furniture for selected rooms
 function displayFurnitureForRooms(rooms) {
     const roomItemsContainer = document.getElementById('roomItems');
