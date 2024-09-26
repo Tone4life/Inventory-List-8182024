@@ -78,9 +78,19 @@
                         </div>
             
                         <!-- Inventory for Selected Room -->
+                    
                         <div id="roomItems" class="mb-3">
+                            <!-- Select All Items Checkbox -->
+                            <div>
+                                <input type="checkbox" id="selectAllFurniture">
+                                <label for="selectAllFurniture">Select All Items</label>
+                            </div>
+                            <!-- Inventory items -->
                             <!-- Dynamic content will appear here -->
                          </div>
+                         
+                        <!-- Total Items Count -->
+                        <div id="itemCount">Total Items: 0</div>
             
                         <!-- Navigation Buttons -->
                         <button class="btn btn-secondary">Previous</button>
@@ -135,6 +145,38 @@
             </div>
         </div>
     </div>
+
+     <!-- Add the fetch code here -->
+     <script>
+        document.getElementById('submit-button').addEventListener('click', function(event) {
+            event.preventDefault();
+            const formData = {
+                clientName: document.getElementById('clientName').value,
+                origin: document.getElementById('origin').value,
+                destination: document.getElementById('destination').value,
+                clientEmail: document.getElementById('clientEmail').value,
+                moveDate: document.getElementById('moveDate').value,
+                // Add other form data as needed
+            };
+
+            fetch('/submit_form', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            }).then(response => response.json())
+              .then(data => {
+                  // Handle success or error messages here
+                  if (data.success) {
+                      console.log('Form submitted successfully:', data.message);
+                  } else {
+                      console.error('Form submission error:', data.error);
+                  }
+              })
+              .catch(error => {
+                  console.error('Network error:', error);
+              });
+        });
+    </script> 
 </body>
 
 </html>

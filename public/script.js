@@ -5,6 +5,52 @@ import { toggleTheme, loadUserThemePreference } from './theme.js';
 // Initialize Sentry for error tracking
 Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
 
+// Define room furniture data
+const roomFurniture = {
+    mainBedroom: ['Queen Bed', 'Nightstand', 'Wardrobe'],
+    livingRoom: ['Sofa', 'Coffee Table', 'TV Stand'],
+    kitchen: ['Dining Table', 'Refrigerator', 'Oven']
+    // Add more items and rooms as needed
+};
+
+// Event listener for room selection
+document.getElementById('roomSelect').addEventListener('change', function() {
+    const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
+    displayFurnitureForRooms(selectedRooms);  // Show furniture based on selected rooms
+});
+
+// Function to display furniture for selected rooms
+function displayFurnitureForRooms(rooms) {
+    const roomItemsContainer = document.getElementById('roomItems');
+    roomItemsContainer.innerHTML = ''; // Clear any previous items
+
+    rooms.forEach(room => {
+        const furniture = roomFurniture[room];
+        if (furniture) {
+            furniture.forEach(item => {
+                roomItemsContainer.innerHTML += `
+                    <div>
+                        <input type="checkbox" id="${item}" name="${room}" value="${item}">
+                        <label for="${item}">${item}</label>
+                    </div>
+                `;
+            });
+        }
+    });
+}
+
+// Function to track selected items
+document.getElementById('roomItems').addEventListener('change', function() {
+    const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked'))
+                              .map(input => input.value);
+    updateItemCount(selectedItems.length);  // Update selected item count
+});
+
+// Function to update item count display
+function updateItemCount(count) {
+    document.getElementById('itemCount').textContent = `Total Items Selected: ${count}`;
+}
+
 // Initialize tooltips and popovers
 document.addEventListener("DOMContentLoaded", function() {
     $('[data-toggle="tooltip"]').tooltip();
@@ -52,6 +98,14 @@ $(document).ready(function() {
         allowClear: true
     });
 
+    
+// Add event listener for room selection changes
+document.getElementById('roomSelect').addEventListener('change', function() {
+    const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
+    displayFurnitureForRooms(selectedRooms);
+});
+
+
     // Initialize Google Places Autocomplete for address fields
     const originField = $('#origin');
     const destinationField = $('#destination');
@@ -91,20 +145,31 @@ $(document).ready(function() {
         sortInventory(this.value);
     });
 
-    // Handle form submission
-    $('#submitForm').on('click', function(event) {
+    document.getElementById('submitForm').addEventListener('click', function(event) {
         event.preventDefault();
+    
         const formData = {
-            clientName: $('#clientName').val(),
-            origin: $('#origin').val(),
-            destination: $('#destination').val(),
-            clientEmail: $('#clientEmail').val(),
-            moveDate: $('#moveDate').val(),
+            clientName: document.getElementById('clientName').value,
+            clientEmail: document.getElementById('clientEmail').value,
+            moveDate: document.getElementById('moveDate').value,
+            origin: document.getElementById('origin').value,
+            destination: document.getElementById('destination').value,
+            selectedRooms: [],
+            selectedItems: []
         };
-
-        if (validateForm(formData)) {
-            // Submit form logic goes here
-        }
+    
+        // Capture selected rooms
+        const selectedRooms = Array.from(document.getElementById('roomSelect').selectedOptions).map(option => option.value);
+        formData.selectedRooms = selectedRooms;
+    
+        // Capture selected items per room
+        selectedRooms.forEach(room => {
+            const roomItems = Array.from(document.querySelectorAll(`input[name="${room}"]:checked`)).map(input => input.value);
+            formData.selectedItems.push(...roomItems);
+        });
+    
+        console.log(formData); // Send this data to the backend
+        // Submit form data logic here (e.g., AJAX, fetch)
     });
 
     // Theme toggle functionality
