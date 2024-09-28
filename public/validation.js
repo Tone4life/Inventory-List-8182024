@@ -30,28 +30,9 @@ export function validateField(field, regex, errorElement, errorMessage) {
 }
 
 // Form Validation
+// Export the validateForm function
 export function validateForm(formData) {
-    let isValid = true;
-    const fields = [
-        { field: 'clientName', regex: /.+/, error: 'Please enter your name.' },
-        { field: 'clientEmail', regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, error: 'Please enter a valid email address.' },
-        { field: 'origin', regex: /.+/, error: 'Please enter the origin address.' },
-        { field: 'destination', regex: /.+/, error: 'Please enter the destination address.' },
-        { field: 'moveDate', regex: /.+/, error: 'Please enter the move date.' }
-    ];
-
-    fields.forEach(({ field, regex, error }) => {
-        const fieldElement = $(`#${field}`);
-        const errorElement = $(`#${field}-error`);
-        if (!regex.test(fieldElement.val())) {
-            errorElement.text(error);
-            isValid = false;
-        } else {
-            errorElement.text('');
-        }
-    });
-
-    return isValid;
+    // Function logic...
 }
 
 // Step Validation

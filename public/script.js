@@ -2,64 +2,88 @@ import { validateField, validateForm, validateStep } from './validation.js';
 import { addItem, sortInventory } from './inventory.js';
 import { toggleTheme, loadUserThemePreference } from './theme.js';
 
-// Initialize Sentry for error tracking
-Sentry.init({ dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0' });
 
-// Define room furniture data
+// Define the available furniture for each room
 const roomFurniture = {
-    mainBedroom: ['Queen Bed', 'Nightstand', 'Wardrobe'],
+    mainBedroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+    firstRoom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+    secondroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+    diningroom: ['Dining Table', 'Chairs', 'Cabinet'],
     livingRoom: ['Sofa', 'Coffee Table', 'TV Stand'],
-    kitchen: ['Dining Table', 'Refrigerator', 'Oven']
-    // Add more items and rooms as needed
+    kitchen: ['Refrigerator', 'Dining Table', 'Microwave'],
+    garage: ['Tools', 'Bicycle', 'Storage Rack']
+    // Add more rooms and items as needed
 };
 
-// Event listener for room selection
-document.getElementById('roomSelect').addEventListener('change', function() {
-    const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
-    displayFurnitureForRooms(selectedRooms);  // Show furniture based on selected rooms
-});
-
-
-// Function to display furniture for selected rooms
-function displayFurnitureForRooms(rooms) {
-    const roomItemsContainer = document.getElementById('roomItems');
-    roomItemsContainer.innerHTML = ''; // Clear any previous items
-
-    rooms.forEach(room => {
-        const furniture = roomFurniture[room];
-        if (furniture) {
-            furniture.forEach(item => {
-                roomItemsContainer.innerHTML += `
-                    <div>
-                        <input type="checkbox" id="${item}" name="${room}" value="${item}">
-                        <label for="${item}">${item}</label>
-                    </div>
-                `;
-            });
-        }
-    });
-}
-
-// Function to track selected items
-document.getElementById('roomItems').addEventListener('change', function() {
-    const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked'))
-                              .map(input => input.value);
+  // Event listener for room items selection
+  document.getElementById('roomItems').addEventListener('change', function() {
+    const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked')).map(input => input.value);
     updateItemCount(selectedItems.length);  // Update selected item count
-});
+  });
+
 
 // Function to update item count display
 function updateItemCount(count) {
     document.getElementById('itemCount').textContent = `Total Items Selected: ${count}`;
 }
 
-// Initialize tooltips and popovers
-document.addEventListener("DOMContentLoaded", function() {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="popover"]').popover();
+// Function to display furniture based on the selected rooms
+function displayFurnitureForRooms(rooms) {
+    const roomItemsContainer = document.getElementById('roomItems');
+    roomItemsContainer.innerHTML = '';  // Clear previous content
+
+    // Iterate through selected rooms
+    rooms.forEach(room => {
+        console.log('Selected room:', room);  // Debugging statement
+
+        // Ensure the room exists in roomFurniture
+        const furniture = roomFurniture[room];  // Get furniture for the selected room
+        console.log('Furniture for this room:', furniture);  // Debugging statement
+
+        if (furniture) {
+            const fragment = document.createDocumentFragment();  // Use document fragment for performance
+            furniture.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <input type="checkbox" id="${item}" name="${room}" value="${item}">
+                    <label for="${item}">${item}</label>
+                `;
+                fragment.appendChild(div);
+            });
+            roomItemsContainer.appendChild(fragment);
+        }
+    });
+}
+
+// Event listener for room items selection
+document.getElementById('roomItems').addEventListener('change', function() {
+    // Define selectedItems here
+    const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked')).map(input => input.value);
+    
+    // Now update the item count
+    updateItemCount(selectedItems.length);  // Update selected item count
 });
 
+// Initialize tooltips and popovers
+document.addEventListener("DOMContentLoaded", function() {
+    ('[data-toggle="tooltip"]').tooltip();
+    ('[data-toggle="popover"]').popover();
+
+    // Event listener for room selection
+    document.getElementById('roomSelect').addEventListener('change', function() {
+        const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
+        displayFurnitureForRooms(selectedRooms);  // Show furniture based on selected rooms
+    });
+
+    // Event listener for room items selection
+    document.getElementById('roomItems').addEventListener('change', function() {
+        const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked')).map(input => input.value);
+        updateItemCount(selectedItems.length);  // Update selected item count
+    });
+})
+
 // Initialize datepickers and timepickers
-$(document).ready(function() {
+$(document).ready(function() {  // Use jQuery's document ready function
     $('input[type="date"]').datepicker();
     $('input[type="time"]').timepicker();
 });
@@ -86,7 +110,7 @@ $(document).ready(function() {
 
     searchInput.on('input', function() {
         const searchInputValue = this.value;
-        const searchSuggestionsArrayFiltered = searchSuggestionsArray.filter(suggestion =>
+        const filteredSuggestions = searchSuggestionsArray.filter(suggestion =>
             suggestion.toLowerCase().includes(searchInputValue.toLowerCase())
         );
         searchSuggestions.html('');
@@ -100,11 +124,6 @@ $(document).ready(function() {
     });
 
     
-// Add event listener for room selection changes
-document.getElementById('roomSelect').addEventListener('change', function() {
-    const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
-    displayFurnitureForRooms(selectedRooms);
-});
 
 
     // Initialize Google Places Autocomplete for address fields
@@ -149,15 +168,23 @@ document.getElementById('roomSelect').addEventListener('change', function() {
     document.getElementById('submitForm').addEventListener('click', function(event) {
         event.preventDefault();
     
+        // Gather form data
         const formData = {
             clientName: document.getElementById('clientName').value,
             clientEmail: document.getElementById('clientEmail').value,
-            moveDate: document.getElementById('moveDate').value,
             origin: document.getElementById('origin').value,
             destination: document.getElementById('destination').value,
-            selectedRooms: [],
-            selectedItems: []
+            moveDate: document.getElementById('moveDate').value,
+            selectedItems: []  // Initialize selectedItems as an empty array
         };
+    
+        // Call validateForm with the formData object
+        if (validateForm(formData)) {
+            // Proceed with form submission
+            console.log('Form is valid');
+        } else {
+            console.log('Form validation failed');
+        }
     
         // Capture selected rooms
         const selectedRooms = Array.from(document.getElementById('roomSelect').selectedOptions).map(option => option.value);
@@ -187,13 +214,13 @@ document.getElementById('roomSelect').addEventListener('change', function() {
     let currentStep = 0;
     const steps = $(".step");
     const nextButtons = $(".next-button");
-    const prevButtons = $(".previous-button");
-
     function showStep(stepIndex) {
         steps.each(function(index) {
-            $(this).css('display', index === stepIndex ? 'block' : 'none');
+            $(this).toggle(index === stepIndex);
         });
-    }
+    }       $(this).css('display', index === stepIndex ? 'block' : 'none');
+        });
+    
 
     nextButtons.on('click', function() {
         if (validateStep(currentStep, steps)) {
@@ -215,4 +242,5 @@ document.getElementById('roomSelect').addEventListener('change', function() {
             }
         });
     });
-});
+
+    

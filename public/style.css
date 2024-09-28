@@ -134,3 +134,21 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focu
     text-decoration: underline;
 }
 
+/* Ensure #roomItems is displayed as a block element */
+#roomItems {
+    display: block; /* Ensure it's not hidden */
+}
+
+.logo {
+    width: 50px;   /* Fixed width for desktop */
+    height: auto;   /* Maintain aspect ratio */
+    display: block; /* Block-level image */
+    margin: 0 auto; /* Center the image */
+}
+
+@media (max-width: 600px) {
+    .logo {
+        width: 10px;  /* Adjust the image size for mobile */
+    }
+}
+

@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="style.css">
     <!-- Bootstrap 5 CSS CDN -->        
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Add the Sentry SDK here -->
+    <script
+    src="https://js.sentry-cdn.com/fdac23202fa0a35afef58bc704679497.min.js"
+    crossorigin="anonymous"
+  ></script> 
 </head>
 
 <body>
@@ -16,7 +22,7 @@
         <h1 class="text-danger">Moving Inventory List</h1>
 
          <!-- Lazy-loading image -->
-         <img src="logo.png" alt="Logo" loading="lazy">  <!-- Lazy-loading images -->
+         <img src="images.jpg" alt="Exceptional Movers Logo" class="logo" loading="lazy">
 
     
         <div class="row">
@@ -77,10 +83,11 @@
                             </select>
                         </div>
             
-                        <!-- Inventory for Selected Room -->
-                    
-                        <div id="roomItems"></div>
+                       <!-- Where the furniture list will be displayed -->
+                            <div id="roomItems"></div>
                             <!-- Select All Items Checkbox -->
+                             <!-- Total Items Count -->
+                        <div id="itemCount">Total Items: 0</div>
                             <div>
                                 <input type="checkbox" id="selectAllFurniture">
                                 <label for="selectAllFurniture">Select All Items</label>
@@ -89,8 +96,7 @@
                             <!-- Dynamic content will appear here -->
                          </div>
                          
-                        <!-- Total Items Count -->
-                        <div id="itemCount">Total Items: 0</div>
+    
             
                         <!-- Navigation Buttons -->
                         <button class="btn btn-secondary">Previous</button>
@@ -113,18 +119,16 @@
             </div>
         </div>
 
-  <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button> 
+            <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button> 
 
     <!-- Bootstrap 5 JS and Popper.js CDN (optional, for interactive components like modals or dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <!-- Include the new JS files -->
-    <script type="module" src="/public/validation.js"></script>
-    <script type="module" src="/public/inventory.js"></script>
-    <script type="module" src="/public/theme.js"></script>
-    <script type="module" src="/public/script.js"></script>
-      <!-- Async loading JavaScript -->
-      <script async src="script.js"></script>  <!-- Async loading JavaScript --> 
+    <script type="module" src="validation.js"></script>
+    <script type="module" src="inventory.js"></script>
+    <script type="module" src="theme.js"></script>
+    <script type="module" src="script.js"></script>
     <!-- Modal Structure -->
     <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -176,7 +180,46 @@
                   console.error('Network error:', error);
               });
         });
+
+         // Event listener for room selection
+         document.getElementById('roomSelect').addEventListener('change', function() {
+            const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
+            displayFurnitureForRooms(selectedRooms);  // Update the furniture list dynamically
+        });
+
+        // Function to display furniture based on the selected rooms
+        function displayFurnitureForRooms(rooms) {
+            const roomItemsContainer = document.getElementById('roomItems');
+            roomItemsContainer.innerHTML = '';  // Clear previous content
+
+            rooms.forEach(room => {
+                const roomFurniture = {
+                   mainBedroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+                   firstBedroom: ['Twin Bed', 'Dresser', 'Desk'],
+                   secondBedroom: ['Full Bed', 'Bookshelf', 'Chair'],
+                   diningRoom: ['Dining Table', 'Chairs', 'Sideboard'],
+                   livingRoom: ['Sofa', 'Coffee Table', 'TV Stand'],
+                   kitchen: ['Refrigerator', 'Dining Table', 'Microwave'],
+                   garage: ['Workbench', 'Tool Chest', 'Ladder']
+};
+
+       
+        if (furniture) {
+            furniture.forEach(item => {
+                // Add a checkbox for each furniture item
+                roomItemsContainer.innerHTML += `
+                    <div>
+                        <input type="checkbox" id="${item}" name="${room}" value="${item}">
+                        <label for="${item}">${item}</label>
+                    </div>
+                `;
+            });
+        }
+    });
+}
+
     </script> 
+    
 </body>
 
 </html>
