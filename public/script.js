@@ -55,27 +55,15 @@ function displayFurnitureForRooms(rooms) {
     });
 }
 
-// Event listener for room items selection
-document.getElementById('roomItems').addEventListener('change', function() {
-    // Define selectedItems here
-    const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked')).map(input => input.value);
-    
-    // Now update the item count
-    updateItemCount(selectedItems.length);  // Update selected item count
-});
-
 // Initialize tooltips and popovers
 document.addEventListener("DOMContentLoaded", function() {
-    ('[data-toggle="tooltip"]').tooltip();
-    ('[data-toggle="popover"]').popover();
-
-    // Event listener for room selection
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
     document.getElementById('roomSelect').addEventListener('change', function() {
         const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
         displayFurnitureForRooms(selectedRooms);  // Show furniture based on selected rooms
     });
 
-    // Event listener for room items selection
     document.getElementById('roomItems').addEventListener('change', function() {
         const selectedItems = Array.from(document.querySelectorAll('#roomItems input:checked')).map(input => input.value);
         updateItemCount(selectedItems.length);  // Update selected item count
@@ -96,6 +84,16 @@ $(document).ready(function() {
     const searchIcon = $('#search-icon');
     let searchSuggestionsArray = [];
 
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        // Handle the data
+    })
+    .catch(error => {
+        console.error('Error fetching product suggestions:', error);
+        searchError.text('Error fetching product suggestions.');
+    });
+
     fetch('https://api.example.com/products')
         .then(response => response.json())
         .then(data => {
@@ -108,14 +106,14 @@ $(document).ready(function() {
             searchError.text('Error fetching product suggestions.');
         });
 
-    searchInput.on('input', function() {
-        const searchInputValue = this.value;
-        const filteredSuggestions = searchSuggestionsArray.filter(suggestion =>
-            suggestion.toLowerCase().includes(searchInputValue.toLowerCase())
-        );
-        searchSuggestions.html('');
-        searchIcon.removeClass('fa-spinner').addClass('fa-times');
-    });
+        searchInput.on('input', debounce(function() {
+            const searchInputValue = this.value;
+            const filteredSuggestions = searchSuggestionsArray.filter(suggestion =>
+                suggestion.toLowerCase().includes(searchInputValue.toLowerCase())
+            );
+            searchSuggestions.html('');  // Clear previous suggestions
+            searchIcon.removeClass('fa-spinner').addClass('fa-times');
+        }, 300));  // Delay of 300ms
 
     // Initialize Select2 for dropdowns
     $('select').select2({
@@ -212,7 +210,7 @@ $(document).ready(function() {
 
     // Multi-step form functionality
     let currentStep = 0;
-    const steps = $(".step");
+    const steps = $(".step");  // Use const for variables that won't change
     const nextButtons = $(".next-button");
     function showStep(stepIndex) {
         steps.each(function(index) {
