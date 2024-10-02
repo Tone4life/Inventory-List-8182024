@@ -4,15 +4,17 @@ import dotenv from 'dotenv';
 
 dotenv.config(); // Load environment variables
 
+// Set strictQuery to prepare for Mongoose 7
+mongoose.set('strictQuery', true);  // Or false, depending on your preference
+
 const connectDB = async () => {
   try {
     const dbURI = process.env.MONGO_URI;
     await mongoose.connect(dbURI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true,  // Handles reconnections automatically
       retryWrites: true,  // Ensures writes are retried on failure
       connectTimeoutMS: 30000, // Timeouts for better performance
-      autoReconnect: true, // Ensure reconnections on disconnections
     });
     console.log('Connected to MongoDB successfully');
   } catch (error) {
@@ -22,3 +24,4 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+

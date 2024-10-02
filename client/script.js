@@ -31,11 +31,48 @@ function bindEvents() {
     domElements.submitForm.addEventListener('click', handleSubmitForm);
     domElements.themeToggle.addEventListener('click', toggleTheme);
     
-    // Other event listeners
-    const nextButtons = document.querySelectorAll('.next-button');
-    nextButtons.forEach(button => {
-        button.addEventListener('click', handleNextStep);
+    // Event delegation for handling form buttons
+    document.body.addEventListener('click', function (event) {
+        if (event.target.matches('.next-button')) {
+            handleNextStep();
+        }
     });
+}
+
+// Store theme preference in localStorage
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+}
+
+// Load user's theme preference on page load
+function loadUserThemePreference() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+// Room furniture data
+const roomFurniture = {
+    mainBedroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+    firstRoom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+    secondRoom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
+    diningRoom: ['Dining Table', 'Chairs', 'Cabinet'],
+    livingRoom: ['Sofa', 'Coffee Table', 'TV Stand'],
+    kitchen: ['Refrigerator', 'Dining Table', 'Microwave'],
+    garage: ['Tools', 'Bicycle', 'Storage Rack']
+    // Add more rooms and items as needed
+};
+
+// Cache the room furniture data once to avoid reprocessing
+let cachedFurnitureData = {};
+function getCachedFurniture(room) {
+    if (!cachedFurnitureData[room]) {
+        cachedFurnitureData[room] = roomFurniture[room] || [];
+    }
+    return cachedFurnitureData[room];
 }
 
 // Handle room selection
@@ -48,8 +85,8 @@ function handleRoomSelection() {
 function displayFurnitureForRooms(rooms) {
     domElements.roomItems.innerHTML = ''; // Clear previous content
     rooms.forEach(room => {
-        const furniture = roomFurniture[room];
-        if (furniture) {
+        const furniture = getCachedFurniture(room);
+        if (furniture.length) {
             const fragment = document.createDocumentFragment();
             furniture.forEach(item => {
                 const div = document.createElement('div');
@@ -66,7 +103,9 @@ function displayFurnitureForRooms(rooms) {
 
 // Function to update item count display
 function updateItemCount() {
-    const selectedItems = Array.from(domElements.roomItems.querySelectorAll('input:checked')).map(input => input.value);
+    // Avoid repeatedly calling document.querySelectorAll within the loop
+    const roomInputs = domElements.roomItems.querySelectorAll('input:checked');
+    const selectedItems = Array.from(roomInputs).map(input => input.value);
     domElements.itemCount.textContent = `Total Items Selected: ${selectedItems.length}`;
 }
 
@@ -146,5 +185,18 @@ function submitFormData(formData) {
     .then(data => console.log('Form submitted successfully', data))
     .catch(error => console.error('Error submitting form:', error));
 }
+
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Use debounce for search input
+document.getElementById('searchInput').addEventListener('input', debounce(function() {
+    // Perform search logic here
+}, 300));
 
     

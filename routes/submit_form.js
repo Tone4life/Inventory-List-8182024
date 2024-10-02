@@ -1,3 +1,11 @@
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import csrf from 'csurf';
+import { sendEmail } from '../utils/email.js'; // Assuming you have an email utility
+
+const router = express.Router();
+const csrfProtection = csrf({ cookie: true });
+
 router.post(
   '/',
   csrfProtection,
@@ -30,3 +38,5 @@ router.post(
     }
   }
 );
+
+export default router;

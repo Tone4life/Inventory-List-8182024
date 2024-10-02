@@ -1,5 +1,5 @@
 import express from 'express';
-import { InventoryItem } from '../models/InventoryItem';
+import { InventoryItem } from '../models/InventoryItem.js';
 import { validateInventoryItem } from '../utils/validateInventoryItem.js';
 import csrf from 'csurf';
 import { body, validationResult } from 'express-validator';

@@ -1,5 +1,5 @@
 import express from 'express';
-import { User } from '../models/User';
+import { User } from '../models/User.js';
 import csrf from 'csurf';
 
 const router = express.Router();

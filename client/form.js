@@ -12,6 +12,8 @@ export function handleFormSubmission() {
   if (validateForm(formData)) {
     // Process form
     alert('Form submitted successfully!');
+  } else {
+    alert('Form validation failed. Please check your inputs.');
   }
 }
 

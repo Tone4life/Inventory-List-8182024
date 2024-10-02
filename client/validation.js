@@ -1,31 +1,33 @@
-// Email validation with sanitization
+// Enhanced Email validation with stricter regex
 export function validateEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const sanitizedEmail = email.trim().toLowerCase(); // Sanitize by trimming and converting to lowercase
-    return emailPattern.test(sanitizedEmail);
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-z]{2,6}$/i; // Ensure valid domain extensions
+    const sanitizedEmail = email.trim().toLowerCase();
+    return emailPattern.test(sanitizedEmail) && sanitizedEmail.length <= 255; // Limit to 255 characters (email standard)
 }
 
-// Name validation with sanitization
+// Enhanced Name validation
 export function validateName(name) {
-    const sanitizedName = name.trim().replace(/[<>]/g, ""); // Sanitize by removing potential HTML tags
-    return sanitizedName !== '';
+    const sanitizedName = name.trim().replace(/[<>]/g, "");
+    return sanitizedName.length >= 2 && sanitizedName.length <= 100; // Name must be between 2 and 100 characters
 }
 
-// Address validation with sanitization
+// Enhanced Address validation
 export function validateAddress(address) {
-    const sanitizedAddress = address.trim().replace(/[<>]/g, ""); // Sanitize by removing potential HTML tags
-    return sanitizedAddress !== '';
+    const sanitizedAddress = address.trim().replace(/[<>]/g, "");
+    return sanitizedAddress.length >= 5 && sanitizedAddress.length <= 255; // Addresses should have reasonable length
 }
 
-// Move date validation with basic sanitization
+// Enhanced Move date validation
 export function validateMoveDate(date) {
     const sanitizedDate = date.trim();
-    return sanitizedDate !== '';
+    const moveDate = new Date(sanitizedDate);
+    const currentDate = new Date();
+    return sanitizedDate !== '' && moveDate > currentDate; // Ensure the date is in the future
 }
 
-// Real-Time Validation with sanitization
+// Real-Time Validation with enhanced sanitization and checks
 export function validateField(field, regex, errorElement, errorMessage) {
-    const value = field.val().trim().replace(/[<>]/g, ""); // Sanitize by trimming and escaping HTML characters
+    const value = field.val().trim().replace(/[<>]/g, ""); 
     if (!regex.test(value)) {
         errorElement.text(errorMessage);
     } else {
@@ -33,7 +35,7 @@ export function validateField(field, regex, errorElement, errorMessage) {
     }
 }
 
-// Form Validation: You can sanitize each form field before validation
+// Enhanced Form Validation
 export function validateForm(formData) {
     formData.clientName = formData.clientName.trim().replace(/[<>]/g, "");
     formData.origin = formData.origin.trim().replace(/[<>]/g, "");
@@ -47,14 +49,14 @@ export function validateForm(formData) {
            validateMoveDate(formData.moveDate);
 }
 
-// Step Validation with sanitization
+// Step Validation with enhanced sanitization
 export function validateStep(stepIndex, steps) {
     const currentInputs = steps.eq(stepIndex).find("input");
     let isValid = true;
 
     currentInputs.each(function() {
-        const sanitizedInput = $(this).val().trim().replace(/[<>]/g, ""); // Sanitize input fields
-        if (!sanitizedInput) {
+        const sanitizedInput = $(this).val().trim().replace(/[<>]/g, "");
+        if (!sanitizedInput || sanitizedInput.length < 1) {
             isValid = false;
         }
     });
