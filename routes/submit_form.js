@@ -73,10 +73,10 @@ router.post(
     try {
       const { clientEmail, clientName, origin, destination, moveType, furnitureItems, ratePerCwt } = req.body;
 
-      // Error handling for missing furniture items or rate
-      if (!furnitureItems || furnitureItems.length === 0) {
-        return res.status(400).json({ error: 'Furniture items are required.' });
-      }
+        // Error handling for missing furniture items or rate
+        if (!Array.isArray(furnitureItems) || furnitureItems.length === 0) {
+          return res.status(400).json({ error: 'Furniture items are required and must be an array.' });
+        }
 
       if (!ratePerCwt) {
         return res.status(400).json({ error: 'Rate per CWT is required.' });
