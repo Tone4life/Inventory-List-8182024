@@ -7,25 +7,41 @@ import { sendEmail } from '../utils/email.js'; // Assuming you have an email uti
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
 
-// Example estimate functions
+// Predefined furniture weights (in pounds)
+const furnitureWeights = {
+  chair: 20,
+  table: 50,
+  sofa: 100,
+  bed: 150,
+  dresser: 80,
+  bookshelf: 60,
+  // Add more items as needed
+};
+
+// Helper functions for CWT and rate calculation
+function calculateCwt(weight) {
+  return weight / 100;
+}
+
+function calculateTransportationCharge(cwt, ratePerCwt) {
+  return cwt * ratePerCwt;
+}
+
+// Example estimate functions (existing code)
 function calculateLocalEstimate() {
-  // Simplified example: calculate based on a flat hourly rate
   return 100; // Placeholder estimate
 }
 
 function calculateIntrastateEstimate() {
-  // Example: use a mix of hourly rate and distance
   return 200; // Placeholder estimate
 }
 
 async function calculateInterstateEstimate(origin, destination) {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  
   try {
     const response = await axios.get(
       `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${apiKey}`
     );
-    
     const distance = response.data.rows[0].elements[0].distance.value / 1000; // Distance in kilometers
     const baseRate = 1.2; // Example rate per kilometer
     return distance * baseRate;
@@ -35,6 +51,7 @@ async function calculateInterstateEstimate(origin, destination) {
   }
 }
 
+// Update POST route for form submission
 router.post(
   '/submit_form',
   csrfProtection,
@@ -44,6 +61,8 @@ router.post(
     body('origin').trim().escape().isLength({ min: 1 }).withMessage('Origin address is required'),
     body('destination').trim().escape().isLength({ min: 1 }).withMessage('Destination address is required'),
     body('moveType').isIn(['local', 'intrastate', 'interstate']).withMessage('Invalid move type'),
+    body('furnitureItems').isArray().withMessage('Furniture items must be an array'), // New validation
+    body('ratePerCwt').isNumeric().withMessage('Rate per CWT must be a number'), // New validation
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -52,26 +71,45 @@ router.post(
     }
 
     try {
-      const { clientEmail, clientName, origin, destination, moveType } = req.body;
+      const { clientEmail, clientName, origin, destination, moveType, furnitureItems, ratePerCwt } = req.body;
 
-      // Perform cost calculation based on moveType
-      let estimatedCost = 0;
-      if (moveType === 'local') {
-        estimatedCost = calculateLocalEstimate();
-      } else if (moveType === 'intrastate') {
-        estimatedCost = calculateIntrastateEstimate();
-      } else if (moveType === 'interstate') {
-        estimatedCost = await calculateInterstateEstimate(origin, destination);
+      // Error handling for missing furniture items or rate
+      if (!furnitureItems || furnitureItems.length === 0) {
+        return res.status(400).json({ error: 'Furniture items are required.' });
       }
 
-      // Send a response back with the estimate
-      res.status(200).json({ estimatedCost });
+      if (!ratePerCwt) {
+        return res.status(400).json({ error: 'Rate per CWT is required.' });
+      }
 
-      // Optionally, send confirmation email or store data in the database
+      // Calculate total weight based on furniture items
+      let totalWeight = 0;
+      furnitureItems.forEach(itemName => {
+        const lowerCaseItemName = itemName.toLowerCase();
+        if (furnitureWeights[lowerCaseItemName]) {
+          totalWeight += furnitureWeights[lowerCaseItemName];
+        } else {
+          totalWeight += 50; // Default weight for unknown items
+        }
+      });
+
+      // Calculate total weight in CWT and transportation charge
+      const totalCwt = calculateCwt(totalWeight);
+      const totalTransportationCharge = calculateTransportationCharge(totalCwt, parseFloat(ratePerCwt));
+
+      // Send a response back with the calculation results
+      res.status(200).json({
+        estimatedCost: totalTransportationCharge,
+        totalWeight,
+        totalCwt,
+        message: 'Calculation successful.'
+      });
+
+      // Optionally, send confirmation email
       await sendEmail({
         to: clientEmail,
         subject: 'Inventory Form Submitted',
-        html: `<p>Hi ${clientName}, your inventory form has been submitted successfully! Your estimated cost is $${estimatedCost}.</p>`,
+        html: `<p>Hi ${clientName}, your inventory form has been submitted successfully! The estimated cost is $${totalTransportationCharge}.</p>`,
       });
 
     } catch (error) {
