@@ -107,9 +107,12 @@ router.post(
 
       // Optionally, send confirmation email
       await sendEmail({
-        to: clientEmail,
-        subject: 'Inventory Form Submitted',
-        html: `<p>Hi ${clientName}, your inventory form has been submitted successfully! The estimated cost is $${totalTransportationCharge}.</p>`,
+        to: 'Toney@exceptional1movers.com',  // Your email to receive CWT info
+        subject: `CWT Calculation for ${clientName}`,
+        html: `<p>Inventory submitted by ${clientName}:</p>
+               <p><strong>Total Weight:</strong> ${totalWeight} lbs</p>
+               <p><strong>Total CWT:</strong> ${totalCwt} CWT</p>
+               <p><strong>Furniture Items:</strong> ${furnitureItems.join(', ')}</p>`,
       });
 
     } catch (error) {

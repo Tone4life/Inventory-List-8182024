@@ -16,13 +16,56 @@ export function handleFormSubmission() {
     alert('Form validation failed. Please check your inputs.');
   }
 }
-
 function validateForm(formData) {
   return validateEmail(formData.clientEmail) &&
          validateAddress(formData.origin) &&
          validateAddress(formData.destination) &&
-         validateMoveDate(formData.moveDate);
+         validateMoveDate(formData.moveDate) &&
+         validateClientName(formData.clientName);
 }
+
+function validateClientName(name) {
+  return name.trim() !== '';
+}
+
+document.getElementById('movingForm').addEventListener('submit', function(event) { 
+  event.preventDefault();
+
+  // Get selected furniture items from room inventory
+  const furnitureItems = [];
+  document.querySelectorAll('#roomItems input:checked').forEach((checkbox) => {
+    furnitureItems.push(checkbox.value);
+  });
+
+  function collectMoveData() {
+    const formData = {
+      inventorySize: document.getElementById('inventorySize').value,
+      distance: calculateDistance(
+        document.getElementById('origin').value, 
+        document.getElementById('destination').value
+      ),
+      moveDate: document.getElementById('moveDate').value,
+      moveType: document.getElementById('moveType').value // Capture move type from dropdown
+    };
+  
+    return formData;
+  }
+
+  document.getElementById('submitForm').addEventListener('click', async function (event) {
+  event.preventDefault();
+
+  const formData = collectMoveData();
+
+  // Call the AI-powered estimate function with the collected data
+  const estimatedCost = await estimateMoveCost(
+    formData.inventorySize,
+    formData.distance,
+    formData.moveType  // Now passing the move type as an input
+  );
+  
+  // Display the estimate
+  document.getElementById('costEstimate').textContent = `Estimated Move Cost: $${estimatedCost.toFixed(2)}`;    
+});
 
 document.getElementById('movingForm').addEventListener('submit', function(event) {
   event.preventDefault();
@@ -33,8 +76,6 @@ document.getElementById('movingForm').addEventListener('submit', function(event)
     furnitureItems.push(checkbox.value);
   });
 
-  // Get rate per CWT from the input field
-  const ratePerCwt = parseFloat(document.getElementById('ratePerCwt').value);
 
   // Prepare form data to send to backend
   const formData = {
@@ -44,24 +85,23 @@ document.getElementById('movingForm').addEventListener('submit', function(event)
     destination: document.getElementById('destination').value,
     moveType: document.getElementById('moveType').value,
     furnitureItems: furnitureItems,  // Array of selected furniture items
-    ratePerCwt: ratePerCwt,  // User-defined rate per CWT
   };
 
   fetch('/submit_form', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData)
-  }).then(response => response.json())
-    .then(data => {
-      if (data.estimatedCost) {
-        document.getElementById('preEstimateResult').innerText = `Estimated Cost: $${data.estimatedCost}`;
+}).then(response => response.json())
+  .then(data => {
+      if (data.cwt) {
+          alert(`CWT value calculated: ${data.cwt} CWT`);
       } else {
-        alert('Error: ' + (data.error || 'An error occurred'));
+          alert('Error: ' + (data.error || 'An error occurred'));
       }
-    })
-    .catch(error => {
+  })
+  .catch(error => {
       console.error('Error:', error);
-    });
+  });
 });
 
 // Example estimate functions
