@@ -1,5 +1,5 @@
 import { validateEmail, validateAddress, validateMoveDate } from './validation.js';
-
+import { estimateMoveCost } from './moveEstimator';
 export function handleFormSubmission() {
   const formData = {
     clientName: document.getElementById('clientName').value,
@@ -27,9 +27,6 @@ function validateForm(formData) {
 function validateClientName(name) {
   return name.trim() !== '';
 }
-
-document.getElementById('movingForm').addEventListener('submit', function(event) { 
-  event.preventDefault();
 
   // Get selected furniture items from room inventory
   const furnitureItems = [];
@@ -68,13 +65,7 @@ document.getElementById('movingForm').addEventListener('submit', function(event)
 });
 
 document.getElementById('movingForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  // Get selected furniture items from room inventory
-  const furnitureItems = [];
-  document.querySelectorAll('#roomItems input:checked').forEach((checkbox) => {
-    furnitureItems.push(checkbox.value);
-  });
+  event.preventDefault(); // Prevent the form from submitting
 
 
   // Prepare form data to send to backend

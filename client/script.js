@@ -75,7 +75,7 @@ function getCachedFurniture(room) {
     return cachedFurnitureData[room];
 }
 
-// Handle room selection
+// Ensure valid room data is displayed
 function handleRoomSelection() {
     const selectedRooms = Array.from(domElements.roomSelect.selectedOptions).map(option => option.value);
     displayFurnitureForRooms(selectedRooms);
@@ -97,13 +97,16 @@ function displayFurnitureForRooms(rooms) {
                 fragment.appendChild(div);
             });
             domElements.roomItems.appendChild(fragment);
+        } else {
+            const noItemsMessage = document.createElement('p');
+            noItemsMessage.textContent = `No items available for ${room}.`;
+            domElements.roomItems.appendChild(noItemsMessage);
         }
     });
 }
 
 // Function to update item count display
 function updateItemCount() {
-    // Avoid repeatedly calling document.querySelectorAll within the loop
     const roomInputs = domElements.roomItems.querySelectorAll('input:checked');
     const selectedItems = Array.from(roomInputs).map(input => input.value);
     domElements.itemCount.textContent = `Total Items Selected: ${selectedItems.length}`;
@@ -122,7 +125,6 @@ function handleSubmitForm(event) {
         selectedItems: []
     };
 
-    // Validate form
     if (validateForm(formData)) {
         console.log('Form is valid');
         submitFormData(formData);
@@ -139,6 +141,17 @@ function handleSubmitForm(event) {
     });
 
     console.log(formData);
+}
+
+function submitFormData(formData) {
+    fetch('/submit_form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Form submitted successfully', data))
+    .catch(error => console.error('Error submitting form:', error));
 }
 
 // Function to handle the next step in multi-step form

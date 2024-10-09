@@ -85,48 +85,40 @@
                 <option value="intrastate">Intrastate</option>
                 <option value="interstate">Interstate</option>
                 <option value="loading">Loading/Unloading</option>
-                <option value="packing">Packing</option>
+                <option value="packing">Packing/Unpacking</option>
                 <option value="onsite">Onsite Move</option>
                 <option value="2movers">2 Movers and Truck</option> 
+                <option value="3movers">3 Movers and Truck</option>
               </select>
             </div>
         
             <h3>Inventory Details</h3>
         
-            <div class="mb-3">
-              <label for="roomSelect" class="form-label">Select Room:</label>
-              <select id="roomSelect" class="form-select" multiple>
-                <option value="mainBedroom">Main Bedroom</option>
-                <option value="firstBedroom">First Bedroom</option>
-                <option value="secondBedroom">Second Bedroom</option>
-                <option value="diningRoom">Dining Room</option>
-                <option value="livingRoom">Living Room</option>
-                <option value="kitchen">Kitchen</option>
-                <option value="garage">Garage</option>
-              </select>
-            </div>
-        
-            <div class="mb-3" id="roomItems"></div>
-        
-            <div id="preEstimateResult"></div>  
-            </form>
+      <!-- Room Selection Dropdown -->
+<div class="mb-3">
+    <label for="roomSelect" class="form-label">Select Room:</label>
+    <select id="roomSelect" class="form-select" multiple>
+        <option value="">Choose a Room</option>
+        <option value="mainBedroom">Main Bedroom</option>
+        <option value="firstBedroom">First Bedroom</option>
+        <option value="secondBedroom">Second Bedroom</option>
+        <option value="diningRoom">Dining Room</option>
+        <option value="livingRoom">Living Room</option>
+        <option value="kitchen">Kitchen</option>
+        <option value="garage">Garage</option>
+    </select>
+</div>
 
-        <!-- Right Side: Inventory List -->
-       
-    </div>
+<!-- Room Items Display -->
+<div id="roomItems"></div>
+<div id="itemCount">Total Items Selected: 0</div>
 
-    <!--  Review & Submit -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">Review & Submit</h2>
-            <!-- Review details and submit -->
-            <button class="btn btn-secondary">Review</button>
-            <button id="submit-button" class="btn btn-success">Submit</button>
-        </div>
-    </div>
+<!-- Submit Button -->
+<button id="submitForm" class="btn btn-success">Submit Form</button>
 
+<!-- Theme Toggle -->
+<button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button>
 
-    <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button> 
 
     <!-- Bootstrap 5 JS and Popper.js CDN (optional, for interactive components like modals or dropdowns) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

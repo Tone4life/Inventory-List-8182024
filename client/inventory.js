@@ -78,11 +78,16 @@ function displayFurnitureForRooms(rooms) {
     const roomItemsContainer = document.getElementById('roomItems');
     roomItemsContainer.innerHTML = '';
 
+
     const roomFurniture = {
         mainBedroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
-        firstBedroom: ['Twin Bed', 'Dresser', 'Desk'],
-        // Add other rooms and items here...
+        firstRoom: ['Twin Bed', 'Desk', 'Dresser'],
+        kitchen: ['Toaster', 'Microwave', 'Dining Table'],
+        // Add more rooms as needed
     };
+
+    // Cache the room furniture data once to avoid reprocessing
+    
 
     rooms.forEach(room => {
         const furniture = roomFurniture[room];
@@ -98,4 +103,3 @@ function displayFurnitureForRooms(rooms) {
         }
     });
 }
-  
