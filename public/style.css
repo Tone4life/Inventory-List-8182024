@@ -148,7 +148,7 @@ input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focu
 
 @media (max-width: 600px) {
     .logo {
-        width: 10px;  /* Adjust the image size for mobile */
+        width: 30px;  /* Adjust the image size for mobile */
     }
 }
 

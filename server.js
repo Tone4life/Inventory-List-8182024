@@ -16,7 +16,8 @@ import submitFormRoutes from './routes/submit_form.js';
 import customParamRoutes from './routes/customParam.js';
 import csrf from 'csurf';
 import { authMiddleware } from './routes/auth.js'; // Import JWT middleware
-
+import express from 'express';
+import { generateCsrfToken, verifyCsrfToken } from './middleware/csrf.js';  // Adjust the path as necessary
 // Fix __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,6 +45,16 @@ app.use(cookieParser());
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+
+// Middleware to generate CSRF token and pass it to the frontend
+app.use(generateCsrfToken);
+
+// Use the verifyCsrfToken middleware for routes handling sensitive data
+app.post('/submit_form', verifyCsrfToken, (req, res) => {
+    // Handle the form submission after CSRF verification
+    res.send('Form submitted successfully');
+});
 
 // Adjust Morgan logging level based on environment
 if (process.env.NODE_ENV === 'production') {
@@ -83,7 +94,7 @@ app.use('/user', userRoutes);
 app.use('/submit_form', submitFormRoutes);
 app.use('/', customParamRoutes);
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('Welcome to the public API!');
 });
 
@@ -96,7 +107,7 @@ app.get('/protected', authMiddleware, (req, res) => {
 connectDB();
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, _req, res) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
@@ -104,7 +115,7 @@ app.use((err, req, res, next) => {
 // Serve index.html for all client-side routes (for React Router)
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
+  });
 
 app.get('/protected', authMiddleware, (req, res) => {
   res.json({ message: 'You have access to this protected route', user: req.user });

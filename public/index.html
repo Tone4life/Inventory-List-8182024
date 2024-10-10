@@ -15,6 +15,8 @@
     src="https://js.sentry-cdn.com/fdac23202fa0a35afef58bc704679497.min.js"
     crossorigin="anonymous"
   ></script> 
+
+  
   <style>
     /* Restrict the width of form fields */
     .form-control,
@@ -48,7 +50,9 @@
 <body>
     <div class="text-center mb-4">
         <h1 class="text-danger">Moving Inventory List</h1>
-        <form id="movingForm" class="form-container">
+        <form id="movingForm" class="form-container" action="/submit_form" method="POST">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">  <!-- Inject CSRF token here -->
+           
             <h3>Client Information</h3>
         
             <div class="mb-3">

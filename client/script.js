@@ -1,4 +1,4 @@
-import { validateField, validateForm, validateStep } from '../public/validation.js';
+import { validateForm, validateStep } from '../public/validation.js';
 import { addItem, sortInventory } from './inventory.js';
 import { toggleTheme, loadUserThemePreference } from '../public/theme.js';
 
