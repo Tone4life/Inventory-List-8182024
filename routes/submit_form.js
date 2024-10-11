@@ -35,20 +35,20 @@ function calculateLocalEstimate() {
 function calculateIntrastateEstimate() {
   return 200; // Placeholder estimate
 }
+// Utility functions for moving cost calculation
+async function calculateMovingCost(origin, destination, inventory) {
+  const totalWeight = inventory.reduce((acc, item) => acc + item.weight, 0);
+  const distance = await getDistanceFromGoogleMaps(origin, destination); // Google Maps API
 
-async function calculateInterstateEstimate(origin, destination) {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  try {
-    const response = await axios.get(
-      `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${apiKey}`
-    );
-    const distance = response.data.rows[0].elements[0].distance.value / 1000; // Distance in kilometers
-    const baseRate = 1.2; // Example rate per kilometer
-    return distance * baseRate;
-  } catch (error) {
-    console.error('Error fetching distance from Google Maps API:', error);
-    return 0; // Return 0 in case of error
-  }
+  const RATE_PER_POUND = 0.5; // Example rate per pound per kilometer
+  const cost = distance * totalWeight * RATE_PER_POUND;
+  return cost;
+}
+
+async function getDistanceFromGoogleMaps(origin, destination) {
+  const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
+  const distance = response.data.rows[0].elements[0].distance.value / 1000; // Kilometers
+  return distance;
 }
 
 // Update POST route for form submission

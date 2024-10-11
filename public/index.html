@@ -11,10 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Add the Sentry SDK here -->
-    <script
-    src="https://js.sentry-cdn.com/fdac23202fa0a35afef58bc704679497.min.js"
-    crossorigin="anonymous"
-  ></script> 
+    <script src="https://js.sentry-cdn.com/fdac23202fa0a35afef58bc704679497.min.js" crossorigin="anonymous"></script>
 
   
   <style>
@@ -117,6 +114,10 @@
 <div id="roomItems"></div>
 <div id="itemCount">Total Items Selected: 0</div>
 
+ <!-- Review Button -->
+ <button id="reviewButton" class="btn btn-info">Review</button>
+
+
 <!-- Submit Button -->
 <button id="submitForm" class="btn btn-success">Submit Form</button>
 
@@ -155,34 +156,32 @@
 
     <!-- Add the fetch code here -->
     <script>
-        document.getElementById('submit-button').addEventListener('click', function(event) {
-            event.preventDefault();
-            const formData = {
-                clientName: document.getElementById('clientName').value,
-                origin: document.getElementById('origin').value,
-                destination: document.getElementById('destination').value,
-                clientEmail: document.getElementById('clientEmail').value,
-                moveDate: document.getElementById('moveDate').value,
-                // Add other form data as needed
-            };
+       document.getElementById('submitForm').addEventListener('click', function(event) {
+    event.preventDefault();
+    const formData = {
+        clientName: document.getElementById('clientName').value,
+        origin: document.getElementById('origin').value,
+        destination: document.getElementById('destination').value,
+        clientEmail: document.getElementById('clientEmail').value,
+        moveDate: document.getElementById('moveDate').value,
+    };
 
-            fetch('/submit_form', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            }).then(response => response.json())
-              .then(data => {
-                  // Handle success or error messages here
-                  if (data.success) {
-                      console.log('Form submitted successfully:', data.message);
-                  } else {
-                      console.error('Form submission error:', data.error);
-                  }
-              })
-              .catch(error => {
-                  console.error('Network error:', error);
-              });
-        });
+    fetch('/submit_form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    }).then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              console.log('Form submitted successfully:', data.message);
+          } else {
+              console.error('Form submission error:', data.error);
+          }
+      })
+      .catch(error => {
+          console.error('Network error:', error);
+      });
+});
 
         // Event listener for room selection
         document.getElementById('roomSelect').addEventListener('change', function() {
@@ -228,6 +227,34 @@
             // Here you can add logic to show a modal or details review section
         });
     </script> 
+
+<!-- Include the socket.io client library -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- Include your custom socket client script -->
+<script src="/public/socketClient.js"></script>
+ <!-- Add the Socket.IO client code -->
+ <script>
+    const socket = io();
+
+    socket.on('inventoryUpdated', (inventory) => {
+        updateInventoryUI(inventory); // A function that updates the DOM with new inventory data
+    });
+
+    document.getElementById('addItemForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const itemData = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
+        socket.emit('addInventoryItem', itemData);
+    });
+
+    // Function to update the UI with new inventory data
+    function updateInventoryUI(inventory) {
+        // Implement the logic to update the DOM with the new inventory data
+        console.log('Inventory updated:', inventory);
+    }
+</script>
+
+<script type="module" src="dashboard.js"></script>
 </body>
 
 </html>

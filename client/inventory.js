@@ -103,3 +103,52 @@ function displayFurnitureForRooms(rooms) {
         }
     });
 }
+
+// Socket.IO client integration
+import { io } from 'socket.io-client';
+const socket = io();
+
+socket.on('inventoryUpdated', (inventory) => {
+    updateInventoryUI(inventory); // A function that updates the DOM with new inventory data
+});
+
+document.getElementById('addItemForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const itemData = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
+    socket.emit('addInventoryItem', itemData);
+});
+
+// Function to update the UI with new inventory data
+function updateInventoryUI(inventory) {
+    // Implement the logic to update the DOM with the new inventory data
+    console.log('Inventory updated:', inventory);
+}
+
+router.post('/add', async (req, res) => {
+    try {
+      const newItem = new InventoryItem(req.body);
+      await newItem.save();
+      res.status(200).json(newItem);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to add inventory item' });
+    }
+  });
+  
+  router.put('/edit/:id', async (req, res) => {
+    try {
+      const updatedItem = await InventoryItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      res.status(200).json(updatedItem);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update inventory item' });
+    }
+  });
+  
+  router.delete('/delete/:id', async (req, res) => {
+    try {
+      await InventoryItem.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: 'Item deleted' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete item' });
+    }
+  });

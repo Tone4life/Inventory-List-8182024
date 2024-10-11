@@ -7,6 +7,11 @@
   "dependencies": {
     "@tensorflow/tfjs": "^4.21.0",
     "axios": "^1.7.7",
+  "bcryptjs": "^8.5.8",
+    "connect-mongo": "^4.10.0",
+    "ejs": "^4.1.1",
+    "express-handlebars": "^6.10.3",
+    "express-session": "^1.21.1",
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "compression": "^1.7.4",

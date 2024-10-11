@@ -16,8 +16,10 @@ import submitFormRoutes from './routes/submit_form.js';
 import customParamRoutes from './routes/customParam.js';
 import csrf from 'csurf';
 import { authMiddleware } from './routes/auth.js'; // Import JWT middleware
-import express from 'express';
 import { generateCsrfToken, verifyCsrfToken } from './middleware/csrf.js';  // Adjust the path as necessary
+import session from 'express-session'; // Import session middleware
+import { Server } from 'socket.io'; // Import Socket.IO
+
 // Fix __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +27,24 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Enforce HTTPS
+app.use((req, res, next) => {
+  const allowedHosts = ['yourdomain.com', 'www.yourdomain.com']; // Add your allowed hosts here
+
+  // Check if the host is in the list of allowed hosts
+  const host = req.headers.host.split(':')[0]; // Ignore port number
+  if (!allowedHosts.includes(host)) {
+    return res.status(400).send('Invalid Host');
+  }
+
+  // Ensure the protocol is HTTPS
+  if (req.protocol === 'http') {
+    return res.redirect(`https://${host}${req.url}`);
+  }
+  
+  next();
+});
 
 // Middleware setup
 app.use(helmet({
@@ -41,11 +61,33 @@ app.use(helmet({
     noSniff: true,    // Prevent MIME-type sniffing
     referrerPolicy: { policy: 'same-origin' }  // Same-origin referrer policy
 }));
+
+// Add HSTS (HTTP Strict Transport Security) below helmet
+app.use(helmet.hsts({
+  maxAge: 31536000, // Enforce HTTPS for one year
+  includeSubDomains: true, // Apply to subdomains
+  preload: true // Preload list for major browsers
+}));
+
 app.use(cookieParser());
+
+// Secure Cookie Settings
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true,  // Only transmit over HTTPS
+      httpOnly: true, // Prevent access by JavaScript
+      sameSite: 'Strict', // Prevent CSRF
+    },
+  })
+);
+
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 
 // Middleware to generate CSRF token and pass it to the frontend
 app.use(generateCsrfToken);
@@ -115,10 +157,6 @@ app.use((err, _req, res) => {
 // Serve index.html for all client-side routes (for React Router)
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-
-app.get('/protected', authMiddleware, (req, res) => {
-  res.json({ message: 'You have access to this protected route', user: req.user });
 });
 
 // Start the server with HTTPS
@@ -129,8 +167,27 @@ const options = {
     cert: fs.readFileSync(certPath)
 };
 
-https.createServer(options, app).listen(port, () => {
-    console.log(`HTTPS Server is running on port ${port}`);
-}); 
+// Create HTTPS server
+const server = https.createServer(options, app);
 
-// Removed HTTP fallback server to enforce HTTPS only
+// Attach Socket.IO to the HTTPS server
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  
+  // Listen for adding new items
+  socket.on('addInventoryItem', async (itemData) => {
+    const item = await addInventoryItem(itemData);
+    io.emit('inventoryUpdated', await getInventoryItems());
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+});
+
+// Listen on the HTTPS server
+server.listen(port, () => {
+  console.log(`HTTPS Server is running on port ${port}`);
+});
