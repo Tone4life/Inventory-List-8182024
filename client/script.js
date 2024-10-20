@@ -1,5 +1,5 @@
 import { validateForm, validateStep } from '../public/validation.js';
-import { addItem, sortInventory } from './inventory.js';
+import { addItem, sortInventory } from '../client/inventory.js';
 import { toggleTheme, loadUserThemePreference } from '../public/theme.js';
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -55,7 +55,7 @@ function loadUserThemePreference() {
 }
 
 // Room furniture data
-const roomFurniture = {
+const inventory = {
     mainBedroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
     firstRoom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
     secondRoom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
@@ -63,45 +63,26 @@ const roomFurniture = {
     livingRoom: ['Sofa', 'Coffee Table', 'TV Stand'],
     kitchen: ['Refrigerator', 'Dining Table', 'Microwave'],
     garage: ['Tools', 'Bicycle', 'Storage Rack']
-    // Add more rooms and items as needed
 };
-
-// Cache the room furniture data once to avoid reprocessing
-let cachedFurnitureData = {};
-function getCachedFurniture(room) {
-    if (!cachedFurnitureData[room]) {
-        cachedFurnitureData[room] = roomFurniture[room] || [];
-    }
-    return cachedFurnitureData[room];
-}
 
 // Ensure valid room data is displayed
 function handleRoomSelection() {
-    const selectedRooms = Array.from(domElements.roomSelect.selectedOptions).map(option => option.value);
-    displayFurnitureForRooms(selectedRooms);
-}
+    const selectedRoom = domElements.roomSelect.value;
+    const inventoryDiv = domElements.roomItems;
+    inventoryDiv.innerHTML = "";
 
-// Function to display furniture based on the selected rooms
-function displayFurnitureForRooms(rooms) {
-    domElements.roomItems.innerHTML = ''; // Clear previous content
-    rooms.forEach(room => {
-        const furniture = getCachedFurniture(room);
-        if (furniture.length) {
-            const fragment = document.createDocumentFragment();
-            furniture.forEach(item => {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    <input type="checkbox" id="${item}" name="${room}" value="${item}">
-                    <label for="${item}">${item}</label>
-                `;
-                fragment.appendChild(div);
-            });
-            domElements.roomItems.appendChild(fragment);
-        } else {
-            const noItemsMessage = document.createElement('p');
-            noItemsMessage.textContent = `No items available for ${room}.`;
-            domElements.roomItems.appendChild(noItemsMessage);
-        }
+    inventory[selectedRoom].forEach(item => {
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'inventory';
+        checkbox.value = item;
+
+        let label = document.createElement('label');
+        label.textContent = item;
+
+        inventoryDiv.appendChild(checkbox);
+        inventoryDiv.appendChild(label);
+        inventoryDiv.appendChild(document.createElement('br'));
     });
 }
 

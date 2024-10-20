@@ -1,4 +1,4 @@
-const socket = io();  // Initialize the Socket.IO client
+const socket= io();  // Initialize the Socket.IO client
 
 // Listen for the "inventoryUpdated" event from the server
 socket.on('inventoryUpdated', (inventory) => {

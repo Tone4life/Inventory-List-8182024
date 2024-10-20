@@ -2,7 +2,10 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import csrf from 'csurf';
 import axios from 'axios';
+import InventorySubmission from './models/crmModel'; // Import the InventorySubmission modelimport { sendEmail } from '../utils/email.js'; // Assuming you have an email utility
 import { sendEmail } from '../utils/email.js'; // Assuming you have an email utility
+import { jsPDF } from 'jspdf'; // Import jsPDF
+import docusign from 'docusign-esign'; // Import docusign-esign
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -15,25 +18,32 @@ const furnitureWeights = {
   bed: 150,
   dresser: 80,
   bookshelf: 60,
+  tv: 40,
+  piano: 300
   // Add more items as needed
 };
 
 // Helper functions for CWT and rate calculation
-function calculateCwt(weight) {
-  return weight / 100;
+function calculateCWT(inventoryItems) {
+  let totalWeight = 0;
+  inventoryItems.forEach(item => {
+    totalWeight += item.weight; // Assume each item has a predefined weight
+  });
+  return Math.ceil(totalWeight / 100); // Convert to CWT
 }
 
-function calculateTransportationCharge(cwt, ratePerCwt) {
-  return cwt * ratePerCwt;
+function calculateLocalEstimate(hourlyRate, hours, fuelSurcharge) {
+  return (hourlyRate * hours) + fuelSurcharge;
 }
 
-// Example estimate functions (existing code)
-function calculateLocalEstimate() {
-  return 100; // Placeholder estimate
+function calculateLongDistanceEstimate(cwt, mileage, fuelSurcharge) {
+  const ratePerCWT = getRateForMileage(mileage);
+  return (ratePerCWT * cwt) + fuelSurcharge;
 }
 
-function calculateIntrastateEstimate() {
-  return 200; // Placeholder estimate
+function getRateForMileage(mileage) {
+  // Placeholder function to get rate per CWT based on mileage
+  return mileage * 0.5; // Example rate calculation
 }
 // Utility functions for moving cost calculation
 async function calculateMovingCost(origin, destination, inventory) {
@@ -49,6 +59,58 @@ async function getDistanceFromGoogleMaps(origin, destination) {
   const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
   const distance = response.data.rows[0].elements[0].distance.value / 1000; // Kilometers
   return distance;
+}
+
+// Function to generate PDF
+function generatePDF(quoteDetails) {
+  const doc = new jsPDF();
+  doc.text('Estimate Summary', 10, 10);
+  doc.text(`Total Cost: $${quoteDetails.totalCost}`, 10, 20);
+  doc.save('estimate.pdf');
+  return doc.output('arraybuffer'); // Return the PDF as an array buffer
+}
+
+// Function to send envelope via DocuSign
+async function sendEnvelope(quotePDF, clientEmail) {
+  const apiClient = new docusign.ApiClient();
+  apiClient.setBasePath('https://demo.docusign.net/restapi');
+  apiClient.addDefaultHeader('Authorization', 'Bearer YOUR_ACCESS_TOKEN');
+
+  const envelope = new docusign.EnvelopeDefinition();
+  envelope.emailSubject = "Please sign your estimate";
+
+  const doc = new docusign.Document();
+  doc.documentBase64 = Buffer.from(quotePDF).toString('base64');
+  doc.name = 'Estimate.pdf';
+  doc.fileExtension = 'pdf';
+  doc.documentId = '1';
+  envelope.documents = [doc];
+
+  const signer = new docusign.Signer();
+  signer.email = clientEmail;
+  signer.name = 'Client Name';
+  signer.recipientId = '1';
+
+  const signHere = new docusign.SignHere();
+  signHere.documentId = '1';
+  signHere.pageNumber = '1';
+  signHere.recipientId = '1';
+  signHere.xPosition = '100';
+  signHere.yPosition = '100';
+
+  const tabs = new docusign.Tabs();
+  tabs.signHereTabs = [signHere];
+  signer.tabs = tabs;
+
+  envelope.recipients = new docusign.Recipients();
+  envelope.recipients.signers = [signer];
+
+  const envelopesApi = new docusign.EnvelopesApi(apiClient);
+  const results = await envelopesApi.createEnvelope('YOUR_ACCOUNT_ID', {
+    envelopeDefinition: envelope,
+  });
+
+  console.log(`Envelope sent! Envelope ID: ${results.envelopeId}`);
 }
 
 // Update POST route for form submission
@@ -105,6 +167,9 @@ router.post(
         message: 'Calculation successful.'
       });
 
+       // Generate PDF
+       generatePDF({ totalCost: totalTransportationCharge });
+
       // Optionally, send confirmation email
       await sendEmail({
         to: 'Toney@exceptional1movers.com',  // Your email to receive CWT info
@@ -122,4 +187,15 @@ router.post(
   }
 );
 
-export default router;
+// New route for inventory submission
+router.post('/submit-inventory', async (req, res) => {
+  try {
+    const { clientId, inventoryItems } = req.body;
+    await InventorySubmission.create({ clientId, inventoryItems });
+    res.status(200).json({ message: 'Inventory submitted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error submitting inventory' });
+  }
+});
+
+export default router;;
