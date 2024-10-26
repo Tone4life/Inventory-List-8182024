@@ -1,5 +1,4 @@
 // utils/seedData.js
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';  
 import { User } from '../models/User.js';
@@ -11,20 +10,20 @@ dotenv.config(); // Load environment variables
 // Connect to the database
 connectDB();
 
-
-    // Sample data for seeding
-    const sampleUsers = [
-      {
-        name: 'John Doe',
-        email: 'john@example.com',
-        password: await bcrypt.hash(process.env.USER1_PASSWORD, 10), // Hash the password
-      },
-      {
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        password: await bcrypt.hash(process.env.USER2_PASSWORD, 10), // Hash the password
-      },
-    ];
+const createSampleUsers = async () => {
+  return [
+    {
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: await bcrypt.hash(process.env.USER1_PASSWORD, 10), // Hash the password
+    },
+    {
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      password: await bcrypt.hash(process.env.USER2_PASSWORD, 10), // Hash the password
+    },
+  ];
+};
 
 const sampleInventoryItems = [
   {
@@ -55,6 +54,9 @@ const seedDatabase = async () => {
     // Clear existing data
     await User.deleteMany({});
     await InventoryItem.deleteMany({});
+
+    // Create sample users
+    const sampleUsers = await createSampleUsers();
 
     // Insert sample users
     const createdUsers = await User.insertMany(sampleUsers);
