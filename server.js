@@ -15,11 +15,10 @@ import userRoutes from './routes/user.js';
 import submitFormRoutes from './routes/submit_form.js';
 import customParamRoutes from './routes/customParam.js';
 import csrf from 'csurf';
-import { authMiddleware } from './routes/auth.js';
-import { generateCsrfToken, verifyCsrfToken } from './middleware/csrf.js';
+import authRoutes from './middleware/auth.js'; // Import the auth.js router
+import { generateCsrfToken } from './middleware/csrf.js';
 import crmRoutes from './routes/crm.js'; // Add CRM routes
 import inventoryItemsRoutes from './routes/inventoryItems.js'; // Add InventoryItems routes
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,12 +45,6 @@ app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// CSRF Protection
-app.post('/submit_form', csrfProtection, verifyCsrfToken, (req, res) => {
-    res.send('Form submitted successfully');
-});
-
-
 // Logging setup
 if (process.env.NODE_ENV === 'production') {
     app.use(morgan('tiny'));
@@ -59,21 +52,23 @@ if (process.env.NODE_ENV === 'production') {
     app.use(morgan('combined'));
 }
 
+// CSRF Protection
+app.use(csrfProtection);
+
 // Static assets and routes
-app.use('/inventory', csrfProtection, inventoryRoutes);
-app.use('/user', csrfProtection, userRoutes);
-app.use('/submit_form', csrfProtection, submitFormRoutes);
-app.use('/', csrfProtection, customParamRoutes);
-app.use('/crm', csrfProtection, crmRoutes); // Add CRM routes
+app.use('/inventory', inventoryRoutes);
+app.use('/user', userRoutes);
+app.use('/submit_form', submitFormRoutes);
+app.use('/', customParamRoutes);
 app.use('/crm', crmRoutes); // Add CRM routes
 app.use('/inventoryItems', inventoryItemsRoutes); // Add InventoryItems routes
+app.use('/auth', authRoutes); // Use the auth.js router
 
 // Error handling middleware (Fixed)
 app.use((err, _req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
-
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -103,6 +98,9 @@ connectDB().then(() => {
 }).catch(err => {
   console.error('Failed to connect to the database', err);
 });
+
+// Export the app for testing
+export const createServer = () => app;
 
 // Start HTTPS server
 const certPath = process.env.SSL_CERT_PATH;

@@ -3,7 +3,7 @@ import csrf from 'csrf';
 const csrfProtection = new csrf();  // Create a CSRF instance
 const csrfSecret = csrfProtection.secretSync();  // Create a secret token for the session
 
-export const generateCsrfToken = (req, res, next) => {
+export const generateCsrfToken = (res, next) => {
     // Generate a CSRF token and store it in res.locals
     const token = csrfProtection.create(csrfSecret);
     res.locals.csrfToken = token;  // Pass this to the frontend
