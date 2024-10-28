@@ -1,3 +1,5 @@
+// client/inventory.js
+
 const roomInventory = {
     mainBedroom: [],
     secondBedroom: [],
@@ -6,27 +8,27 @@ const roomInventory = {
 };
 
 // Add item to inventory
-export function addItem(room, itemName, quantity) {
+export const addItem = async (room, itemName, quantity) => {
     roomInventory[room].push({ itemName, quantity });
-}
+};
 
 // Remove item from inventory
-export function removeItem(room, index) {
+export const removeItem = async (room, index) => {
     roomInventory[room].splice(index, 1);
-}
+};
 
 // Update item in inventory
-export function updateItem(room, index, updatedItem) {
+export const updateItem = async (room, index, updatedItem) => {
     roomInventory[room][index] = updatedItem;
-}
+};
 
 // Get items from inventory
-export function getItems(room) {
+export const getItems = async (room) => {
     return roomInventory[room];
-}
+};
 
 // Sort inventory items
-export function sortInventory(room, sortBy) {
+export const sortInventory = async (room, sortBy) => {
     roomInventory[room].sort((a, b) => {
         if (sortBy === 'name') {
             return a.itemName.localeCompare(b.itemName);
@@ -35,7 +37,7 @@ export function sortInventory(room, sortBy) {
         }
         return 0;
     });
-}
+};
 
 // Form submission logic
 document.getElementById('movingForm').addEventListener('submit', function(event) {

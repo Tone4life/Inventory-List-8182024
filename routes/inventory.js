@@ -3,6 +3,7 @@ import { InventoryItem } from '../models/InventoryItem.js';
 import { validateInventoryItem } from '../utils/validateInventoryItem.js';
 import csrf from 'csurf';
 import { body, validationResult } from 'express-validator';
+import { addItem, removeItem, updateItem } from '../client/inventory.js'; // Adjust the import path as needed
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -36,8 +37,14 @@ router.post(
     }
 
     const itemData = req.body;
+    const validation = validateInventoryItem(itemData);
+
+    if (!validation.isValid) {
+        return res.status(400).json({ errors: validation.errors });
+    }
 
     try {
+        await addItem(itemData.room, itemData.name, itemData.quantity);
         const newItem = new InventoryItem(itemData);
         await newItem.save();
         res.status(200).send('Item added successfully');
@@ -67,6 +74,11 @@ router.put(
     }
 
     const itemData = req.body;
+    const validation = validateInventoryItem(itemData);
+
+    if (!validation.isValid) {
+        return res.status(400).json({ errors: validation.errors });
+    }
 
     try {
         const updatedItem = await InventoryItem.findByIdAndUpdate(id, itemData, { new: true });
@@ -80,5 +92,19 @@ router.put(
     }
   }
 );
+
+
+// DELETE: Remove an inventory item
+router.delete('/:id', csrfProtection, async (req, res) => {
+  try {
+      const { room, index } = req.body;
+      await removeItem(room, index);
+      await InventoryItem.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: 'Item deleted successfully' });
+  } catch (error) {
+      console.error('Failed to delete inventory item:', error); // Detailed logging
+      res.status(500).send('Failed to delete inventory item');
+  }
+});
 
 export default router;

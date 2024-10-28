@@ -6,6 +6,7 @@ import InventorySubmission from './models/crmModel'; // Import the InventorySubm
 import { sendEmail } from '../utils/email.js'; // Assuming you have an email utility
 import { jsPDF } from 'jspdf'; // Import jsPDF
 import docusign from 'docusign-esign'; // Import docusign-esign
+import PDFDocument from 'pdfkit';
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -68,6 +69,16 @@ function generatePDF(quoteDetails) {
   doc.text(`Total Cost: $${quoteDetails.totalCost}`, 10, 20);
   doc.save('estimate.pdf');
   return doc.output('arraybuffer'); // Return the PDF as an array buffer
+}
+
+// Function to generate move document using PDFKit
+function generateMoveDocument(data) {
+  const doc = new PDFDocument();
+  doc.fontSize(16).text('Move Details', { align: 'center' });
+  doc.text(`Client Name: ${data.clientName}`);
+  doc.text(`Estimated Cost: ${data.estimatedCost}`);
+  // Continue adding details as needed
+  return doc;
 }
 
 // Function to send envelope via DocuSign

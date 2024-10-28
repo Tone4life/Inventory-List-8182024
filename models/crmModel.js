@@ -21,4 +21,23 @@ const crmSchema = new mongoose.Schema({
 });
 
 const CRM = mongoose.model('CRM', crmSchema);
+
+const hourlyRate = 100;
+const fuelSurcharge = 0.10; // 10% surcharge
+
+export const calculateQuote = (req, res, next) => {
+    const { moveType, weight, distance, time } = req.body;
+    let estimatedCost = 0;
+
+    if (moveType === 'local') {
+        estimatedCost = time * hourlyRate + distance * fuelSurcharge;
+    } else {
+        const cwt = weight / 100;
+        estimatedCost = cwt * transportationRate + distance * travelRate + fuelSurcharge;
+    }
+
+    req.body.estimatedCost = estimatedCost;
+    next();
+};
+
 export default CRM;

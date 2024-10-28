@@ -1,105 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exceptional Movers Inventory List</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- Bootstrap 5 CSS CDN -->        
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Add the Sentry SDK here -->
-    <script src="https://js.sentry-cdn.com/fdac23202fa0a35afef58bc704679497.min.js" crossorigin="anonymous"></script>
-
-  
-  <style>
-    /* Restrict the width of form fields */
-    .form-control,
-    .form-select {
-        max-width: 600px; /* Adjust the width as needed */
-        width: 100%; /* Ensures responsiveness */
-    }
-
-    .form-container {
-        max-width: 800px; /* Container to limit overall form width */
-        margin: 0 auto; /* Center the form */
-    }
-
-    /* Center-align the labels */
-    .form-label {
-        display: block;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    /* Adjust button group alignment */
-    .button-group {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-
-</style>
 </head>
 
 <body>
-    <div class="text-center mb-4">
-        <h1 class="text-danger">Moving Inventory List</h1>
-        <form id="movingForm" class="form-container" action="/submit_form" method="POST">
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">  <!-- Inject CSRF token here -->
-           
+    <div class="container mt-5">
+        <h1 class="text-center text-danger mb-4">Moving Inventory List</h1>
+
+        <!-- Main Form -->
+        <form id="movingForm" class="border p-4 rounded bg-light shadow-sm">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+            <!-- Client Information -->
             <h3>Client Information</h3>
-        
-            <div class="mb-3">
-              <label for="firstName" class="form-label">First Name:</label>
-              <input type="text" id="firstName" name="firstName" class="form-control" required>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" required>
+                </div>
             </div>
             <div class="mb-3">
-              <label for="lastName" class="form-label">Last Name:</label>
-              <input type="text" id="lastName" name="lastName" class="form-control" required>
+                <label for="clientEmail" class="form-label">Email:</label>
+                <input type="email" id="clientEmail" name="clientEmail" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label for="clientEmail" class="form-label">Email:</label>
-              <input type="email" id="clientEmail" name="clientEmail" class="form-control" required>
+                <label for="moveDate" class="form-label">Move Date:</label>
+                <input type="date" id="moveDate" name="moveDate" class="form-control" required>
             </div>
-            <div class="mb-3">
-              <label for="moveDate" class="form-label">Move Date:</label>
-              <input type="date" id="moveDate" name="moveDate" class="form-control" required>
-            </div>
-        
+
+            <!-- Move Details -->
             <h3>Move Details</h3>
-        
             <div class="mb-3">
-              <label for="origin" class="form-label">Origin Address:</label>
-              <input type="text" id="origin" name="origin" class="form-control" required>
+                <label for="origin" class="form-label">Origin Address:</label>
+                <input type="text" id="origin" name="origin" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label for="destination" class="form-label">Destination Address:</label>
-              <input type="text" id="destination" name="destination" class="form-control" required>
+                <label for="destination" class="form-label">Destination Address:</label>
+                <input type="text" id="destination" name="destination" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label for="moveType" class="form-label">Type of Move:</label>
-              <select id="moveType" name="moveType" class="form-select" required>
-                <option value="local">Local</option>
-                <option value="intrastate">Intrastate</option>
-                <option value="interstate">Interstate</option>
-                <option value="loading">Loading/Unloading</option>
-                <option value="packing">Packing/Unpacking</option>
-                <option value="onsite">Onsite Move</option>
-                <option value="2movers">2 Movers and Truck</option> 
-                <option value="3movers">3 Movers and Truck</option>
-              </select>
+                <label for="moveType" class="form-label">Type of Move:</label>
+                <select id="moveType" name="moveType" class="form-select" required>
+                    <option value="local">Local</option>
+                    <option value="intrastate">Intrastate</option>
+                    <option value="interstate">Interstate</option>
+                </select>
             </div>
-        
-            <h3>Inventory Details</h3>
-        
-      <!-- Room Selection Dropdown -->
+
+    <!-- Inventory Details -->
+<h3>Inventory Details</h3>
 <div class="mb-3">
     <label for="roomSelect" class="form-label">Select Room:</label>
     <select id="roomSelect" class="form-select" multiple>
-        <option value="">Choose a Room</option>
         <option value="mainBedroom">Main Bedroom</option>
         <option value="firstBedroom">First Bedroom</option>
         <option value="secondBedroom">Second Bedroom</option>
@@ -109,170 +70,40 @@
         <option value="garage">Garage</option>
     </select>
 </div>
+<div id="roomItems" class="mt-3"></div>
 
-<!-- Room Items Display -->
-<div id="roomItems"></div>
-<div id="itemCount">Total Items Selected: 0</div>
-
- <!-- Review Button -->
- <button id="reviewButton" class="btn btn-info">Review</button>
-
-
-<!-- Submit Button -->
-<button id="submitForm" class="btn btn-success">Submit Form</button>
-
-<!-- Theme Toggle -->
-<button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button>
-
-  <!-- New Inventory Form -->
-            <form id="inventoryForm" class="mt-4">
-                <label for="roomSelect">Select Room:</label>
-                <select id="roomSelect" class="form-select">
-                    <option value="mainBedroom">Main Bedroom</option>
-                    <option value="firstBedroom">First Bedroom</option>
-                    <option value="secondBedroom">Second Bedroom</option>
-                    <option value="diningRoom">Dining Room</option>
-                   <option value="livingRoom">Living Room</option>
-                   <option value="kitchen">Kitchen</option>
-                    <option value="garage">Garage</option>
-                </select>
-
-                <div id="inventoryItems" class="mt-3"></div>
-
-                <button type="submit" class="btn btn-primary mt-3">Submit Inventory</button>
-            </form>
-
-
-    <!-- Bootstrap 5 JS and Popper.js CDN (optional, for interactive components like modals or dropdowns) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <!-- Include the new JS files -->
-    <script type="module" src="validation.js"></script>
-    <script type="module" src="inventory.js"></script>
-    <script type="module" src="theme.js"></script>
-    <script type="module" src="script.js"></script>
-    <!-- Modal Structure -->
-    <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="roomModalLabel">Select Room Items</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="modalRoomItems">
-                        <!-- Room-specific inventory items will be loaded here dynamically -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveRoomSelection">Save Changes</button>
-                </div>
+<!-- Room Inventory Modal -->
+<div class="modal fade" id="roomInventoryModal" tabindex="-1" aria-labelledby="roomInventoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomInventoryModalLabel">Select Items for Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="roomInventoryContent">
+                <!-- Room-specific items will load here dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Selection</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Add the fetch code here -->
-    <script>
-       document.getElementById('submitForm').addEventListener('click', function(event) {
-    event.preventDefault();
-    const formData = {
-        clientName: document.getElementById('clientName').value,
-        origin: document.getElementById('origin').value,
-        destination: document.getElementById('destination').value,
-        clientEmail: document.getElementById('clientEmail').value,
-        moveDate: document.getElementById('moveDate').value,
-    };
+            <!-- Submit and Review Buttons -->
+            <button type="button" id="reviewButton" class="btn btn-info me-2">Review</button>
+            <button type="submit" id="submitForm" class="btn btn-success">Submit</button>
+        </form>
 
-    fetch('/submit_form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              console.log('Form submitted successfully:', data.message);
-          } else {
-              console.error('Form submission error:', data.error);
-          }
-      })
-      .catch(error => {
-          console.error('Network error:', error);
-      });
-});
 
-        // Event listener for room selection
-        document.getElementById('roomSelect').addEventListener('change', function() {
-            const selectedRooms = Array.from(this.selectedOptions).map(option => option.value);
-            displayFurnitureForRooms(selectedRooms);  // Update the furniture list dynamically
-        });
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button>
+    </div>
 
-        // Function to display furniture based on the selected rooms
-        function displayFurnitureForRooms(rooms) {
-            const roomItemsContainer = document.getElementById('roomItems');
-            roomItemsContainer.innerHTML = '';  // Clear previous content
-
-            rooms.forEach(room => {
-                const roomFurniture = {
-                    mainBedroom: ['Queen Bed', 'Wardrobe', 'Nightstand'],
-                    firstBedroom: ['Twin Bed', 'Dresser', 'Desk'],
-                    secondBedroom: ['Full Bed', 'Bookshelf', 'Chair'],
-                    diningRoom: ['Dining Table', 'Chairs', 'Sideboard'],
-                    livingRoom: ['Sofa', 'Coffee Table', 'TV Stand'],
-                    kitchen: ['Refrigerator', 'Dining Table', 'Microwave'],
-                    garage: ['Workbench', 'Tool Chest', 'Ladder']
-                };
-
-                const furniture = roomFurniture[room];
-                if (furniture) {
-                    furniture.forEach(item => {
-                        // Add a checkbox for each furniture item
-                        roomItemsContainer.innerHTML += `
-                            <div>
-                                <input type="checkbox" id="${item}" name="${room}" value="${item}">
-                                <label for="${item}">${item}</label>
-                            </div>
-                        `;
-                    });
-                }
-            });
-        }
-
-         // Review button functionality
-         document.getElementById('reviewButton').addEventListener('click', function(event) {
-            event.preventDefault();
-            alert('Review your details before submitting:');
-            // Here you can add logic to show a modal or details review section
-        });
-    </script> 
-
-<!-- Include the socket.io client library -->
-<script src="/socket.io/socket.io.js"></script>
-<!-- Include your custom socket client script -->
-<script src="/public/socketClient.js"></script>
- <!-- Add the Socket.IO client code -->
- <script>
-    const socket = io();
-
-    socket.on('inventoryUpdated', (inventory) => {
-        updateInventoryUI(inventory); // A function that updates the DOM with new inventory data
-    });
-
-    document.getElementById('addItemForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const itemData = Object.fromEntries(formData.entries()); // Convert FormData to a plain object
-        socket.emit('addInventoryItem', itemData);
-    });
-
-    // Function to update the UI with new inventory data
-    function updateInventoryUI(inventory) {
-        // Implement the logic to update the DOM with the new inventory data
-        console.log('Inventory updated:', inventory);
-    }
-</script>
-
-<script type="module" src="dashboard.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad"></script>
+    <script type="module" src="script.js"></script>
 </body>
-
 </html>
