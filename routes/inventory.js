@@ -1,9 +1,10 @@
 import express from 'express';
+import mongoose from 'mongoose'; // Import mongoose
 import { InventoryItem } from '../models/InventoryItem.js';
 import { validateInventoryItem } from '../utils/validateInventoryItem.js';
 import csrf from 'csurf';
 import { body, validationResult } from 'express-validator';
-import { addItem, removeItem, updateItem } from '../client/inventory.js'; // Adjust the import path as needed
+import { addItem, removeItem, updateItem } from '../utils/inventory'; // Only import necessary functions
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -92,7 +93,6 @@ router.put(
     }
   }
 );
-
 
 // DELETE: Remove an inventory item
 router.delete('/:id', csrfProtection, async (req, res) => {

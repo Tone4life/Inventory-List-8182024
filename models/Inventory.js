@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { getSocket } from '../utils/socket.js'; // Import getSocket
 
 const inventorySchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -17,25 +18,34 @@ const inventorySchema = new mongoose.Schema({
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'InventoryItem' }]
 });
 
-inventorySchema.pre('save', async function(next) {
-    // Check if the owner exists
-    const user = await User.findById(this.owner);
-    if (!user) {
-      throw new Error('Invalid owner');
-    }
-    next();
+const User = mongoose.model('User');
 
-    // Check if the name already exists for the owner
-    const existingInventory = await Inventory.findOne({ owner: this.owner, name: this.name });
-    if (existingInventory && existingInventory._id.toString()!== this._id.toString()) {
-      throw new Error('Inventory name already exists');
-    }
+inventorySchema.pre('save', async function(next) {
+  // Check if the owner exists
+  const user = await User.findById(this.owner);
+  if (!user) {
+    throw new Error('Invalid owner');
+  }
+
+  // Check if the name already exists for the owner
+  const existingInventory = await mongoose.model('Inventory').findOne({ owner: this.owner, name: this.name });
+  if (existingInventory && existingInventory._id.toString() !== this._id.toString()) {
+    throw new Error('Inventory name already exists');
+  }
+
+  next();
 });
 
-const User = mongoose.model('User');
+inventorySchema.post('save', function(doc) {
+  const io = getSocket();
+  io.emit('inventoryUpdated', doc);
+});
+
+inventorySchema.post('findOneAndUpdate', function(doc) {
+  const io = getSocket();
+  io.emit('inventoryUpdated', doc);
+});
 
 const Inventory = mongoose.model('Inventory', inventorySchema);
 
 export default Inventory;
-
-import mongoose from 'mongoose';
