@@ -1,6 +1,19 @@
 import { validateForm, validateStep } from '../client/validation.js';
 import { toggleTheme, loadUserThemePreference } from '../public/theme.js';
 import { getItems } from './inventory.js';
+import { io } from 'socket.io-client';
+
+const socket = io();  // Initialize Socket.IO
+
+socket.on('connect', () => {
+    console.log('Connected to server');  // Check that the connection succeeds
+});
+
+// Listen for inventory updates
+socket.on('inventoryUpdated', (updatedInventory) => {
+    console.log('Received inventory update:', updatedInventory);  // Confirm receiving updates
+    updateInventoryUI(updatedInventory);  // Trigger UI updates with the new data
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     initializeApp();
@@ -65,9 +78,14 @@ function setupInventoryUpdateListener() {
 }
 
 function updateInventoryUI(updatedInventory) {
-    // Implement the logic to update the DOM with the new inventory data
-    // Example: Refresh the inventory list or update specific items
-    console.log('Updating UI with new inventory data:', updatedInventory);
+    const roomItems = document.getElementById('roomItems');
+    roomItems.innerHTML = '';  // Clear existing items
+    
+    updatedInventory.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.textContent = `${item.name} - Quantity: ${item.quantity}`;
+        roomItems.appendChild(itemElement);  // Add updated items to the DOM
+    });
 }
 
 function setupRealTimeInventoryUpdates() {
