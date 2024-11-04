@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
     <div class="container mt-5">
         <h1 class="text-center text-danger mb-4">Moving Inventory List</h1>
@@ -56,48 +55,47 @@
                 </select>
             </div>
 
-    <!-- Inventory Details -->
-<h3>Inventory Details</h3>
-<div class="mb-3">
-    <label for="roomSelect" class="form-label">Select Room:</label>
-    <select id="roomSelect" class="form-select" multiple>
-        <option value="mainBedroom">Main Bedroom</option>
-        <option value="firstBedroom">First Bedroom</option>
-        <option value="secondBedroom">Second Bedroom</option>
-        <option value="diningRoom">Dining Room</option>
-        <option value="livingRoom">Living Room</option>
-        <option value="kitchen">Kitchen</option>
-        <option value="garage">Garage</option>
-    </select>
-</div>
-<div id="roomItems" class="mt-3"></div>
+            <!-- Inventory Details -->
+            <h3>Inventory Details</h3>
+            <div class="mb-3">
+                <label for="roomSelect" class="form-label">Select Room:</label>
+                <select id="roomSelect" class="form-select" multiple>
+                    <option value="mainBedroom">Main Bedroom</option>
+                    <option value="firstBedroom">First Bedroom</option>
+                    <option value="secondBedroom">Second Bedroom</option>
+                    <option value="diningRoom">Dining Room</option>
+                    <option value="livingRoom">Living Room</option>
+                    <option value="kitchen">Kitchen</option>
+                    <option value="garage">Garage</option>
+                </select>
+            </div>
+            <div id="roomItems" class="mt-3"></div>
 
-<!-- Room Inventory Modal -->
-<div class="modal fade" id="roomInventoryModal" tabindex="-1" aria-labelledby="roomInventoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="roomInventoryModalLabel">Select Items for Room</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Room Inventory Modal -->
+            <div class="modal fade" id="roomInventoryModal" tabindex="-1" aria-labelledby="roomInventoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="roomInventoryModalLabel">Select Items for Room</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="roomInventoryContent">
+                            <!-- Room-specific items will load here dynamically -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Selection</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body" id="roomInventoryContent">
-                <!-- Room-specific items will load here dynamically -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Selection</button>
-            </div>
-        </div>
-    </div>
-</div>
 
             <!-- Submit and Review Buttons -->
             <button type="button" id="reviewButton" class="btn btn-info me-2">Review</button>
             <button type="submit" id="submitForm" class="btn btn-success">Submit</button>
         </form>
 
-
         <!-- Theme Toggle -->
-        <button id="theme-toggle" class="btn btn-dark mt-3">Switch to Dark Mode</button>
+        <button id="themeToggleButton" class="btn btn-dark mt-3">Switch to Dark Mode</button>
     </div>
 
     <!-- Scripts -->
