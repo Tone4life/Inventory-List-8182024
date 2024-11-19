@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { estimateMoveCost } from '../utils/moveEstimator.js'; // Correct import path
 
 const crmSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
@@ -25,18 +26,21 @@ const CRM = mongoose.model('CRM', crmSchema);
 const hourlyRate = 100;
 const fuelSurcharge = 0.10; // 10% surcharge
 
-export const calculateQuote = (req, res, next) => {
-    const { moveType, weight, distance, time } = req.body;
-    let estimatedCost = 0;
+export const calculateQuote = async (req, res, next) => {
+    const { moveType, weight, distance, time, inventorySize } = req.body;
 
-    if (moveType === 'local') {
-        estimatedCost = time * hourlyRate + distance * fuelSurcharge;
-    } else {
-        const cwt = weight / 100;
-        estimatedCost = cwt * transportationRate + distance * travelRate + fuelSurcharge;
+    // Default cost calculation (if AI estimator fails)
+    let estimatedCost = time * hourlyRate + distance * fuelSurcharge;
+
+    try {
+        // Use AI estimator for a more detailed prediction
+        const aiCost = await estimateMoveCost(inventorySize, distance, moveType);
+        estimatedCost = aiCost || estimatedCost;  // Fallback to default if AI cost is unavailable
+    } catch (error) {
+        console.error('Error with AI cost estimation:', error);
     }
 
-    req.body.estimatedCost = estimatedCost;
+    req.body.estimatedCost = estimatedCost;  // Attach estimated cost to the request body
     next();
 };
 

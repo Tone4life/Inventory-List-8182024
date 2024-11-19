@@ -2,7 +2,7 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import csrf from 'csurf';
 import axios from 'axios';
-import InventorySubmission from './models/crmModel'; // Import the InventorySubmission modelimport { sendEmail } from '../utils/email.js'; // Assuming you have an email utility
+import InventorySubmission from '../models/crmModel.js'; // Correct import path
 import { sendEmail } from '../utils/email.js'; // Assuming you have an email utility
 import { jsPDF } from 'jspdf'; // Import jsPDF
 import docusign from 'docusign-esign'; // Import docusign-esign
@@ -26,6 +26,9 @@ const furnitureWeights = {
 
 // Helper functions for CWT and rate calculation
 function calculateCWT(inventoryItems) {
+  if (!Array.isArray(inventoryItems)) {
+    throw new Error('Expected an array of inventory items');
+  }
   let totalWeight = 0;
   inventoryItems.forEach(item => {
     totalWeight += item.weight; // Assume each item has a predefined weight
@@ -46,6 +49,7 @@ function getRateForMileage(mileage) {
   // Placeholder function to get rate per CWT based on mileage
   return mileage * 0.5; // Example rate calculation
 }
+
 // Utility functions for moving cost calculation
 async function calculateMovingCost(origin, destination, inventory) {
   const totalWeight = inventory.reduce((acc, item) => acc + item.weight, 0);
@@ -146,10 +150,10 @@ router.post(
     try {
       const { clientEmail, clientName, origin, destination, moveType, furnitureItems, ratePerCwt } = req.body;
 
-        // Error handling for missing furniture items or rate
-        if (!Array.isArray(furnitureItems) || furnitureItems.length === 0) {
-          return res.status(400).json({ error: 'Furniture items are required and must be an array.' });
-        }
+      // Error handling for missing furniture items or rate
+      if (!Array.isArray(furnitureItems) || furnitureItems.length === 0) {
+        return res.status(400).json({ error: 'Furniture items are required and must be an array.' });
+      }
 
       if (!ratePerCwt) {
         return res.status(400).json({ error: 'Rate per CWT is required.' });
@@ -167,8 +171,8 @@ router.post(
       });
 
       // Calculate total weight in CWT and transportation charge
-      const totalCwt = calculateCwt(totalWeight);
-      const totalTransportationCharge = calculateTransportationCharge(totalCwt, parseFloat(ratePerCwt));
+      const totalCwt = calculateCWT(totalWeight);
+      const totalTransportationCharge = calculateLongDistanceEstimate(totalCwt, parseFloat(ratePerCwt));
 
       // Send a response back with the calculation results
       res.status(200).json({
@@ -178,8 +182,8 @@ router.post(
         message: 'Calculation successful.'
       });
 
-       // Generate PDF
-       generatePDF({ totalCost: totalTransportationCharge });
+      // Generate PDF
+      generatePDF({ totalCost: totalTransportationCharge });
 
       // Optionally, send confirmation email
       await sendEmail({
@@ -209,4 +213,4 @@ router.post('/submit-inventory', async (req, res) => {
   }
 });
 
-export default router;;
+export default router;

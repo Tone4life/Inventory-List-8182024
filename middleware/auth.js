@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User'; // Assuming you have a User model
+import User from '../models/User.js'; // Assuming you have a User model
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt'; // Assuming bcrypt is used for password hashing
 import express from 'express';

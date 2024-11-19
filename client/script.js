@@ -36,6 +36,7 @@ function validateStep(step, data) {
     return data ? true : false; // Replace with actual validation criteria
 }
 
+
 function cacheDOMElements() {
     domElements.roomItems = document.getElementById('roomItems');
     domElements.roomSelect = document.getElementById('roomSelect');

@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const inventoryItemSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true }, // Ensure no duplicate names
+  name: { type: String, required: true, unique: true },
   description: { type: String },
-  quantity: { type: Number, required: true, min: [0, 'Quantity cannot be negative'] }, // Add min validation
+  quantity: { type: Number, required: true, min: [0, 'Quantity cannot be negative'] },
   moveDate: { type: Date, required: true },
   origin: { type: String, required: true },
   destination: { type: String, required: true },
@@ -11,4 +11,6 @@ const inventoryItemSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
-export const InventoryItem = mongoose.model('InventoryItem', inventoryItemSchema);
+const InventoryItem = mongoose.model('InventoryItem', inventoryItemSchema);
+
+export { InventoryItem };

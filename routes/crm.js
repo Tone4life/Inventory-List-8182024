@@ -1,5 +1,6 @@
 import express from 'express';
 import CRM from '../models/crmModel.js';
+import { calculateQuote } from '../models/crmModel.js'; // Import the calculateQuote function
 
 const router = express.Router();
 
@@ -42,6 +43,11 @@ router.delete('/delete/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete CRM entry' });
   }
+});
+
+// Endpoint for testing calculateQuote
+router.post('/test-quote', calculateQuote, (req, res) => {
+  res.json({ estimatedCost: req.body.estimatedCost });
 });
 
 export default router;

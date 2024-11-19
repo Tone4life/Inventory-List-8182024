@@ -1,5 +1,5 @@
 import express from 'express';
-import InventoryItem from '../models/InventoryItems.js';
+import { InventoryItem } from '../models/InventoryItem.js';
 import csrf from 'csurf';
 
 const router = express.Router();
